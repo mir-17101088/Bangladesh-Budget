@@ -1,0 +1,95 @@
+/* ============================================================
+   loading-screen.css
+   Premium initial loader. Hidden as soon as the React app mounts
+   and the first frame paints (we fire a custom event from the
+   app code, with a fallback to a max-wait timeout).
+============================================================ */
+:root { --ls-bg: #28303B; }
+
+#app-loader {
+  position: fixed; inset: 0;
+  z-index: 9999;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(1,133,198,0.38) 0%, transparent 60%),
+    linear-gradient(180deg, #20262E 0%, #28303B 55%, #2a3a52 100%);
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  gap: 40px;
+  opacity: 1;
+  transition: opacity .6s ease, visibility 0s linear .6s;
+  font-family: "Inter", system-ui, sans-serif;
+  color: #fff;
+}
+#app-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Ambient dot pattern */
+#app-loader::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.05;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);
+}
+
+.ls-mark {
+  position: relative;
+  font-family: "Playfair Display", "Times New Roman", serif;
+  font-size: 64px; line-height: 1; font-weight: 500;
+  letter-spacing: -0.025em;
+  background: linear-gradient(180deg, #ffffff 0%, #cfe7f5 60%, #7fb6dc 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 40px rgba(1,133,198,0.4));
+  animation: lsMark 2.4s ease-in-out infinite;
+}
+@keyframes lsMark {
+  0%, 100% { opacity: 0.92; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+.ls-eyebrow {
+  font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+  color: #6fc7ee; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 16px;
+  position: relative;
+}
+.ls-eyebrow::before, .ls-eyebrow::after {
+  content: ""; width: 28px; height: 1px; background: #6fc7ee; opacity: 0.6;
+}
+
+.ls-progress {
+  position: relative;
+  width: 220px; height: 2px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px; overflow: hidden;
+}
+.ls-progress::after {
+  content: "";
+  position: absolute; left: -40%; top: 0; bottom: 0; width: 40%;
+  background: linear-gradient(90deg, transparent, #6fc7ee, transparent);
+  animation: lsBar 1.6s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+@keyframes lsBar {
+  0%   { left: -40%; }
+  100% { left: 100%; }
+}
+
+.ls-caption {
+  font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  position: relative;
+}
+
+/* No-flash: hide everything else under the loader until ready */
+body.app-loading { overflow: hidden; }
+
+@media (max-width: 640px) {
+  #app-loader { gap: 32px; padding: 0 20px; }
+  .ls-mark { font-size: 52px; }
+  .ls-progress { width: 180px; }
+  .ls-eyebrow { font-size: 10px; letter-spacing: 0.24em; gap: 12px; text-align: center; }
+  .ls-eyebrow::before, .ls-eyebrow::after { width: 18px; }
+}

@@ -1,0 +1,387 @@
+/* ============================================================
+   enhance.css  ·  additive layer (loads after styles.css)
+   1. Header / nav — more alive
+   2. Hero — more alive
+   3. Relevant-news containers (per-section colour)
+   Nothing here changes any data; visual layer only.
+============================================================ */
+
+/* ════════════════════════════════════════════════════════
+   1 · NAV  — dark navy glass (lifted a little lighter), alive
+   Keeps the site's dark editorial palette — just a touch lighter
+   and more translucent than the original slab, with backdrop blur
+   so the page tints through. Live accents: pills, gradient badge.
+═══════════════════════════════════════════════════════════ */
+.nav {
+  background:
+    linear-gradient(180deg, rgba(22,34,68,0.82) 0%, rgba(14,25,54,0.76) 100%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+          backdrop-filter: blur(22px) saturate(150%);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 12px 34px -20px rgba(0,0,0,0.55);
+  transition: height .3s var(--ease-out), background .3s var(--ease-out),
+              box-shadow .3s var(--ease-out);
+  overflow: visible;
+}
+/* thin moving gradient hairline along the very top */
+.nav-accent {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg,
+    var(--blue) 0%, var(--eyebrow) 16%, var(--gold) 34%, var(--red) 52%,
+    var(--green) 70%, var(--eyebrow) 86%, var(--blue) 100%);
+  background-size: 220% 100%;
+  animation: navHue 9s linear infinite;
+  opacity: .9;
+}
+@keyframes navHue { to { background-position: -220% 0; } }
+
+.nav.scrolled {
+  height: 60px;
+  background:
+    linear-gradient(180deg, rgba(18,30,62,0.92) 0%, rgba(12,22,48,0.88) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    0 16px 44px -20px rgba(0,0,0,0.65);
+}
+
+/* brand mark sits on dark glass — keep the white logo */
+.nav-brand img { filter: brightness(0) invert(1); opacity: 1; }
+.nav-divider { background: rgba(255,255,255,0.16); }
+.nav-section { color: var(--g3); }
+
+/* ৳ monogram tile in the brand lockup */
+.nav-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 9px;
+  font-family: var(--serif); font-size: 19px; font-weight: 600; color: #fff;
+  background: linear-gradient(150deg, #18b6ec 0%, var(--blue) 55%, #0168a0 100%);
+  box-shadow: 0 8px 18px -7px rgba(1,133,198,0.85),
+              inset 0 1px 0 rgba(255,255,255,0.45);
+  position: relative; overflow: hidden;
+  flex: none;
+}
+.nav-mark::after {  /* glide sheen */
+  content: ""; position: absolute; top: 0; bottom: 0; width: 45%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,0.55), transparent);
+  transform: translateX(-180%) skewX(-18deg);
+  animation: markSheen 5.5s ease-in-out infinite;
+}
+@keyframes markSheen {
+  0%, 64% { transform: translateX(-180%) skewX(-18deg); }
+  82%,100% { transform: translateX(360%) skewX(-18deg); }
+}
+
+/* nav links — light ink + a soft tinted pill on hover/active */
+.nav-link { color: var(--g2); font-weight: 500; }
+.nav-link::before {
+  content: ""; position: absolute; inset: 5px -14px; border-radius: 999px;
+  background: linear-gradient(135deg, rgba(1,133,198,0.22), rgba(111,199,238,0.12));
+  opacity: 0; transform: scale(.86);
+  transition: opacity .26s var(--ease-out), transform .26s var(--ease-spring);
+  z-index: -1;
+}
+.nav-link:hover { color: #fff; }
+.nav-link:hover::before { opacity: 1; transform: scale(1); }
+.nav-link.active { color: var(--eyebrow); }
+.nav-link.active::after { display: none; }
+.nav-link.active::before {
+  opacity: 1; transform: scale(1);
+  background: linear-gradient(135deg, rgba(1,133,198,0.30), rgba(111,199,238,0.16));
+  box-shadow: inset 0 0 0 1px rgba(111,199,238,0.32),
+              0 6px 16px -8px rgba(1,133,198,0.6);
+}
+
+/* "BUDGET FY26" — energetic premium gradient pill */
+.nav-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, #1ab9ee 0%, #0185C6 50%, #0269a4 100%);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.5),
+    0 0 0 1px rgba(1,133,198,0.22),
+    0 10px 26px -10px rgba(1,133,198,0.8);
+  position: relative; overflow: hidden;
+  transition: transform .25s var(--ease-spring), box-shadow .25s var(--ease-out);
+}
+.nav-badge::after {  /* sheen sweep */
+  content: ""; position: absolute; top: 0; bottom: 0; width: 40%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,0.5), transparent);
+  transform: translateX(-220%) skewX(-18deg);
+  animation: badgeSheen 6s ease-in-out infinite;
+}
+@keyframes badgeSheen {
+  0%, 70% { transform: translateX(-220%) skewX(-18deg); }
+  86%,100% { transform: translateX(360%) skewX(-18deg); }
+}
+.nav-badge:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    0 0 0 1px rgba(1,133,198,0.3),
+    0 14px 32px -10px rgba(1,133,198,0.95);
+}
+.nav-live-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #d6ffe6;
+  box-shadow: 0 0 0 0 rgba(214,255,230,0.9);
+  animation: livedot 2s ease-out infinite;
+  position: relative; z-index: 1;
+}
+@keyframes livedot {
+  0%   { box-shadow: 0 0 0 0 rgba(214,255,230,0.85); }
+  70%  { box-shadow: 0 0 0 7px rgba(214,255,230,0); }
+  100% { box-shadow: 0 0 0 0 rgba(214,255,230,0); }
+}
+
+/* scroll-progress bar pinned to the nav's bottom edge */
+.nav-progress {
+  position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%;
+  transform-origin: left center; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--eyebrow), var(--blue) 60%, var(--gold));
+  box-shadow: 0 0 12px rgba(1,133,198,0.7);
+  will-change: transform;
+}
+
+/* ════════════════════════════════════════════════════════
+   2 · HERO — entrance stagger, breathing glow, drift, ticker
+═══════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content > * { animation: heroRise .9s var(--ease-out) both; }
+  .hero-eyebrow { animation-delay: .05s; }
+  .hero-fy      { animation-delay: .16s; }
+  .hero-num     { animation-delay: .26s; }
+  .hero-cap     { animation-delay: .42s; }
+  .hero-pills   { animation-delay: .54s; }
+  .hero-strip   { animation: heroRise 1s var(--ease-out) .6s both; }
+}
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(26px); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+/* the central glow now slowly breathes */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-glow { animation: heroBreathe 7s ease-in-out infinite; }
+}
+@keyframes heroBreathe {
+  0%, 100% { opacity: .75; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.12); }
+}
+
+/* a soft conic halo rotating behind the headline number */
+.hero-content::before {
+  content: ""; position: absolute; z-index: -1;
+  top: 46%; left: 50%; width: 620px; height: 620px;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(from 0deg,
+    rgba(1,133,198,0)   0deg,
+    rgba(111,199,238,.28) 70deg,
+    rgba(1,133,198,0)   150deg,
+    rgba(95,224,147,.18) 250deg,
+    rgba(1,133,198,0)   330deg);
+  border-radius: 50%;
+  filter: blur(36px);
+  pointer-events: none;
+  opacity: .8;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content::before { animation: heroHalo 22s linear infinite; }
+}
+@keyframes heroHalo { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+/* floating ৳ glyphs drifting up through the hero */
+.hero-taka-float { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.hero-taka-float span {
+  position: absolute; bottom: -8%;
+  font-family: var(--serif); color: rgba(159,216,245,0.16);
+  text-shadow: 0 2px 20px rgba(1,133,198,0.25);
+  animation: takaDrift linear infinite;
+  will-change: transform, opacity;
+}
+.hero-taka-float span:nth-child(1) { left: 8%;  font-size: 46px; animation-duration: 17s; animation-delay: 0s;   }
+.hero-taka-float span:nth-child(2) { left: 22%; font-size: 26px; animation-duration: 22s; animation-delay: 4s;   }
+.hero-taka-float span:nth-child(3) { left: 38%; font-size: 64px; animation-duration: 26s; animation-delay: 9s;   }
+.hero-taka-float span:nth-child(4) { left: 61%; font-size: 32px; animation-duration: 19s; animation-delay: 2s;   }
+.hero-taka-float span:nth-child(5) { left: 78%; font-size: 52px; animation-duration: 24s; animation-delay: 6s;   }
+.hero-taka-float span:nth-child(6) { left: 90%; font-size: 28px; animation-duration: 20s; animation-delay: 11s;  }
+@keyframes takaDrift {
+  0%   { transform: translateY(0) rotate(-6deg);     opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translateY(-118vh) rotate(8deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-taka-float { display: none; } }
+
+/* live "ticker" of every sector's ৳-share, riding the top of the strip */
+.hero-ticker {
+  position: relative;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.hero-ticker-track {
+  display: inline-flex; align-items: center; gap: 30px;
+  white-space: nowrap; padding: 10px 0;
+  animation: tickerScroll 42s linear infinite;
+}
+@keyframes tickerScroll { to { transform: translateX(-50%); } }
+.hero-ticker:hover .hero-ticker-track { animation-play-state: paused; }
+.hero-ticker-item {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--ui); font-size: 12px; letter-spacing: .04em;
+  color: var(--g3);
+}
+.hero-ticker-item .tk-dot { width: 7px; height: 7px; border-radius: 2px; flex: none; }
+.hero-ticker-item .tk-name { color: var(--g2); }
+.hero-ticker-item .tk-val { color: #fff; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ════════════════════════════════════════════════════════
+   3 · RELEVANT-NEWS containers
+═══════════════════════════════════════════════════════════ */
+.relnews {
+  --accent: #0185C6;
+  max-width: 920px;
+  margin: 56px auto 0;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  position: relative;
+}
+.relnews::before {  /* short accent tick on the divider */
+  content: ""; position: absolute; top: -1px; left: 0;
+  width: 64px; height: 2px; border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 14px var(--accent);
+}
+/* GDP / treemap / debt boxes get the section's own width */
+.s-gdp .relnews, .s-treemap .relnews, .s-debt .relnews { max-width: 1080px; }
+
+.relnews-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+.relnews-kicker {
+  display: inline-flex; align-items: center; gap: 11px;
+  font-family: var(--ui); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase; color: #fff;
+}
+.relnews-bar {
+  width: 26px; height: 11px; border-radius: 3px;
+  background: var(--accent);
+  box-shadow: 0 0 16px -2px var(--accent);
+}
+.relnews-count {
+  font-family: var(--ui); font-size: 11px; letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+.relnews-grid {
+  display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+
+/* single article → compact, premium feature card (not full-bleed) */
+.relnews.one .relnews-grid { grid-template-columns: 1fr; max-width: 600px; }
+.relnews.one .relnews-card { flex-direction: row; align-items: stretch; }
+.relnews.one .relnews-thumb { width: 210px; flex: none; aspect-ratio: auto; align-self: stretch; }
+.relnews.one .relnews-body { padding: 20px 24px; }
+.relnews.one .relnews-title { font-size: 20px; }
+
+/* the card itself */
+.relnews-card {
+  display: flex; flex-direction: column;
+  background:
+    linear-gradient(160deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.025) 60%, rgba(255,255,255,0.012) 100%),
+    color-mix(in oklab, var(--accent) 9%, var(--glass-tint));
+  border: 1px solid var(--glass-border);
+  border-radius: 16px; overflow: hidden;
+  text-decoration: none; color: inherit;
+  transition: transform .28s var(--ease-out), border-color .28s var(--ease-out),
+              box-shadow .28s var(--ease-out), background .28s var(--ease-out);
+  position: relative;
+}
+.relnews-card::after {  /* accent edge that lights up on hover */
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--accent); opacity: 0; transition: opacity .28s var(--ease-out);
+}
+.relnews-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in oklab, var(--accent) 60%, transparent);
+  box-shadow: 0 26px 60px -28px color-mix(in oklab, var(--accent) 70%, black),
+              0 10px 24px -16px rgba(0,0,0,0.6);
+}
+.relnews-card:hover::after { opacity: 1; }
+.relnews-card:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+
+.relnews-thumb {
+  aspect-ratio: 16 / 9; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(ellipse 80% 90% at 75% 20%, color-mix(in oklab, var(--accent) 55%, transparent), transparent 60%),
+    linear-gradient(150deg, color-mix(in oklab, var(--accent) 42%, #10161f), #12181f 85%);
+}
+.relnews-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.relnews-thumb.has-img { background: #10161f; }
+.relnews-thumb-glyph {
+  font-family: var(--serif); font-size: 76px; font-style: italic;
+  color: rgba(255,255,255,0.20); line-height: 1; position: relative; z-index: 1;
+}
+.relnews-thumb-ring {
+  position: absolute; width: 58%; aspect-ratio: 1; right: -12%; top: -22%;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 50%;
+}
+.relnews-ext {
+  position: absolute; top: 12px; right: 12px; z-index: 2;
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; background: color-mix(in oklab, var(--accent) 78%, black);
+  border: 1px solid rgba(255,255,255,0.30);
+  box-shadow: 0 6px 18px -6px rgba(0,0,0,0.7);
+  transition: transform .28s var(--ease-spring);
+}
+.relnews-card:hover .relnews-ext { transform: translate(2px, -2px) rotate(8deg); }
+
+.relnews-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+.relnews-meta { display: flex; align-items: center; gap: 9px; }
+.relnews-source {
+  font-family: var(--ui); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: color-mix(in oklab, var(--accent) 65%, white);
+}
+.relnews-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-4); }
+.relnews-date { font-family: var(--ui); font-size: 11px; color: var(--ink-3); letter-spacing: 0.03em; }
+.relnews-title {
+  font-family: var(--serif); font-size: 19px; line-height: 1.22;
+  color: #fff; letter-spacing: -0.01em; text-wrap: pretty;
+}
+.relnews-foot {
+  margin-top: auto; padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  font-family: var(--ui); font-size: 11px; letter-spacing: 0.03em;
+}
+.relnews-host { color: var(--ink-4); }
+.relnews-read {
+  color: color-mix(in oklab, var(--accent) 70%, white);
+  font-weight: 600; transition: transform .24s var(--ease-out);
+}
+.relnews-card:hover .relnews-read { transform: translateX(3px); }
+
+/* skeleton while a URL-only card fetches its preview */
+.relnews-skel {
+  display: block; height: 16px; border-radius: 5px; margin: 3px 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.16), rgba(255,255,255,0.06));
+  background-size: 200% 100%; animation: relSkel 1.3s ease-in-out infinite;
+}
+.relnews-skel.w90 { width: 90%; } .relnews-skel.w60 { width: 60%; }
+@keyframes relSkel { to { background-position: -200% 0; } }
+
+@media (max-width: 640px) {
+  .relnews { margin-top: 40px; padding-top: 24px; }
+  .relnews-grid { grid-template-columns: 1fr; }
+  .relnews.one .relnews-card { flex-direction: column; }
+  .relnews.one .relnews-thumb { width: 100%; aspect-ratio: 16 / 9; }
+  .relnews.one .relnews-body { padding: 18px 20px 20px; }
+  .relnews.one .relnews-title { font-size: 20px; }
+}
