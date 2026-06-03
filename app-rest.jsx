@@ -61,6 +61,9 @@ function Treemap() {
   const [hover, setHover] = useState2(null);
   const W = 1184, H = 580;
   const cells = useMemo2(() => buildTreemap(TREEMAP, W, H), []);
+  // Ranked list is the legible/tappable mobile representation of the same data.
+  const tmList = useMemo2(() => [...TREEMAP].sort((a, b) => b.pct - a.pct), []);
+  const tmListMax = Math.max(...TREEMAP.map(t => t.pct));
 
   return (
     <section className="s s-treemap" data-screen-label="04 Treemap">
@@ -73,7 +76,7 @@ function Treemap() {
           </p>
         </div>
 
-        <div style={{ position: "relative" }}>
+        <div className="tm-svg-wrap">
           <svg viewBox={"0 0 " + W + " " + H} style={{ width: "100%", height: "auto", display: "block", borderRadius: 18, overflow: "hidden" }}>
             <defs>
               <filter id="cellShine">
@@ -144,6 +147,26 @@ function Treemap() {
           )}
         </div>
 
+        {/* Mobile: the treemap shrinks its foreignObject labels to ~3px, so phones
+            get a fully legible, tappable ranked-bar list of the same data instead. */}
+        <ol className="tm-list" aria-label="Departments by share of FY22 expenditure">
+          {tmList.map((c, i) => (
+            <li key={i} className="tm-list-row" style={{ "--c": c.c }}>
+              <span className="tm-list-rank">{i + 1}</span>
+              <div className="tm-list-body">
+                <div className="tm-list-top">
+                  <span className="tm-list-name">{c.name}</span>
+                  <span className="tm-list-pct">{c.pct.toFixed(2)}%</span>
+                </div>
+                <div className="tm-list-track">
+                  <div className="tm-list-bar" style={{ width: (c.pct / tmListMax) * 100 + "%" }}></div>
+                </div>
+                <span className="tm-list-parent">{c.parent}</span>
+              </div>
+            </li>
+          ))}
+        </ol>
+
         <div style={{ marginTop: 28, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
           <span className="cap">Each cell sized by share of FY22 expenditure · 27 of 50 line items shown</span>
           <span className="cap">Colored by parent sector</span>
@@ -192,6 +215,7 @@ function DebtSection() {
             </div>
           </div>
 
+          <div className="chart-scroll">
           <svg viewBox={"0 0 " + W + " " + H} className="debt-svg" preserveAspectRatio="none">
             <defs>
               <linearGradient id="domGrad" x1="0" x2="0" y1="0" y2="1">
@@ -253,6 +277,7 @@ function DebtSection() {
                     style={{ fontFamily: "var(--ui)", fontSize: 10, fill: "#ff7676", letterSpacing: "0.12em" }}>FOREIGN DEBT 2x</text>
             </g>
           </svg>
+          </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginTop: 32, paddingTop: 28, borderTop: "1px solid rgba(198,0,1,0.18)" }}>
             <Stat label="Domestic, FY09 → FY26" big="10.0×" sub="৳13.8k → ৳138k Cr"/>

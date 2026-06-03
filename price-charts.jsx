@@ -39,7 +39,8 @@ function Donut({ data, active, setActive, total = 100, size = 320, inner = 90, o
           <g key={i}
              onMouseEnter={() => setActive(i)}
              onClick={() => setActive(i)}
-             role="button" aria-label={s.name + " " + s.pct + "%"}
+             onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActive(i); } }}
+             role="button" tabIndex={0} aria-label={s.name + " " + s.pct + "%"}
              style={{ cursor: "pointer", transition: "all .2s" }}>
             {/* Sector as path */}
             <path

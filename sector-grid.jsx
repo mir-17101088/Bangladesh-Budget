@@ -142,6 +142,7 @@ function ExpandedSection({ active }) {
             <div className="see-stat"><div className="l">Peak year</div><div className="v">FY26</div><div className="s">all-time high in the series</div></div>
           </div>
 
+          <div className="chart-scroll">
           <svg className="see-chart" viewBox={"0 0 " + W + " " + H} preserveAspectRatio="none">
             {/* gridlines */}
             {[0, 0.25, 0.5, 0.75, 1.0].map(g => {
@@ -201,6 +202,7 @@ function ExpandedSection({ active }) {
               PROJECTED →
             </text>
           </svg>
+          </div>
 
           <div className="see-legend">
             <span className="ll"><span className="sw" style={{ background: subDark }}></span>{subnames[0]}</span>

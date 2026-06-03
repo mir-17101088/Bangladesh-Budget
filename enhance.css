@@ -293,6 +293,9 @@
   display: flex; flex-direction: column;
   background:
     linear-gradient(160deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.025) 60%, rgba(255,255,255,0.012) 100%),
+    var(--glass-tint);                                   /* fallback for no color-mix() */
+  background:
+    linear-gradient(160deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.025) 60%, rgba(255,255,255,0.012) 100%),
     color-mix(in oklab, var(--accent) 9%, var(--glass-tint));
   border: 1px solid var(--glass-border);
   border-radius: 16px; overflow: hidden;
@@ -307,7 +310,9 @@
 }
 .relnews-card:hover {
   transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.28);                  /* fallback */
   border-color: color-mix(in oklab, var(--accent) 60%, transparent);
+  box-shadow: 0 26px 60px -28px rgba(0,0,0,0.7), 0 10px 24px -16px rgba(0,0,0,0.6); /* fallback */
   box-shadow: 0 26px 60px -28px color-mix(in oklab, var(--accent) 70%, black),
               0 10px 24px -16px rgba(0,0,0,0.6);
 }
@@ -317,6 +322,7 @@
 .relnews-thumb {
   aspect-ratio: 16 / 9; position: relative; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(150deg, #1d2b3b, #12181f 85%);  /* fallback */
   background:
     radial-gradient(ellipse 80% 90% at 75% 20%, color-mix(in oklab, var(--accent) 55%, transparent), transparent 60%),
     linear-gradient(150deg, color-mix(in oklab, var(--accent) 42%, #10161f), #12181f 85%);
@@ -335,7 +341,9 @@
   position: absolute; top: 12px; right: 12px; z-index: 2;
   width: 30px; height: 30px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  color: #fff; background: color-mix(in oklab, var(--accent) 78%, black);
+  color: #fff;
+  background: rgba(1,133,198,0.85);                       /* fallback */
+  background: color-mix(in oklab, var(--accent) 78%, black);
   border: 1px solid rgba(255,255,255,0.30);
   box-shadow: 0 6px 18px -6px rgba(0,0,0,0.7);
   transition: transform .28s var(--ease-spring);
@@ -347,6 +355,7 @@
 .relnews-source {
   font-family: var(--ui); font-size: 10px; font-weight: 700;
   letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-2);                                   /* fallback */
   color: color-mix(in oklab, var(--accent) 65%, white);
 }
 .relnews-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-4); }
@@ -363,6 +372,7 @@
 }
 .relnews-host { color: var(--ink-4); }
 .relnews-read {
+  color: var(--eyebrow);                                 /* fallback */
   color: color-mix(in oklab, var(--accent) 70%, white);
   font-weight: 600; transition: transform .24s var(--ease-out);
 }
@@ -384,4 +394,23 @@
   .relnews.one .relnews-thumb { width: 100%; aspect-ratio: 16 / 9; }
   .relnews.one .relnews-body { padding: 18px 20px 20px; }
   .relnews.one .relnews-title { font-size: 20px; }
+}
+
+/* ============================================================
+   REMEDIATION — protect low-end mobile / save battery
+   The hero stacks several infinite animations; the heaviest for a
+   cheap phone are a 620px blurred conic-gradient that rotates forever
+   and a GPU filter on an autoplaying <video>. Drop those on phones.
+============================================================ */
+@media (max-width: 640px) {
+  .hero-content::before { animation: none; opacity: 0.45; }  /* stop rotating blur */
+  .hero-taka-float { display: none; }                        /* drop drifting glyphs */
+  .hero-video { filter: none; }                              /* drop GPU video filter */
+
+  /* NAV (phones): two-row layout (see styles.css) — brand + badge on row 1, all
+     three links on a full-width row 2. The badge has room again, so show it on
+     row 1 right; the scrolled state must NOT clamp height and clip the link row. */
+  .nav.scrolled { height: auto; }
+  .nav-badge { display: inline-flex; order: 2; }
+  .nav-link::before { left: -8px; right: -8px; }   /* keep active pill off neighbours */
 }

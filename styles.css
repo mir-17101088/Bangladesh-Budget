@@ -184,6 +184,7 @@ h3 { font-size: 28px; line-height: 1.2; }
   /* Full-viewport cover: nav (68px) + hero == one screen, so the next section
      never peeks above the fold on tall monitors. svh keeps it stable against
      mobile browser chrome; a 600px floor protects short landscape screens. */
+  min-height: max(600px, calc(100vh - 68px));   /* fallback for engines without svh */
   min-height: max(600px, calc(100svh - 68px));
   background: var(--hero-grad);
   display: flex; align-items: center; justify-content: center;
@@ -494,7 +495,7 @@ section.s {
 .chip {
   appearance: none;
   display: inline-flex; align-items: center; gap: 8px;
-  min-height: 40px;
+  min-height: 44px;
   padding: 8px 16px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.10);
@@ -567,7 +568,7 @@ section.s {
 .gdp-toggle button {
   font-family: var(--ui); font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
   text-transform: uppercase;
-  min-height: 38px; padding: 8px 18px; border-radius: 999px; border: 0;
+  min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 0;
   background: transparent; color: var(--g3); cursor: pointer;
   transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
 }
@@ -804,6 +805,7 @@ footer {
 .hero-strip-cell .num { font-family: var(--serif); font-size: 26px; color: #fff; }
 .hero-strip-cell .delta { font-family: var(--ui); font-size: 11px; color: #5fe093; margin-left: 8px; }
 .hero-strip-cell .delta.red { color: #ff7676; }
+.hero-strip-cell .delta.flat { color: var(--ink-3); }
 
 /* ============================================================
    RESPONSIVE — tablet & mobile
@@ -830,7 +832,10 @@ footer {
   /* Nav */
   .nav { height: 60px; }
   .nav-brand img { height: 18px; }
-  .nav-section { font-size: 10px; letter-spacing: 0.18em; }
+  /* Hide the redundant "Budget at a Glance" section label + divider from tablet
+     down: with the badge + 3 links it left zero room, so the active link's pill
+     bled into the brand/badge. Dropping it restores comfortable gaps. */
+  .nav-divider, .nav-section { display: none; }
   .nav-links { gap: 22px; }
   .nav-link { font-size: 12px; }
   .nav-badge { font-size: 9px; padding: 6px 12px; letter-spacing: 0.16em; }
@@ -884,24 +889,29 @@ footer {
   .section-head { margin-bottom: 32px; }
   .section-head .eyebrow { font-size: 10px; letter-spacing: 0.18em; }
 
-  /* Nav: compact — drop the section label and shrink links */
-  .nav { height: 56px; }
-  .nav-inner { gap: 10px; }
-  .nav-brand { gap: 8px; }
+  /* Nav: TWO ROWS on phones — brand (+badge) on row 1, all three links on a
+     full-width row 2, evenly spread. Every link stays visible & tappable with
+     NO horizontal scroll, at any width down to 320px. */
+  .nav { height: auto; padding-top: 8px; padding-bottom: 8px; }
+  .nav-inner { flex-wrap: wrap; align-items: center; column-gap: 12px; row-gap: 8px; }
+  .nav-brand { gap: 8px; order: 1; }
   .nav-brand img { height: 16px; }
   .nav-divider, .nav-section { display: none; }
   .nav-links {
-    gap: 14px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
-    mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
+    order: 3;
+    flex: 0 0 100%;                 /* own full-width row */
+    justify-content: space-between; /* spread the three links edge to edge */
+    gap: 8px;
+    overflow: visible;             /* no horizontal scroll */
+    -webkit-mask-image: none;
+            mask-image: none;      /* drop the right-edge fade */
   }
-  .nav-links::-webkit-scrollbar { display: none; }
-  .nav-link { font-size: 11px; white-space: nowrap; letter-spacing: 0.02em; min-height: 40px; }
+  .nav-link {
+    flex: 0 1 auto;
+    font-size: 12px; white-space: nowrap; letter-spacing: 0.02em;
+    min-height: 44px; padding: 0 6px;
+  }
   .nav-link.active::after { bottom: 0; }
-  .nav-badge { display: none; }
 
   /* Hero — content-sized on mobile, no huge min-height, no absolute strip */
   .hero {
@@ -1047,9 +1057,59 @@ footer {
   .hero-num { font-size: clamp(40px, 13vw, 60px); }
   .hero-fy { font-size: 18px; }
   .hero-pills { flex-direction: column; align-items: center; }
-  .nav-links { gap: 12px; }
-  .nav-link { font-size: 10.5px; }
+  .nav-link { font-size: 11.5px; }
   .taka-bars { gap: 6px; }
   .treemap { height: 340px; }
   .foot-top { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   REMEDIATION LAYER — mobile chart legibility + treemap list
+   Wide SVG charts (debt 1080w, sector deep-dive 1180w) scale their
+   in-SVG text down with the viewBox; on phones that means ~4px labels.
+   On small screens we let them scroll at a legible minimum width.
+   The home treemap (foreignObject text) is swapped for a ranked list.
+============================================================ */
+.tm-svg-wrap { position: relative; }
+.tm-list { display: none; }
+.chart-scroll { width: 100%; }
+
+@media (max-width: 640px) {
+  /* Wide charts: scroll horizontally instead of shrinking labels to ~4px */
+  .chart-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+  }
+  .chart-scroll > svg { min-width: 680px; }
+  .chart-scroll text.tick-label { font-size: 13px; }
+  /* GDP keeps its HTML tooltip so it isn't scrolled; just enlarge its labels */
+  .gdp-svg text.tick-label, .gdp-svg text.axis-label { font-size: 13px; }
+
+  /* Home treemap → fully legible, tappable ranked-bar list */
+  .tm-svg-wrap { display: none; }
+  .tm-list {
+    display: flex; flex-direction: column; gap: 10px;
+    list-style: none; margin: 0; padding: 0;
+  }
+  .tm-list-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 14px; border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .tm-list-rank {
+    font-family: var(--ui); font-size: 12px; font-weight: 700;
+    color: var(--ink-3); min-width: 20px; padding-top: 3px;
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .tm-list-body { flex: 1; min-width: 0; }
+  .tm-list-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .tm-list-name { font-family: var(--serif); font-size: 15px; color: #fff; line-height: 1.2; }
+  .tm-list-pct { font-family: var(--ui); font-size: 14px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+  .tm-list-track { height: 6px; border-radius: 999px; background: rgba(255,255,255,0.08); margin: 9px 0 7px; overflow: hidden; }
+  .tm-list-bar { height: 100%; border-radius: 999px; background: var(--c); }
+  .tm-list-parent { font-family: var(--ui); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
 }

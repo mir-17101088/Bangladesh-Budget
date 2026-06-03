@@ -209,7 +209,7 @@
 .donut-center .s { font-family: var(--ui); font-size: 11px; color: var(--ink-3); }
 
 .donut-legend { display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 20px; justify-content: center; }
-.dl-row { display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-radius: 12px; cursor: pointer; transition: background .2s; }
+.dl-row { display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-radius: 12px; cursor: pointer; transition: background .2s; min-height: 44px; }
 .dl-row:hover, .dl-row.active { background: rgba(255,255,255,0.06); }
 .dl-row .sw { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
 .dl-row .name { font-family: var(--ui); font-size: 14px; font-weight: 500; color: #fff; flex: 1; }

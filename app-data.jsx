@@ -250,7 +250,7 @@ function Hero({ tweaks }) {
             </div>
             <div className="hero-strip-cell">
               <div className="lbl">Education & tech</div>
-              <div className="num"><CountUp value={14.0} decimals={1} prefix="৳"/> <span className="delta red">— flat</span></div>
+              <div className="num"><CountUp value={14.0} decimals={1} prefix="৳"/> <span className="delta flat">— flat</span></div>
             </div>
             <div className="hero-strip-cell">
               <div className="lbl">Transport</div>
