@@ -26,12 +26,6 @@
     radial-gradient(ellipse 90% 70% at 50% 0%, rgba(176,131,43,0.28) 0%, transparent 60%),
     linear-gradient(180deg, #323C49 0%, #353226 100%);
 }
-.s-calc    {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(1,133,198,0.34) 0%, transparent 60%),
-    linear-gradient(180deg, #2b3441 0%, #2a3b52 100%);
-}
-
 /* Page hero */
 .page-hero {
   padding: 64px 0 48px;
@@ -66,6 +60,33 @@
 .phs-cell .l { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
 .phs-cell .n { font-family: var(--serif); font-size: 36px; color: #fff; line-height: 1.05; overflow-wrap: anywhere; }
 .phs-cell .s { font-family: var(--ui); font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+
+/* Pre-launch heads-up note — clarifies which budget year these changes are from.
+   Rendered only while PRELAUNCH is true (see PriceHero); hides itself at go-live. */
+.price-context {
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-top: 28px; padding: 16px 20px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(111,199,238,0.14), rgba(111,199,238,0.04));
+  border: 1px solid rgba(111,199,238,0.30);
+  max-width: 880px;
+}
+.price-context .pc-tag {
+  flex-shrink: 0; margin-top: 1px;
+  font-family: var(--ui); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: #9bd6f2;
+  background: rgba(111,199,238,0.14);
+  border: 1px solid rgba(111,199,238,0.35);
+  padding: 6px 11px; border-radius: 999px;
+  white-space: nowrap;
+}
+.price-context p {
+  margin: 0;
+  font-family: var(--body); font-size: 15px; line-height: 1.55;
+  color: var(--g2);
+}
+.price-context strong { color: #fff; font-weight: 600; }
 
 /* Item cards */
 .item-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
@@ -194,27 +215,179 @@
 .titleblock .text h2 .acc-red { color: #ff7676; font-style: italic; font-weight: 400; }
 .titleblock .text h2 .acc-grn { color: #5fe093; font-style: italic; font-weight: 400; }
 
-/* Tax donut + subsidy split */
-.split2 { display: grid; grid-template-columns: 420px 1fr; gap: 56px; align-items: stretch; }
+/* ============================================================
+   RESOURCES DONUT + legend (Chapter 04)
+   Restrained, tonal palette. Earned = teal, Borrowed = slate,
+   Granted = gold. No saturated rainbow, no glow, no thick borders.
+============================================================ */
+.split2 { display: grid; grid-template-columns: 440px 1fr; gap: 56px; align-items: stretch; }
+
+/* Breadcrumb above the chart */
+.donut-crumb {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 18px;
+  font-family: var(--ui); font-size: 12px; letter-spacing: 0.08em;
+}
+.donut-crumb .crumb-here { color: var(--ink-2); font-weight: 500; }
+.donut-crumb .crumb-sep { color: var(--ink-4); }
+.donut-crumb .crumb-link {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; letter-spacing: inherit;
+  color: var(--eyebrow); font-weight: 600;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.donut-crumb .crumb-link:hover { color: #a6e0fb; }
+
+/* Donut card */
 .donut-wrap {
-  padding: 36px;
+  padding: 32px;
   border-radius: 20px;
   display: flex; align-items: center; justify-content: center;
   position: relative;
+  min-height: 380px;
 }
-.donut-svg { width: 100%; max-width: 340px; height: auto; display: block; }
-.donut-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-.donut-center .e { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-3); }
-.donut-center .n { font-family: var(--serif); font-size: 44px; color: #fff; line-height: 1; margin: 8px 0 4px; }
-.donut-center .s { font-family: var(--ui); font-size: 11px; color: var(--ink-3); }
+.donut-svg { width: 100%; max-width: 360px; height: auto; display: block; overflow: visible; }
 
-.donut-legend { display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 20px; justify-content: center; }
-.dl-row { display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-radius: 12px; cursor: pointer; transition: background .2s; min-height: 44px; }
+/* Ring segments — stroke-based, animated draw-on */
+.ring-seg {
+  transition: stroke-width var(--dur) var(--ease-spring), opacity var(--dur) var(--ease-out);
+  animation: ringDraw .72s var(--ease-out) both;
+  animation-delay: var(--delay, 0ms);
+}
+.ring-seg.clickable { cursor: pointer; }
+.ring-seg.clickable:focus { outline: none; }
+.ring-seg.clickable:focus-visible { outline: none; }
+@keyframes ringDraw {
+  from { stroke-dasharray: 0 var(--c); }
+  to   { stroke-dasharray: var(--seglen) var(--c); }
+}
+/* Whole ring eases in on state change (re-keyed on view) */
+.ring {
+  animation: ringIn .5s var(--ease-out) both;
+  transform-box: view-box;
+}
+@keyframes ringIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Persistent shimmer keyline on the clickable (NBR) slice */
+.ring-shimmer {
+  opacity: .35;
+  animation: shimmerPulse 2.6s var(--ease-out) infinite;
+  pointer-events: none;
+}
+@keyframes shimmerPulse {
+  0%, 100% { opacity: .22; }
+  50%      { opacity: .7; }
+}
+.donut-svg:focus-within .ring-shimmer { opacity: .85; animation: none; }
+
+/* "+" expand badge */
+.drill-badge { pointer-events: none; }
+.drill-badge circle { fill: #d6f4ec; }
+.drill-badge-in {
+  transform-origin: 0 0;
+  animation: badgePulse 2.6s var(--ease-out) infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.14); }
+}
+.donut-svg:focus-within .drill-badge-in,
+.ring-seg.clickable:hover ~ * .drill-badge-in { animation: none; transform: scale(1.14); }
+
+/* Centre "hero number" */
+.donut-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 150px; }
+.donut-center .e { font-family: var(--ui); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); line-height: 1.3; min-height: 26px; display: flex; align-items: flex-end; justify-content: center; }
+.donut-center .n { font-family: var(--serif); font-size: 42px; color: #fff; line-height: 1; margin: 6px 0 1px; letter-spacing: -0.01em; }
+.donut-center .u { font-family: var(--ui); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-3); }
+.donut-center .s { font-family: var(--ui); font-size: 11px; color: var(--ink-3); margin-top: 8px; line-height: 1.4; }
+
+/* Legend card */
+.donut-legend { display: flex; flex-direction: column; gap: 4px; padding: 26px 26px 24px; border-radius: 20px; justify-content: flex-start; }
+.legend-head { margin-bottom: 14px; }
+.legend-head.with-back { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.back-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--hairline);
+  border-radius: 999px; padding: 8px 16px 8px 12px;
+  font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--ink-2); cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.back-btn:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.22); color: #fff; }
+.back-btn .bk-chev { font-size: 16px; line-height: 1; }
+
+/* Earned / Borrowed / Granted group palette — distinct hues:
+   teal (earned) · indigo (borrowed) · amber (granted) */
+.grp-earned   { background: #1FA88F; }
+.grp-borrowed { background: #8785D6; }
+.grp-granted  { background: #E0A93B; }
+
+/* Summary stacked bar */
+.grp-summary { margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--hairline); }
+.grp-bar { display: flex; height: 10px; border-radius: 999px; overflow: hidden; background: rgba(255,255,255,0.05); }
+.grp-seg { height: 100%; display: block; }
+.grp-seg + .grp-seg { box-shadow: -1px 0 0 rgba(40,48,59,0.6); }
+.grp-keys { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; }
+.grp-key { font-family: var(--ui); font-size: 12px; color: var(--ink-3); display: inline-flex; align-items: center; gap: 8px; }
+.grp-key b { color: var(--ink-1); font-weight: 600; }
+.grp-key .dot, .lg-head .dot { width: 9px; height: 9px; border-radius: 999px; display: inline-block; }
+
+/* Grouped legend rows */
+.legend-groups { display: flex; flex-direction: column; gap: 16px; }
+.legend-group { display: flex; flex-direction: column; gap: 2px; }
+.lg-head {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--ui); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-2); padding: 0 4px 8px;
+}
+.lg-head .lg-note { font-weight: 400; text-transform: none; letter-spacing: 0.01em; color: var(--ink-4); font-size: 11px; }
+
+.dl-row {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%; text-align: left;
+  padding: 10px 14px; border-radius: 12px; min-height: 46px;
+  background: none; border: 1px solid transparent;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.dl-row.clickable { cursor: pointer; font: inherit; }
 .dl-row:hover, .dl-row.active { background: rgba(255,255,255,0.06); }
-.dl-row .sw { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
-.dl-row .name { font-family: var(--ui); font-size: 14px; font-weight: 500; color: #fff; flex: 1; }
-.dl-row .pct { font-family: var(--serif); font-size: 22px; color: #fff; font-weight: 500; }
-.dl-row .amt { font-family: var(--ui); font-size: 11px; color: var(--ink-3); letter-spacing: 0.04em; margin-left: 12px; }
+.dl-row.clickable { background: linear-gradient(180deg, rgba(31,168,143,0.18), rgba(31,168,143,0.06)); border-color: rgba(63,211,184,0.32); }
+.dl-row.clickable:hover, .dl-row.clickable.active { background: linear-gradient(180deg, rgba(31,168,143,0.28), rgba(31,168,143,0.10)); border-color: rgba(63,211,184,0.60); }
+.dl-row .sw { width: 13px; height: 13px; border-radius: 4px; flex-shrink: 0; }
+.dl-row .dl-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.dl-row .name { font-family: var(--ui); font-size: 14px; font-weight: 500; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dl-row .amt { font-family: var(--ui); font-size: 11px; color: var(--ink-3); letter-spacing: 0.02em; }
+.dl-row .pct { font-family: var(--serif); font-size: 21px; color: #fff; font-weight: 500; flex-shrink: 0; }
+.dl-row .dl-chip {
+  display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0;
+  font-family: var(--ui); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: #08231e; background: #3FD3B8;
+  padding: 4px 9px; border-radius: 999px;
+}
+.dl-row .dl-chip .chev { font-size: 13px; line-height: 1; }
+.dl-row.clickable:hover .dl-chip, .dl-row.clickable.active .dl-chip { background: #6fe6cf; }
+
+/* NBR breakdown total */
+.legend-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--hairline); }
+.legend-total .lt-amt { font-family: var(--serif); font-size: 24px; color: #fff; }
+
+/* Screen-reader-only utility */
+.sr-only {
+  position: absolute !important; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* Reduced motion — snap, no decorative loops */
+@media (prefers-reduced-motion: reduce) {
+  .ring-seg, .ring { animation: none !important; }
+  .ring-seg { stroke-dasharray: var(--seglen) var(--c) !important; }
+  .ring-shimmer, .drill-badge-in { animation: none !important; }
+}
 
 /* Subsidies bar chart */
 .sub-chart-wrap { padding: 40px 44px 32px; border-radius: 20px; }
@@ -248,76 +421,6 @@
 }
 .sub-callout .big { font-family: var(--serif); font-size: 48px; line-height: 1; color: #f0c060; font-weight: 500; }
 .sub-callout .txt { font-family: var(--body); font-size: 16px; color: var(--g2); line-height: 1.4; font-style: italic; max-width: 480px; }
-
-/* Household calculator */
-.calc-wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: stretch; }
-.calc-left { padding: 40px 44px; border-radius: 22px; display: flex; flex-direction: column; gap: 28px;}
-.calc-illus {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--ui); font-size: 10px; letter-spacing: 0.22em;
-  text-transform: uppercase; color: #f0c060;
-  padding: 6px 12px; border-radius: 999px;
-  background: rgba(176,131,43,0.15); border: 1px solid rgba(176,131,43,0.4);
-  align-self: flex-start;
-}
-.calc-q { font-family: var(--serif); font-size: 36px; line-height: 1.15; color: #fff; }
-.calc-q em { color: #6fc7ee; font-style: italic; font-weight: 400; }
-
-.slider-block { display: flex; flex-direction: column; gap: 18px; margin-top: 12px; }
-.slider-vals { display: flex; justify-content: space-between; align-items: baseline; }
-.slider-vals .lbl { font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); }
-.slider-vals .val { font-family: var(--serif); font-size: 40px; color: #fff; font-weight: 500; line-height: 1; }
-.slider-vals .val .unit { font-family: var(--bn); font-size: 0.45em; color: var(--ink-3); margin-left: 6px; vertical-align: 0.2em; }
-.slider-track {
-  position: relative; height: 6px; border-radius: 999px;
-  background: rgba(255,255,255,0.08);
-}
-.slider-fill {
-  position: absolute; left: 0; top: 0; height: 100%; border-radius: 999px;
-  background: linear-gradient(90deg, #0185C6, #6fc7ee);
-  box-shadow: 0 0 16px rgba(1,133,198,0.5);
-}
-.slider-thumb {
-  position: absolute; top: 50%; transform: translate(-50%, -50%);
-  width: 22px; height: 22px; border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 4px rgba(1,133,198,0.25), 0 4px 12px rgba(0,0,0,0.4);
-  cursor: grab;
-}
-.slider-thumb:active { cursor: grabbing; }
-/* Invisible range input expanded to a 44px-tall hit area, centred on the 6px
-   visual track — the visual stays slim, the touch/drag target meets minimum. */
-.slider-input {
-  position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
-  width: 100%; height: 44px; margin: 0;
-  opacity: 0; cursor: pointer; touch-action: pan-y;
-}
-.slider-ticks { display: flex; justify-content: space-between; font-family: var(--ui); font-size: 10px; color: var(--ink-3); letter-spacing: 0.04em; }
-
-.bracket-pill {
-  display: inline-flex; align-items: center; gap: 12px;
-  padding: 14px 20px; border-radius: 14px;
-  background: rgba(1,133,198,0.14);
-  border: 1px solid rgba(1,133,198,0.4);
-  align-self: flex-start;
-}
-.bracket-pill .lbl { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #6fc7ee; }
-.bracket-pill .v   { font-family: var(--serif); font-size: 20px; color: #fff; font-weight: 500; }
-
-/* Calc pie */
-.calc-right { padding: 40px; border-radius: 22px; }
-.calc-pie-wrap { position: relative; aspect-ratio: 1; max-width: 360px; margin: 0 auto; }
-.calc-pie { width: 100%; height: 100%; }
-.calc-pie-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-.calc-pie-center .e { font-family: var(--ui); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-3); }
-.calc-pie-center .n { font-family: var(--serif); font-size: 56px; color: #fff; line-height: 1; margin: 6px 0; }
-.calc-pie-center .s { font-family: var(--ui); font-size: 11px; color: var(--ink-3); }
-
-.calc-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; margin-top: 28px; }
-.cl-row { display: flex; align-items: center; gap: 10px; }
-.cl-row .sw { width: 10px; height: 10px; border-radius: 3px; }
-.cl-row .nm { font-family: var(--ui); font-size: 12px; color: var(--g2); flex: 1; }
-.cl-row .vl { font-family: var(--ui); font-size: 12px; font-weight: 700; color: #fff; }
 
 /* ============================================================
    RESPONSIVE — Price Impact
@@ -359,14 +462,6 @@
   .sub-callout { gap: 16px; padding: 20px 22px; }
   .sub-callout .big { font-size: 38px; }
   .sub-callout .txt { font-size: 14px; }
-
-  /* Calculator */
-  .calc-wrap { grid-template-columns: 1fr; gap: 28px; }
-  .calc-left, .calc-right { padding: 28px 24px; border-radius: 16px; }
-  .calc-q { font-size: 28px; }
-  .slider-vals .val { font-size: 32px; }
-  .calc-pie-wrap { max-width: 280px; }
-  .calc-pie-center .n { font-size: 44px; }
 }
 
 @media (max-width: 640px) {
@@ -374,6 +469,8 @@
   .page-hero .crumb { font-size: 10px; letter-spacing: 0.16em; margin-bottom: 10px; gap: 8px; flex-wrap: wrap; }
   .page-hero h1 { font-size: 32px; letter-spacing: -0.02em; margin-bottom: 14px; }
   .page-hero .dek { font-size: 14px; line-height: 1.5; }
+  .price-context { flex-direction: column; gap: 10px; padding: 14px 16px; margin-top: 20px; }
+  .price-context p { font-size: 13px; }
   .page-hero-stats { grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
   .phs-cell { padding: 12px 14px; }
   .phs-cell .l { font-size: 9px; margin-bottom: 6px; }
@@ -399,12 +496,23 @@
   .titleblock .text .dek { font-size: 14px; }
 
   /* Donut: don't make legend too cramped */
-  .donut-wrap { padding: 22px 16px; }
-  .donut-svg { max-width: 260px; }
-  .donut-center .n { font-size: 32px; }
-  .donut-legend { padding: 18px 14px; gap: 8px; }
-  .dl-row { padding: 10px 12px; gap: 12px; }
+  .donut-wrap { padding: 22px 16px; min-height: 300px; }
+  .donut-svg { max-width: 280px; }
+  .donut-center { width: 132px; }
+  .donut-center .n { font-size: 30px; }
+  .donut-center .e { font-size: 9px; min-height: 22px; }
+  .donut-center .s { font-size: 10px; }
+  .donut-legend { padding: 18px 14px; gap: 4px; }
+  .dl-row { padding: 9px 11px; gap: 10px; min-height: 42px; }
   .dl-row .pct { font-size: 18px; }
+  .dl-row .name { font-size: 13px; white-space: normal; line-height: 1.25; }
+  .dl-row .amt { font-size: 10px; }
+  .dl-row .dl-chip { font-size: 9px; padding: 3px 7px; letter-spacing: 0.04em; }
+  .grp-key { font-size: 11px; }
+  .grp-keys { gap: 6px 14px; }
+  .lg-head { font-size: 10px; }
+  .lg-head .lg-note { display: none; }
+  .legend-total .lt-amt { font-size: 20px; }
 
   /* Subsidies */
   .sub-chart-wrap { padding: 22px 14px 20px; }
@@ -416,19 +524,6 @@
   .sub-callout { flex-direction: column; align-items: flex-start; gap: 10px; padding: 18px; }
   .sub-callout .big { font-size: 32px; }
   .sub-callout .txt { font-size: 13px; }
-
-  /* Calculator */
-  .calc-left, .calc-right { padding: 22px 18px; border-radius: 14px; }
-  .calc-illus { font-size: 9px; padding: 5px 10px; }
-  .calc-q { font-size: 22px; line-height: 1.2; }
-  .slider-vals .lbl { font-size: 10px; }
-  .slider-vals .val { font-size: 26px; }
-  .bracket-pill { padding: 10px 14px; gap: 10px; }
-  .bracket-pill .v { font-size: 16px; }
-  .calc-pie-wrap { max-width: 240px; }
-  .calc-pie-center .n { font-size: 36px; }
-  .calc-pie-center .e { font-size: 9px; }
-  .calc-legend { grid-template-columns: 1fr; gap: 6px; margin-top: 20px; }
 }
 
 /* ----- Wide screens — scale price-page charts up ----- */
@@ -438,8 +533,6 @@
   .split2 { grid-template-columns: 460px 1fr; gap: 64px; }
   .donut-svg { max-width: 400px; }
   .sub-bars { height: 340px; }
-  .calc-wrap { gap: 64px; }
-  .calc-pie-wrap { max-width: 420px; }
 }
 
 @media (max-width: 400px) {
@@ -447,6 +540,4 @@
   .page-hero-stats { grid-template-columns: 1fr; }
   .titleblock .text h2 { font-size: 24px; }
   .sub-bars { gap: 6px; }
-  .calc-pie-wrap { max-width: 200px; }
-  .calc-pie-center .n { font-size: 32px; }
 }

@@ -108,30 +108,34 @@ function CountUp({ value, decimals = 0, duration = 1400, format, prefix = "", su
   return <As ref={ref} className={className} style={style}>{prefix}{out}{suffix}</As>;
 }
 
-// Animated <rect> for SVG bar charts. Grows from h=0 (anchored at y+h) to full h.
-function AnimatedRect({ y, height, duration = 900, delay = 0, ...rest }) {
+// Animated <rect> for SVG bar charts.
+//   axis="y" (default): height grows 0→h, anchored at the bottom (vertical bars).
+//   axis="x": width grows 0→w, anchored at the left (horizontal bars).
+function AnimatedRect({ x, y, width, height, axis = "y", duration = 900, delay = 0, ...rest }) {
   const [ref, inView] = useInView({ threshold: 0.05 });
-  const [h, setH] = useAS(0);
-  const finalY = y;
-  const finalH = height;
+  const grows = axis === "x" ? width : height;
+  const [size, setSize] = useAS(0);
 
   useAE(() => {
     if (!inView) return;
-    if (prefersReducedMotion()) { setH(finalH); return; }
+    if (prefersReducedMotion()) { setSize(grows); return; }
     let raf, started = null;
     const tick = (t) => {
       if (started === null) started = t;
       const elapsed = t - started - delay;
       if (elapsed < 0) { raf = requestAnimationFrame(tick); return; }
       const k = Math.min(1, elapsed / duration);
-      setH(easeOutCubic(k) * finalH);
+      setSize(easeOutCubic(k) * grows);
       if (k < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, finalH]);
+  }, [inView, grows]);
 
-  return <rect ref={ref} y={finalY + (finalH - h)} height={h} {...rest}/>;
+  if (axis === "x") {
+    return <rect ref={ref} x={x} y={y} width={size} height={height} {...rest}/>;
+  }
+  return <rect ref={ref} x={x} y={y + (height - size)} width={width} height={size} {...rest}/>;
 }
 
 // CSS-driven bar grow for div-based bars. Adds class "in-view" once visible.

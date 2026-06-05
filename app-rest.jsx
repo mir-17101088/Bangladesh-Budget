@@ -72,7 +72,7 @@ function Treemap() {
           <span className="eyebrow">Chapter 03 · Department by department</span>
           <h2>Every department, every taka.</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            FY22's ৳5,61,664 crore expenditure, sliced into the 27 ministries and divisions that consume it. Two single line items — debt interest and the Finance Division — already eat a quarter.
+            FY24's ৳6,11,392 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — debt interest and the Finance Division — already eat a quarter.
           </p>
         </div>
 
@@ -80,7 +80,7 @@ function Treemap() {
           <svg viewBox={"0 0 " + W + " " + H} style={{ width: "100%", height: "auto", display: "block", borderRadius: 18, overflow: "hidden" }}>
             <defs>
               <filter id="cellShine">
-                <feGaussianBlur stdDeviation="0.4"/>
+                <feGaussianBlur stdDeviation="0.4" />
               </filter>
             </defs>
             {cells.map((c, i) => {
@@ -90,26 +90,26 @@ function Treemap() {
               const pad = big ? 14 : (med ? 10 : 6);
               return (
                 <g key={i}
-                   onMouseEnter={() => setHover(i)}
-                   onMouseLeave={() => setHover(null)}
-                   style={{ cursor: "pointer" }}>
+                  onMouseEnter={() => setHover(i)}
+                  onMouseLeave={() => setHover(null)}
+                  style={{ cursor: "pointer" }}>
                   <rect x={c.x + 1.5} y={c.y + 1.5} width={c.w - 3} height={c.h - 3}
-                        fill={c.c} rx="4"
-                        style={{
-                          filter: isHover ? "brightness(1.25)" : "brightness(1)",
-                          transition: "filter .2s"
-                        }}/>
+                    fill={c.c} rx="4"
+                    style={{
+                      filter: isHover ? "brightness(1.25)" : "brightness(1)",
+                      transition: "filter .2s"
+                    }} />
                   {/* gloss */}
                   <rect x={c.x + 1.5} y={c.y + 1.5} width={c.w - 3} height={c.h - 3}
-                        fill="url(#tmGloss)" rx="4" pointerEvents="none"/>
+                    fill="url(#tmGloss)" rx="4" pointerEvents="none" />
                   {/* dark bottom scrim for legibility */}
                   <rect x={c.x + 1.5} y={c.y + 1.5} width={c.w - 3} height={c.h - 3}
-                        fill="url(#tmScrim)" rx="4" pointerEvents="none"/>
+                    fill="url(#tmScrim)" rx="4" pointerEvents="none" />
                   {/* HTML text via foreignObject — wraps automatically */}
                   <foreignObject x={c.x + pad} y={c.y + pad}
-                                 width={Math.max(0, c.w - pad * 2)}
-                                 height={Math.max(0, c.h - pad * 2)}
-                                 pointerEvents="none">
+                    width={Math.max(0, c.w - pad * 2)}
+                    height={Math.max(0, c.h - pad * 2)}
+                    pointerEvents="none">
                     <div className={"tm-fo " + (big ? "big" : med ? "med" : "sm")}>
                       <div className="tm-fo-name">{c.name}</div>
                       {big && <div className="tm-fo-parent">{c.parent}</div>}
@@ -121,14 +121,14 @@ function Treemap() {
             })}
             <defs>
               <linearGradient id="tmGloss" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="rgba(255,255,255,0.18)"/>
-                <stop offset="60%" stopColor="rgba(255,255,255,0)"/>
-                <stop offset="100%" stopColor="rgba(0,0,0,0.18)"/>
+                <stop offset="0%" stopColor="rgba(255,255,255,0.18)" />
+                <stop offset="60%" stopColor="rgba(255,255,255,0)" />
+                <stop offset="100%" stopColor="rgba(0,0,0,0.18)" />
               </linearGradient>
               <linearGradient id="tmScrim" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="rgba(0,0,0,0)"/>
-                <stop offset="55%" stopColor="rgba(0,0,0,0)"/>
-                <stop offset="100%" stopColor="rgba(0,0,0,0.45)"/>
+                <stop offset="0%" stopColor="rgba(0,0,0,0)" />
+                <stop offset="55%" stopColor="rgba(0,0,0,0)" />
+                <stop offset="100%" stopColor="rgba(0,0,0,0.45)" />
               </linearGradient>
             </defs>
           </svg>
@@ -142,14 +142,14 @@ function Treemap() {
               <div className="cap" style={{ color: cells[hover].c, marginBottom: 6 }}>{cells[hover].parent.toUpperCase()}</div>
               <div style={{ fontFamily: "var(--serif)", fontSize: 22, marginBottom: 8 }}>{cells[hover].name}</div>
               <div style={{ fontFamily: "var(--ui)", fontSize: 32, fontWeight: 700, color: cells[hover].c }}>{cells[hover].pct.toFixed(2)}%</div>
-              <div className="cap" style={{ marginTop: 6 }}>of FY22 total expenditure</div>
+              <div className="cap" style={{ marginTop: 6 }}>of FY24 total expenditure</div>
             </div>
           )}
         </div>
 
         {/* Mobile: the treemap shrinks its foreignObject labels to ~3px, so phones
             get a fully legible, tappable ranked-bar list of the same data instead. */}
-        <ol className="tm-list" aria-label="Departments by share of FY22 expenditure">
+        <ol className="tm-list" aria-label="Departments by share of FY24 expenditure">
           {tmList.map((c, i) => (
             <li key={i} className="tm-list-row" style={{ "--c": c.c }}>
               <span className="tm-list-rank">{i + 1}</span>
@@ -168,7 +168,7 @@ function Treemap() {
         </ol>
 
         <div style={{ marginTop: 28, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-          <span className="cap">Each cell sized by share of FY22 expenditure · 27 of 50 line items shown</span>
+          <span className="cap">Each cell sized by share of FY24 expenditure ~ Top 20 shown</span>
           <span className="cap">Colored by parent sector</span>
         </div>
 
@@ -183,12 +183,14 @@ function Treemap() {
 ============================================================ */
 function DebtSection() {
   const W = 1080, H = 420, pad = { l: 70, r: 30, t: 64, b: 44 };
-  const totals = INTEREST_DATA.map(d => d.d + d.f);
+  // Render only years with data (drops the null FY27 placeholder).
+  const DEBT = INTEREST_DATA.filter(d => typeof d.d === "number" && typeof d.f === "number");
+  const totals = DEBT.map(d => d.d + d.f);
   const maxV = Math.ceil(Math.max(...totals) * 1.18 / 10000) * 10000;
   const innerW = W - pad.l - pad.r;
   const innerH = H - pad.t - pad.b;
-  const bw = innerW / INTEREST_DATA.length * 0.62;
-  const step = innerW / INTEREST_DATA.length;
+  const bw = innerW / DEBT.length * 0.62;
+  const step = innerW / DEBT.length;
 
   return (
     <section className="s s-debt" data-screen-label="05 Debt">
@@ -199,14 +201,14 @@ function DebtSection() {
         </div>
 
         <div className="debt-callout">
-          <span className="big"><CountUp value={15.4} decimals={1} prefix="৳" duration={1600}/></span>
-          <span className="txt">of every ৳100 now goes to paying interest. In FY09, it was less than ৳11.</span>
+          <span className="big"><CountUp value={TAKA_SECTORS.find(s => s.key === "interest").proposed} decimals={1} prefix="৳" duration={1600} /></span>
+          <span className="txt">of every ৳100 in the {BUDGET.proposed} budget goes to paying interest. In FY09, it was less than ৳11.</span>
         </div>
 
         <div className="debt-chart-wrap glass">
           <div className="debt-chart-head">
             <div>
-              <span className="eyebrow" style={{ color: "#ff5757", display: "block" }}>Government interest payments · FY09 — FY26</span>
+              <span className="eyebrow" style={{ color: "#ff5757", display: "block" }}>Government interest payments · FY09 — {BUDGET.proposed}</span>
               <span className="cap" style={{ marginTop: 6, display: "block" }}>In Crore Taka</span>
             </div>
             <div className="debt-legend">
@@ -216,73 +218,80 @@ function DebtSection() {
           </div>
 
           <div className="chart-scroll">
-          <svg viewBox={"0 0 " + W + " " + H} className="debt-svg" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="domGrad" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="#a00103"/>
-                <stop offset="100%" stopColor="#4a0002"/>
-              </linearGradient>
-              <linearGradient id="forGrad" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="#ff7676"/>
-                <stop offset="100%" stopColor="#c63131"/>
-              </linearGradient>
-            </defs>
+            <svg viewBox={"0 0 " + W + " " + H} className="debt-svg" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="domGrad" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#a00103" />
+                  <stop offset="100%" stopColor="#4a0002" />
+                </linearGradient>
+                <linearGradient id="forGrad" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#ff7676" />
+                  <stop offset="100%" stopColor="#c63131" />
+                </linearGradient>
+              </defs>
 
-            {/* y gridlines */}
-            {[0, 0.25, 0.5, 0.75, 1.0].map(g => {
-              const v = g * maxV;
-              const y = pad.t + (1 - g) * innerH;
-              return (
-                <g key={g}>
-                  <line className="tick" x1={pad.l} x2={W - pad.r} y1={y} y2={y} stroke="rgba(255,255,255,0.06)"/>
-                  <text className="tick-label" x={pad.l - 10} y={y + 3} textAnchor="end">৳{(v/1000)|0}k Cr</text>
-                </g>
-              );
-            })}
+              {/* y gridlines */}
+              {[0, 0.25, 0.5, 0.75, 1.0].map(g => {
+                const v = g * maxV;
+                const y = pad.t + (1 - g) * innerH;
+                return (
+                  <g key={g}>
+                    <line className="tick" x1={pad.l} x2={W - pad.r} y1={y} y2={y} stroke="rgba(255,255,255,0.06)" />
+                    <text className="tick-label" x={pad.l - 10} y={y + 3} textAnchor="end">৳{(v / 1000) | 0}k Cr</text>
+                  </g>
+                );
+              })}
 
-            {INTEREST_DATA.map((d, i) => {
-              const x = pad.l + i * step + (step - bw) / 2;
-              const total = d.d + d.f;
-              const totalH = (total / maxV) * innerH;
-              const domH = (d.d / maxV) * innerH;
-              const forH = (d.f / maxV) * innerH;
-              const isLast = i === INTEREST_DATA.length - 1;
-              const isPeak = total === Math.max(...totals);
-              const delay = i * 60;
-              return (
-                <g key={d.fy}>
-                  <AnimatedRect x={x} y={pad.t + innerH - domH} width={bw} height={domH} fill="url(#domGrad)" rx="2" duration={1100} delay={delay}/>
-                  <AnimatedRect x={x} y={pad.t + innerH - totalH} width={bw} height={forH} fill="url(#forGrad)" rx="2" duration={1100} delay={delay + 80}/>
-                  <text x={x + bw/2} y={H - 20} textAnchor="middle" className="tick-label">{d.fy}</text>
-                  {isLast && (
-                    <g>
-                      <text x={x + bw/2} y={pad.t + innerH - totalH - 14} textAnchor="middle"
-                            style={{ fontFamily: "var(--serif)", fontSize: 18, fill: "#fff" }}>৳{(total/1000).toFixed(1)}k Cr</text>
-                      <text x={x + bw/2} y={pad.t + innerH - totalH - 34} textAnchor="middle"
-                            style={{ fontFamily: "var(--ui)", fontSize: 10, fill: "#ff7676", letterSpacing: "0.16em" }}>FY26 · PROJECTED</text>
-                    </g>
-                  )}
-                  {isPeak && !isLast && (
-                    <text x={x + bw/2} y={pad.t + innerH - totalH - 10} textAnchor="middle"
-                          style={{ fontFamily: "var(--ui)", fontSize: 10, fill: "rgba(255,118,118,0.7)", letterSpacing: "0.12em" }}>৳{(total/1000).toFixed(0)}k</text>
-                  )}
-                </g>
-              );
-            })}
+              {DEBT.map((d, i) => {
+                const x = pad.l + i * step + (step - bw) / 2;
+                const total = d.d + d.f;
+                const totalH = (total / maxV) * innerH;
+                const domH = (d.d / maxV) * innerH;
+                const forH = (d.f / maxV) * innerH;
+                const isLast = i === DEBT.length - 1;
+                const stMeta = STATUS_META[BUDGET.statusOf(d.fy)];
+                const isPeak = total === Math.max(...totals);
+                const delay = i * 60;
+                return (
+                  <g key={d.fy}>
+                    <AnimatedRect x={x} y={pad.t + innerH - domH} width={bw} height={domH} fill="url(#domGrad)" rx="2" duration={1100} delay={delay} />
+                    <AnimatedRect x={x} y={pad.t + innerH - totalH} width={bw} height={forH} fill="url(#forGrad)" rx="2" duration={1100} delay={delay + 80} />
+                    <text x={x + bw / 2} y={H - 20} textAnchor="middle" className="tick-label">{d.fy}</text>
+                    {isLast && (
+                      <g>
+                        <text x={x + bw / 2} y={pad.t + innerH - totalH - 14} textAnchor="middle"
+                          style={{ fontFamily: "var(--serif)", fontSize: 18, fill: "#fff" }}>৳{(total / 1000).toFixed(1)}k Cr</text>
+                        <text x={x + bw / 2} y={pad.t + innerH - totalH - 34} textAnchor="middle"
+                          className={"fy-tag-text " + (stMeta ? stMeta.cls : "")}
+                          style={{ fontFamily: "var(--ui)", fontSize: 10, letterSpacing: "0.16em", fill: stMeta && stMeta.cls === "fy-proposed" ? undefined : "#ff7676" }}>{d.fy} · {stMeta ? stMeta.word.toUpperCase() : ""}</text>
+                      </g>
+                    )}
+                    {!isLast && BUDGET.statusOf(d.fy) === "revised" && (
+                      <text x={x + bw / 2} y={pad.t + innerH - totalH - 12} textAnchor="middle"
+                        className="fy-tag-text fy-revised"
+                        style={{ fontFamily: "var(--ui)", fontSize: 9, letterSpacing: "0.14em" }}>REVISED</text>
+                    )}
+                    {isPeak && !isLast && (
+                      <text x={x + bw / 2} y={pad.t + innerH - totalH - 10} textAnchor="middle"
+                        style={{ fontFamily: "var(--ui)", fontSize: 10, fill: "rgba(255,118,118,0.7)", letterSpacing: "0.12em" }}>৳{(total / 1000).toFixed(0)}k</text>
+                    )}
+                  </g>
+                );
+              })}
 
-            {/* arrow callout FY18 spike */}
-            <g>
-              <line x1={pad.l + 9 * step + step/2} y1={pad.t + 110} x2={pad.l + 9 * step + step/2} y2={pad.t + 150} stroke="#ff7676" strokeDasharray="3 3" strokeWidth="1"/>
-              <text x={pad.l + 9 * step + step/2} y={pad.t + 102} textAnchor="middle"
-                    style={{ fontFamily: "var(--ui)", fontSize: 10, fill: "#ff7676", letterSpacing: "0.12em" }}>FOREIGN DEBT 2x</text>
-            </g>
-          </svg>
+              {/* arrow callout FY18 spike */}
+              <g>
+                <line x1={pad.l + 9 * step + step / 2} y1={pad.t + 110} x2={pad.l + 9 * step + step / 2} y2={pad.t + 150} stroke="#ff7676" strokeDasharray="3 3" strokeWidth="1" />
+                <text x={pad.l + 9 * step + step / 2} y={pad.t + 102} textAnchor="middle"
+                  style={{ fontFamily: "var(--ui)", fontSize: 10, fill: "#ff7676", letterSpacing: "0.12em" }}>FOREIGN DEBT 2x</text>
+              </g>
+            </svg>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginTop: 32, paddingTop: 28, borderTop: "1px solid rgba(198,0,1,0.18)" }}>
-            <Stat label="Domestic, FY09 → FY26" big="10.0×" sub="৳13.8k → ৳138k Cr"/>
-            <Stat label="Foreign, FY09 → FY26" big="14.2×" sub="৳1.3k → ৳19k Cr"/>
-            <Stat label="FY26 share of every ৳100" big="৳15.4" sub="up from ৳11.4 in FY22"/>
+            <Stat label={"Domestic, FY09 → " + BUDGET.proposed} big="10.0×" sub="৳13.8k → ৳138k Cr" />
+            <Stat label={"Foreign, FY09 → " + BUDGET.proposed} big="14.2×" sub="৳1.3k → ৳19k Cr" />
+            <Stat label={BUDGET.proposed + " share of every ৳100"} big={"৳" + TAKA_SECTORS.find(s => s.key === "interest").proposed} sub="up from ৳11.4 in FY22" />
           </div>
         </div>
 
@@ -304,7 +313,7 @@ function Stat({ label, big, sub }) {
       <div className="cap" style={{ marginBottom: 6 }}>{label}</div>
       <div style={{ fontFamily: "var(--serif)", fontSize: 36, color: "#ff7676", lineHeight: 1 }}>
         {num !== null
-          ? <CountUp value={num} decimals={decimals} prefix={prefix} suffix={suffix} duration={1300}/>
+          ? <CountUp value={num} decimals={decimals} prefix={prefix} suffix={suffix} duration={1300} />
           : big}
       </div>
       <div style={{ fontFamily: "var(--ui)", fontSize: 12, color: "#8B939F", marginTop: 6 }}>{sub}</div>
@@ -324,7 +333,7 @@ function NewsSection() {
             <span className="eyebrow">From the newsroom</span>
             <h2 style={{ marginTop: 16 }}>Latest Budget Coverage</h2>
           </div>
-          <a style={{ fontFamily: "var(--ui)", fontSize: 13, color: "#6fc7ee", letterSpacing: "0.04em", borderBottom: "1px solid #6fc7ee", paddingBottom: 4, cursor: "pointer" }}>All Budget FY26 stories →</a>
+          <a style={{ fontFamily: "var(--ui)", fontSize: 13, color: "#6fc7ee", letterSpacing: "0.04em", borderBottom: "1px solid #6fc7ee", paddingBottom: 4, cursor: "pointer" }}>All Budget {BUDGET.proposed} stories →</a>
         </div>
 
         <div className="news-grid">
@@ -364,7 +373,7 @@ function Footer() {
       <div className="wrap">
         <div className="foot-top">
           <div className="foot-brand">
-            <img src="assets/logo.svg" alt="The Daily Star"/>
+            <img src="assets/logo.svg" alt="The Daily Star" />
             <p>Budget at a Glance is an editorial visualization project from the Digital team — making fiscal policy legible, year on year.</p>
           </div>
           <div className="foot">
@@ -377,7 +386,12 @@ function Footer() {
           </div>
           <div className="foot">
             <h4>Previous editions</h4>
-            <ul><li>Budget FY25</li><li>Budget FY24</li><li>Budget FY23</li><li>Archive 2009 — 2022</li></ul>
+            <ul>
+              {[1, 2, 3].map(n => (
+                <li key={n}>Budget FY{String(fyToYear(BUDGET.proposed) - n).slice(-2)}</li>
+              ))}
+              <li>Archive 2009 — 2022</li>
+            </ul>
           </div>
         </div>
         <div className="foot-bottom">

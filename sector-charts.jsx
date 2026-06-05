@@ -3,7 +3,7 @@
 ============================================================ */
 function HeatmapSection() {
   // Skip FY09 (no prior year) — show transitions FY10..FY26
-  const fyCols = FY_YEARS.slice(1);
+  const fyCols = SECTOR_YEARS.slice(1);
   const rows = [...SECTORS].sort((a, b) => b.rise - a.rise);
   const totalTransitions = fyCols.length;
 
@@ -75,16 +75,16 @@ function RankingsSection() {
     <section className="s s-rankings" data-screen-label="05 Rankings">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">Chapter 05 · Top 15</span>
+          <span className="eyebrow">Chapter 05 · Top 10</span>
           <h2>The biggest single line items.</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            Two items — debt interest and the Finance Division's catch-all — already consume more than a quarter of all FY22 expenditure.
+            Two items — debt interest and the Finance Division's catch-all — already consumed more than a quarter of all FY26's proposed expenditure.
           </p>
         </div>
 
         <div ref={ref} className="glass" style={{ padding: "32px 36px", borderRadius: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 24, alignItems: "flex-end" }}>
-            <span className="cap">By share of total FY26 expenditure</span>
+            <span className="cap">By share of total {BUDGET.proposed} expenditure</span>
             <span className="cap">Bar colored by parent sector</span>
           </div>
           <div className="rk-list">
@@ -103,8 +103,8 @@ function RankingsSection() {
                     </div>
                   </div>
                   <div className="rk-meta">
-                    <div className="rk-pct"><CountUp value={d.pct} decimals={2} suffix="%" duration={1300}/></div>
-                    <div className="rk-amt">৳<CountUp value={d.amt} duration={1300}/> Cr</div>
+                    <div className="rk-pct"><CountUp value={d.pct} decimals={2} suffix="%" duration={1300} /></div>
+                    <div className="rk-amt">৳<CountUp value={d.amt} duration={1300} /> Cr</div>
                   </div>
                 </div>
               );
@@ -122,7 +122,7 @@ function RankingsSection() {
    IMPLEMENTATION GAUGES
 ============================================================ */
 function Gauge({ value }) {
-  const size = 76, cx = size/2, cy = size/2, r = 30;
+  const size = 76, cx = size / 2, cy = size / 2, r = 30;
   const C = 2 * Math.PI * r;
   const targetDash = (value / 100) * C;
   const [ref, inView] = useInView({ threshold: 0.2 });
@@ -156,21 +156,21 @@ function Gauge({ value }) {
     <svg ref={ref} className="gauge-svg" viewBox={"0 0 " + size + " " + size}>
       <defs>
         <linearGradient id={gid} x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stopColor={color}/>
-          <stop offset="100%" stopColor={color} stopOpacity="0.6"/>
+          <stop offset="0%" stopColor={color} />
+          <stop offset="100%" stopColor={color} stopOpacity="0.6" />
         </linearGradient>
       </defs>
-      <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="6"/>
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="6" />
       <circle cx={cx} cy={cy} r={r}
-              fill="none"
-              stroke={"url(#" + gid + ")"}
-              strokeWidth="6"
-              strokeLinecap="round"
-              strokeDasharray={dash + " " + (C - dash)}
-              transform={"rotate(-90 " + cx + " " + cy + ")"}
-              style={{ filter: "drop-shadow(0 0 6px " + color + ")" }}/>
+        fill="none"
+        stroke={"url(#" + gid + ")"}
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeDasharray={dash + " " + (C - dash)}
+        transform={"rotate(-90 " + cx + " " + cy + ")"}
+        style={{ filter: "drop-shadow(0 0 6px " + color + ")" }} />
       <text x={cx} y={cy + 5} textAnchor="middle"
-            style={{ fontFamily: "var(--serif)", fontSize: 17, fill: "#fff" }}>
+        style={{ fontFamily: "var(--serif)", fontSize: 17, fill: "#fff" }}>
         {textVal.toFixed(0)}%
       </text>
     </svg>
@@ -179,14 +179,15 @@ function Gauge({ value }) {
 
 function GaugesSection() {
   const perRow = 9;
-  const row1 = IMPL.slice(0, perRow);
-  const row2 = IMPL.slice(perRow);
-  const avg = (IMPL.reduce((a, b) => a + b.v, 0) / IMPL.length).toFixed(1);
+  const IMPL_PRESENT = IMPL.filter(g => typeof g.v === "number" && isFinite(g.v));
+  const row1 = IMPL_PRESENT.slice(0, perRow);
+  const row2 = IMPL_PRESENT.slice(perRow);
+  const avg = (IMPL_PRESENT.reduce((a, b) => a + b.v, 0) / IMPL_PRESENT.length).toFixed(1);
 
   const label = (v) => {
     if (v >= 90) return { t: "STRONG", c: "#5fe093" };
     if (v >= 80) return { t: "PARTIAL", c: "#FFEAA7" };
-    return { t: "WEAK",   c: "#ff7676" };
+    return { t: "WEAK", c: "#ff7676" };
   };
 
   return (
@@ -207,7 +208,7 @@ function GaugesSection() {
               return (
                 <div key={g.fy} className="gauge-cell">
                   <div className="yr">{g.fy}</div>
-                  <Gauge value={g.v}/>
+                  <Gauge value={g.v} />
                   <div className="lbl" style={{ color: lb.c }}>{lb.t}</div>
                 </div>
               );
@@ -219,7 +220,7 @@ function GaugesSection() {
               return (
                 <div key={g.fy} className="gauge-cell">
                   <div className="yr">{g.fy}</div>
-                  <Gauge value={g.v}/>
+                  <Gauge value={g.v} />
                   <div className="lbl" style={{ color: lb.c }}>{lb.t}</div>
                 </div>
               );
@@ -227,7 +228,7 @@ function GaugesSection() {
           </div>
 
           <div className="avg-callout">
-            <span className="big"><CountUp value={parseFloat(avg)} decimals={1} suffix="%" duration={1500}/></span>
+            <span className="big"><CountUp value={parseFloat(avg)} decimals={1} suffix="%" duration={1500} /></span>
             <span className="txt">"Average implementation: ~{avg}%." Even when finance ministries announce ambitious totals, the state typically spends only 8 out of every 10 taka pledged.</span>
           </div>
         </div>
@@ -242,9 +243,10 @@ function GaugesSection() {
    PAGE HERO
 ============================================================ */
 function SectorHero() {
-  const top = [...SECTORS].sort((a,b) => b.fy26 - a.fy26)[0];
-  const fastest = [...SECTORS].sort((a,b) => (b.fy26/b.fy09) - (a.fy26/a.fy09))[0];
-  const avgImpl = (IMPL.reduce((a,b) => a + b.v, 0) / IMPL.length).toFixed(0);
+  const top = [...SECTORS].sort((a, b) => b.proposed - a.proposed)[0];
+  const fastest = [...SECTORS].sort((a, b) => (b.proposed / b.fy09) - (a.proposed / a.fy09))[0];
+  const implP = IMPL.filter(g => typeof g.v === "number");
+  const avgImpl = (implP.reduce((a, b) => a + b.v, 0) / implP.length).toFixed(0);
   return (
     <section className="page-hero" data-screen-label="01 Page Hero">
       <div className="wrap">
@@ -256,10 +258,10 @@ function SectorHero() {
           Sector by sector — totals, sub-sector stacks, GDP-share moves, and how much of each fiscal promise was actually delivered.
         </p>
         <div className="page-hero-stats">
-          <div className="phs-cell"><div className="l">Sectors tracked</div><div className="n"><CountUp value={SECTORS.length} duration={1000}/></div><div className="s">FY09 — FY26 · 18-year panel</div></div>
-          <div className="phs-cell"><div className="l">Top sector FY26</div><div className="n">{top.name}</div><div className="s">৳<CountUp value={top.fy26/1000} decimals={1}/>k Cr</div></div>
-          <div className="phs-cell green"><div className="l">Fastest grower</div><div className="n"><CountUp value={parseFloat(fastest.growth)} decimals={1} suffix="×"/></div><div className="s">{fastest.name} · since FY09</div></div>
-          <div className="phs-cell"><div className="l">Avg implementation</div><div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%"/></div><div className="s">FY09 — FY26 average</div></div>
+          <div className="phs-cell"><div className="l">Sectors tracked</div><div className="n"><CountUp value={SECTORS.length} duration={1000} /></div><div className="s">FY09 — {BUDGET.proposed} · {SECTOR_YEARS.length}-year panel</div></div>
+          <div className="phs-cell"><div className="l">Top sector {BUDGET.proposed}</div><div className="n">{top.name}</div><div className="s">৳<CountUp value={top.proposed / 1000} decimals={1} />k Cr</div></div>
+          <div className="phs-cell green"><div className="l">Fastest grower</div><div className="n"><CountUp value={parseFloat(fastest.growth)} decimals={1} suffix="×" /></div><div className="s">{fastest.name} · since FY09</div></div>
+          <div className="phs-cell"><div className="l">Avg implementation</div><div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%" /></div><div className="s">FY09 — {BUDGET.proposed} average</div></div>
         </div>
       </div>
     </section>

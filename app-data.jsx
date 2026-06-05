@@ -13,21 +13,46 @@ const { useState, useEffect, useMemo, useRef } = React;
 //    Each series is in fiscal-year order: [FY22, FY23, FY24, FY25, FY26]
 //    fy26 should match the last entry of the series.
 // ────────────────────────────────────────────────────────────
-const TAKA_SECTORS = [
-  //                                                                    [FY22, FY23, FY24, FY25, FY26]
-  { key: "publicadmin",  name: "Public Administration",      color: "#997B50", series: [ 7.6,  7.3,  7.3,  7.0, 23.5] },
-  { key: "interest",     name: "Interest Payments",          color: "#C60001", series: [11.4, 11.9, 11.9, 14.0, 15.4] },
-  { key: "education",    name: "Education & Technology",     color: "#0185C6", series: [15.7, 14.7, 14.7, 14.0, 14.0] },
-  { key: "transport",    name: "Transport & Communication",  color: "#B0832B", series: [11.7, 11.8, 11.8, 10.0,  9.0] },
-  { key: "agri",         name: "Agriculture",                color: "#019933", series: [ 3.6,  3.8,  3.8,  4.0,  5.9] },
-  { key: "localgov",     name: "Local Govt & Rural Dev",     color: "#96CEB4", series: [ 7.0,  6.6,  6.6,  6.0,  5.7] },
-  { key: "social",       name: "Social Security & Welfare",  color: "#45B7D1", series: [ 5.0,  4.9,  4.9,  5.0,  5.7] },
-  { key: "health",       name: "Health",                     color: "#4ECDC4", series: [ 5.4,  5.4,  5.4,  5.0,  5.3] },
-  { key: "defence",      name: "Defence",                    color: "#7D0066", series: [ 5.5,  5.0,  5.0,  4.0,  5.2] },
-  { key: "publicorder",  name: "Public Order & Safety",      color: "#FFEAA7", series: [ 4.7,  4.4,  4.4,  4.0,  4.3] },
-  { key: "others",       name: "Others",                     color: "#8B939F", series: [ 7.3,  7.3,  7.3,  7.0,  3.1] },
-  { key: "energy",       name: "Energy & Power",             color: "#FF6B35", series: [ 4.6,  3.9,  3.9,  4.0,  2.9] },
-].map(s => ({ ...s, fy26: s.series[s.series.length - 1] }));
+/* ⟶ GO-LIVE FY27 (home): replace each trailing `null` in TAKA_SECTORS_RAW with
+   the FY27 per-৳100 share. Filling these flips the WHOLE site to Proposed FY27 /
+   Revised FY26 / Actual FY25 (this Taka series is the master trigger). Also fill
+   GDP_DATA + INTEREST_DATA below, and the FY27 slots in sector-data.jsx /
+   price-data.jsx. See README "Going live with a new budget year". */
+const TAKA_FY = ["FY22", "FY23", "FY24", "FY25", "FY26", "FY27"];
+const TAKA_SECTORS_RAW = [
+  //                                                                  [FY22, FY23, FY24, FY25, FY26, FY27]
+  { key: "publicadmin", name: "Public Administration", color: "#997B50", series: [7.6, 7.3, 7.3, 7.0, 23.5, null] },
+  { key: "interest", name: "Interest Payments", color: "#C60001", series: [11.4, 11.9, 11.9, 14.0, 15.4, null] },
+  { key: "education", name: "Education & Technology", color: "#0185C6", series: [15.7, 14.7, 14.7, 14.0, 14.0, null] },
+  { key: "transport", name: "Transport & Communication", color: "#B0832B", series: [11.7, 11.8, 11.8, 10.0, 9.0, null] },
+  { key: "agri", name: "Agriculture", color: "#019933", series: [3.6, 3.8, 3.8, 4.0, 5.9, null] },
+  { key: "localgov", name: "Local Govt & Rural Dev", color: "#96CEB4", series: [7.0, 6.6, 6.6, 6.0, 5.7, null] },
+  { key: "social", name: "Social Security & Welfare", color: "#45B7D1", series: [5.0, 4.9, 4.9, 5.0, 5.7, null] },
+  { key: "health", name: "Health", color: "#4ECDC4", series: [5.4, 5.4, 5.4, 5.0, 5.3, null] },
+  { key: "defence", name: "Defence", color: "#7D0066", series: [5.5, 5.0, 5.0, 4.0, 5.2, null] },
+  { key: "publicorder", name: "Public Order & Safety", color: "#FFEAA7", series: [4.7, 4.4, 4.4, 4.0, 4.3, null] },
+  { key: "others", name: "Others", color: "#8B939F", series: [17.8, 20.3, 20.3, 23.0, 3.1, null] },
+
+  { key: "energy", name: "Energy & Power", color: "#FF6B35", series: [4.6, 3.9, 3.9, 4.0, 2.9, null] },
+];
+
+// Years that have data across EVERY sector — the trailing null FY27 placeholder
+// is dropped until real numbers are pasted in (see GO-LIVE banner above).
+const TAKA_PRESENT = presentFromSeries(TAKA_FY, TAKA_SECTORS_RAW.map(s => s.series));
+// The single global fiscal state, read by every page (app-data loads first).
+const BUDGET = computeFiscalState(TAKA_PRESENT);
+window.BUDGET = BUDGET;
+
+const TAKA_SECTORS = TAKA_SECTORS_RAW.map(s => {
+  const valueAt = (fy) => s.series[TAKA_FY.indexOf(fy)];
+  return {
+    ...s,
+    valueAt,
+    actual: valueAt(BUDGET.actual),
+    revised: valueAt(BUDGET.revised),
+    proposed: valueAt(BUDGET.proposed),
+  };
+});
 
 // ────────────────────────────────────────────────────────────
 // 2. Budget as % of GDP — full panel, FY09 → FY26
@@ -41,37 +66,39 @@ const GDP_DATA = [
   { fy: "FY21", pct: 13.0 }, { fy: "FY22", pct: 13.0 }, { fy: "FY23", pct: 14.9 },
   // ── edit / extend below ─────────────────────────────────
   { fy: "FY24", pct: 14.6 }, { fy: "FY25", pct: 14.4 }, { fy: "FY26", pct: 14.2 },
+  { fy: "FY27", pct: null }, // ⟶ GO-LIVE FY27: budget as % of GDP
 ];
 
 // (department, % of total, parent sector color)
 const TREEMAP = [
-  { name: "Domestic Interest",      pct: 14.73, c: "#C60001", parent: "Interest" },
-  { name: "Finance Division",       pct: 13.54, c: "#997B50", parent: "Public Services" },
-  { name: "LG & Rural Dev",         pct: 6.88,  c: "#96CEB4", parent: "Local Govt" },
-  { name: "Agri Ministry",          pct: 5.80,  c: "#019933", parent: "Agriculture" },
-  { name: "Roads & Railways",       pct: 5.51,  c: "#B0832B", parent: "Transport" },
-  { name: "Min of Education",       pct: 5.44,  c: "#0185C6", parent: "Education" },
-  { name: "Defence Ministry",       pct: 5.32,  c: "#7D0066", parent: "Defence" },
-  { name: "Power Division",         pct: 4.51,  c: "#FF6B35", parent: "Energy" },
-  { name: "Primary & Mass Edu",     pct: 4.24,  c: "#0185C6", parent: "Education" },
-  { name: "Home Affairs",           pct: 3.79,  c: "#FFEAA7", parent: "Public Order" },
-  { name: "Health Services",        pct: 3.62,  c: "#4ECDC4", parent: "Health" },
-  { name: "Foreign Interest",       pct: 1.68,  c: "#C60001", parent: "Interest" },
-  { name: "Health Family",          pct: 1.40,  c: "#4ECDC4", parent: "Health" },
-  { name: "Bridges Division",       pct: 2.10,  c: "#B0832B", parent: "Transport" },
-  { name: "Social Welfare",         pct: 3.20,  c: "#45B7D1", parent: "Social Security" },
-  { name: "Disaster Mgmt",          pct: 1.90,  c: "#45B7D1", parent: "Social Security" },
-  { name: "Energy & Mineral",       pct: 1.42,  c: "#FF6B35", parent: "Energy" },
-  { name: "Water Resources",        pct: 1.20,  c: "#019933", parent: "Agriculture" },
-  { name: "Posts & Telecom",        pct: 0.96,  c: "#0185C6", parent: "Education" },
-  { name: "Public Service",         pct: 1.10,  c: "#997B50", parent: "Public Services" },
-  { name: "Housing & Works",        pct: 1.05,  c: "#A8E6CF", parent: "Housing" },
-  { name: "Cabinet Division",       pct: 0.88,  c: "#997B50", parent: "Public Services" },
-  { name: "Industries",             pct: 0.74,  c: "#FF8C94", parent: "Industry" },
-  { name: "Labour & Employment",    pct: 0.58,  c: "#FFEAA7", parent: "Public Order" },
-  { name: "Information",            pct: 0.45,  c: "#DDA0DD", parent: "Recreation" },
-  { name: "Foreign Affairs",        pct: 0.62,  c: "#997B50", parent: "Public Services" },
-  { name: "Commerce",               pct: 0.41,  c: "#FF8C94", parent: "Industry" },
+  { name: "Domestic Interest", pct: 16.29, c: "#C60001", parent: "Interest" },
+  { name: "Finance Division", pct: 12.97, c: "#997B50", parent: "Public Services" },
+  { name: "LG & Rural Dev", pct: 6.87, c: "#96CEB4", parent: "Local Govt" },
+  { name: "Defence Ministry", pct: 5.41, c: "#7D0066", parent: "Defence" },
+
+
+  { name: "Min of Education", pct: 5.28, c: "#0185C6", parent: "Education" },
+  { name: "Agri Ministry", pct: 5.23, c: "#019933", parent: "Agriculture" },
+
+  { name: "Power Division", pct: 4.44, c: "#FF6B35", parent: "Energy" },
+  { name: "Primary & Mass Edu", pct: 4.29, c: "#0185C6", parent: "Education" },
+  { name: "Roads & Railways", pct: 3.96, c: "#B0832B", parent: "Transport" },
+  { name: "Home Affairs", pct: 3.85, c: "#FFEAA7", parent: "Public Order" },
+  { name: "Health Services", pct: 3.10, c: "#4ECDC4", parent: "Health" },
+  { name: "Foreign Interest", pct: 2.45, c: "#C60001", parent: "Interest" },
+  { name: "Railway Ministry", pct: 2.33, c: "#4ECDC4", parent: "Transport" },
+
+  { name: "Water Resources", pct: 2.31, c: "#019933", parent: "Agriculture" },
+  { name: "Sciene & Tech", pct: 1.83, c: "#0185C6", parent: "Education" },
+  { name: "Social Welfare", pct: 1.81, c: "#45B7D1", parent: "Social Security" },
+  { name: "Disaster Mgmt", pct: 1.61, c: "#45B7D1", parent: "Social Security" },
+  { name: "Technical & Madrasah Education", pct: 1.35, c: "#0185C6", parent: "Education" },
+
+  { name: "Bridges Division", pct: 1.22, c: "#B0832B", parent: "Transport" },
+  { name: "Liberation War Affairs", pct: 1.14, c: "#45B7D1", parent: "Social Security" },
+  { name: "Ministry of Housing", pct: 1.07, c: "#A8E6CF", parent: "Housing" },
+  { name: "Food Division", pct: 1.05, c: "#997B50", parent: "Social Security" },
+
 ];
 
 // ────────────────────────────────────────────────────────────
@@ -79,58 +106,79 @@ const TREEMAP = [
 //    FY23–FY26 are MOCK values; replace as actuals are published.
 // ────────────────────────────────────────────────────────────
 const INTEREST_DATA = [
-  { fy: "FY09", d: 13839,  f: 1341 },
-  { fy: "FY10", d: 13497,  f: 1371 },
-  { fy: "FY11", d: 14200,  f: 1423 },
-  { fy: "FY12", d: 18803,  f: 1548 },
-  { fy: "FY13", d: 22322,  f: 1593 },
-  { fy: "FY14", d: 26601,  f: 1604 },
-  { fy: "FY15", d: 29436,  f: 1537 },
-  { fy: "FY16", d: 31468,  f: 1646 },
-  { fy: "FY17", d: 33249,  f: 1841 },
-  { fy: "FY18", d: 38160,  f: 3605 },
-  { fy: "FY19", d: 46015,  f: 3446 },
-  { fy: "FY20", d: 53995,  f: 4318 },
-  { fy: "FY21", d: 66319,  f: 4287 },
-  { fy: "FY22", d: 82670,  f: 9437 },
+  { fy: "FY09", d: 13839, f: 1341 },
+  { fy: "FY10", d: 13497, f: 1371 },
+  { fy: "FY11", d: 14200, f: 1423 },
+  { fy: "FY12", d: 18803, f: 1548 },
+  { fy: "FY13", d: 22322, f: 1593 },
+  { fy: "FY14", d: 26601, f: 1604 },
+  { fy: "FY15", d: 29436, f: 1537 },
+  { fy: "FY16", d: 31468, f: 1646 },
+  { fy: "FY17", d: 33249, f: 1841 },
+  { fy: "FY18", d: 38160, f: 3605 },
+  { fy: "FY19", d: 46015, f: 3446 },
+  { fy: "FY20", d: 53995, f: 4318 },
+  { fy: "FY21", d: 66319, f: 4287 },
+  { fy: "FY22", d: 73225, f: 4554 },
   // ── edit / extend below ─────────────────────────────────
-  { fy: "FY23", d: 95400,  f: 11200 },
-  { fy: "FY24", d: 108600, f: 13500 },
-  { fy: "FY25", d: 122800, f: 16100 },
-  { fy: "FY26", d: 138000, f: 19000 },
+  { fy: "FY23", d: 82670, f: 9437 },
+  { fy: "FY24", d: 99606, f: 14984 },
+  { fy: "FY25", d: 99500, f: 22000 },
+  { fy: "FY26", d: 100000, f: 22000 },
+  { fy: "FY27", d: null, f: null }, // ⟶ GO-LIVE FY27: domestic / foreign interest (Crore Tk)
 ];
 
 const NEWS = [
-  { tag: "ANALYSIS", tagColor: "#0185C6", c1: "#0d2847", c2: "#0185C6",
+  {
+    tag: "ANALYSIS", tagColor: "#0185C6", c1: "#0d2847", c2: "#0185C6",
     headline: "Public administration leaps to ৳23.5 of every ৳100 — what's behind the spike?",
     dek: "FY26 reclassifies several line items into the public-administration bucket. Here is what we know.",
-    date: "Jun 5, 2025", author: "Mahmudul Hasan", read: "8 min read" },
-  { tag: "POLICY", tagColor: "#B0832B", c1: "#3a2a15", c2: "#B0832B",
+    date: "Jun 5, 2025", author: "Mahmudul Hasan", read: "8 min read"
+  },
+  {
+    tag: "POLICY", tagColor: "#B0832B", c1: "#3a2a15", c2: "#B0832B",
     headline: "Interest payments now consume ৳15.4 of every taka — the trap of debt",
     dek: "Domestic interest is up sixfold since FY09. Foreign interest has grown even faster.",
-    date: "Jun 5, 2025", author: "Tasnim Rahman", read: "12 min read" },
-  { tag: "BUSINESS", tagColor: "#019933", c1: "#0a2818", c2: "#019933",
+    date: "Jun 5, 2025", author: "Tasnim Rahman", read: "12 min read"
+  },
+  {
+    tag: "BUSINESS", tagColor: "#019933", c1: "#0a2818", c2: "#019933",
     headline: "Subsidy bill nearly doubles in three years as power and fertiliser costs balloon",
     dek: "FY22 subsidies stood at ৳5.8. By FY25 the share had climbed to ৳11.",
-    date: "Jun 4, 2025", author: "Refaul Karim", read: "6 min read" },
-  { tag: "EDITORIAL", tagColor: "#7D0066", c1: "#2a0a22", c2: "#7D0066",
+    date: "Jun 4, 2025", author: "Refaul Karim", read: "6 min read"
+  },
+  {
+    tag: "EDITORIAL", tagColor: "#7D0066", c1: "#2a0a22", c2: "#7D0066",
     headline: "A budget of compression: education and energy lose their margins",
     dek: "Two pillars of long-run growth are quietly being squeezed. The cost will not show until later.",
-    date: "Jun 4, 2025", author: "The Editorial Board", read: "4 min read" },
-  { tag: "OPINION", tagColor: "#C60001", c1: "#2a0508", c2: "#C60001",
+    date: "Jun 4, 2025", author: "The Editorial Board", read: "4 min read"
+  },
+  {
+    tag: "OPINION", tagColor: "#C60001", c1: "#2a0508", c2: "#C60001",
     headline: "The 97% implementation rate hides a story of compressed ambition",
     dek: "When you spend everything you promise, you have probably promised too little.",
-    date: "Jun 3, 2025", author: "Dr. Selima Ahmed", read: "9 min read" },
-  { tag: "EXPLAINER", tagColor: "#0185C6", c1: "#0d2847", c2: "#45B7D1",
+    date: "Jun 3, 2025", author: "Dr. Selima Ahmed", read: "9 min read"
+  },
+  {
+    tag: "EXPLAINER", tagColor: "#0185C6", c1: "#0d2847", c2: "#45B7D1",
     headline: "What is a 'proposed' budget, and why does it keep growing 14% a year?",
     dek: "A short reader on how Bangladesh's budget is drafted, debated, and rarely shrunk.",
-    date: "Jun 3, 2025", author: "Digital Team", read: "5 min read" },
+    date: "Jun 3, 2025", author: "Digital Team", read: "5 min read"
+  },
 ];
+
+/* ============================================================
+   LAUNCH FLAG — flip to false once FY27 budget data is entered.
+   true  = show the pre-launch hero (countdown to 11 Jun 2026)
+   false = show the normal proposed-budget hero
+============================================================ */
+const PRELAUNCH = true;
+window.PRELAUNCH = PRELAUNCH;
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "heroNumber": "৳7,97,000",
-  "heroUnit": "কোটি",
-  "heroDelta": "+3.6% vs FY25",
+  "heroUnit": "Crore",
+  "heroDelta": "+3.6% vs FY26",
   "activeNav": "Home",
   "gradient": "navy",
   "showStrip": true
@@ -174,7 +222,7 @@ function Nav({ active }) {
             <a key={l.name} href={l.href} className={"nav-link " + (l.name === active ? "active" : "")}>{l.name}</a>
           ))}
         </div>
-        <span className="nav-badge"><span className="nav-live-dot" aria-hidden="true"></span>Budget FY26</span>
+        <span className="nav-badge"><span className="nav-live-dot" aria-hidden="true"></span>Budget {BUDGET.proposed}</span>
       </div>
       <div className="nav-progress" aria-hidden="true" style={{ transform: `scaleX(${progress})` }}></div>
     </div>
@@ -213,16 +261,16 @@ function Hero({ tweaks }) {
 
       <div className="hero-content">
         <div className="hero-eyebrow">Bangladesh National Budget</div>
-        <div className="hero-fy">FY 2025—26</div>
+        <div className="hero-fy">FY 2026-27</div>
         <div className="hero-num">
-          <CountUp value={heroNum} prefix={heroPrefix} locale="en-IN" duration={2000}/>
+          <CountUp value={heroNum} prefix={heroPrefix} locale="en-IN" duration={2000} />
           <span className="unit">{tweaks.heroUnit}</span>
         </div>
         <div className="hero-cap">Total proposed expenditure — the largest in Bangladesh's history</div>
         <div className="hero-pills">
           <span className="pill green"><span className="dot"></span>{tweaks.heroDelta}</span>
           <span className="pill blue">14.9% of GDP</span>
-          <span className="pill">97% implementation FY23</span>
+          <span className="pill">87% implementation FY25</span>
         </div>
       </div>
 
@@ -234,28 +282,29 @@ function Hero({ tweaks }) {
                 <span className="hero-ticker-item" key={i}>
                   <span className="tk-dot" style={{ background: s.color }}></span>
                   <span className="tk-name">{s.name}</span>
-                  <span className="tk-val">৳{s.fy26}</span>
+                  <span className="tk-val">৳{s.proposed}</span>
                 </span>
               ))}
             </div>
           </div>
           <div className="wrap hero-strip-inner">
-            <div className="hero-strip-cell">
-              <div className="lbl">Public administration</div>
-              <div className="num"><CountUp value={23.5} decimals={1} prefix="৳"/> <span className="delta">▲ +16.5</span></div>
-            </div>
-            <div className="hero-strip-cell">
-              <div className="lbl">Interest payments</div>
-              <div className="num"><CountUp value={15.4} decimals={1} prefix="৳"/> <span className="delta">▲ +1.4</span></div>
-            </div>
-            <div className="hero-strip-cell">
-              <div className="lbl">Education & tech</div>
-              <div className="num"><CountUp value={14.0} decimals={1} prefix="৳"/> <span className="delta flat">— flat</span></div>
-            </div>
-            <div className="hero-strip-cell">
-              <div className="lbl">Transport</div>
-              <div className="num"><CountUp value={9.0} decimals={1} prefix="৳"/> <span className="delta red">▼ −1.0</span></div>
-            </div>
+            {[
+              { key: "publicadmin", lbl: "Public administration" },
+              { key: "interest", lbl: "Interest payments" },
+              { key: "education", lbl: "Education & tech" },
+              { key: "transport", lbl: "Transport" },
+            ].map(({ key, lbl }) => {
+              const s = TAKA_SECTORS.find(x => x.key === key);
+              const delta = (s.proposed != null && s.revised != null) ? +(s.proposed - s.revised).toFixed(1) : 0;
+              const cls = delta > 0 ? "" : delta < 0 ? "red" : "flat";
+              const arrow = delta > 0 ? "▲ +" + delta.toFixed(1) : delta < 0 ? "▼ −" + Math.abs(delta).toFixed(1) : "— flat";
+              return (
+                <div className="hero-strip-cell" key={key}>
+                  <div className="lbl">{lbl}</div>
+                  <div className="num"><CountUp value={s.proposed} decimals={1} prefix="৳" /> <span className={"delta " + cls}>{arrow}</span></div>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
@@ -264,4 +313,110 @@ function Hero({ tweaks }) {
   );
 }
 
-Object.assign(window, { Nav, Hero });
+/* ============================================================
+   PRE-LAUNCH HERO  — shown when PRELAUNCH === true.
+   Frames the site as a historical budget archive and counts down
+   to the FY 2026—27 National Budget being presented in Parliament.
+   No "proposed total" is shown (it isn't announced yet) — this hero
+   sells the archive + the live countdown instead.
+============================================================ */
+
+// Target anchored to a fixed timezone (UTC+6, Dhaka) so the countdown is
+// correct for every visitor regardless of their local clock. Edit if the
+// presentation time changes.
+const BUDGET_DATETIME = new Date("2026-06-11T18:00:00+06:00"); // 6:00 PM Dhaka
+
+function PreLaunchHero() {
+  // ── live 1-second tick, single interval, cleaned up on unmount ──
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const diff = BUDGET_DATETIME.getTime() - now;
+  const passed = diff <= 0;
+  const total = Math.max(0, Math.floor(diff / 1000));
+  const days = Math.floor(total / 86400);
+  const hours = Math.floor((total % 86400) / 3600);
+  const mins = Math.floor((total % 3600) / 60);
+  const secs = total % 60;
+  const units = [
+    { v: days, one: "Day", many: "Days" },
+    { v: hours, one: "Hour", many: "Hours" },
+    { v: mins, one: "Minute", many: "Minutes" },
+    { v: secs, one: "Second", many: "Seconds" },
+  ];
+
+  // Dynamic archive span, backed by real data with a safe editorial fallback.
+  const covered = (typeof GDP_DATA !== "undefined" ? GDP_DATA : []).filter(d => d && d.pct != null);
+  const startYear = covered.length ? fyToYear(covered[0].fy) : 2009;
+  const endYear = covered.length ? fyToYear(covered[covered.length - 1].fy) : 2026;
+  const span = fyToSpan("FY27"); // "FY 2026—27"
+
+  return (
+    <section className="hero pl-hero" data-screen-label="01 Hero (Pre-launch)"
+      aria-labelledby="pl-headline">
+      <div className="hero-bg">
+        <video
+          className="hero-video"
+          src="assets/bangladesh.mp4"
+          poster="assets/bangladesh-poster.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        ></video>
+        <div className="hero-bg-tint"></div>
+        <div className="hero-bg-vignette"></div>
+      </div>
+      <div className="hero-dots"></div>
+      <div className="hero-glow"></div>
+      <div className="hero-taka-float" aria-hidden="true">
+        <span>৳</span><span>৳</span><span>৳</span><span>৳</span><span>৳</span><span>৳</span>
+      </div>
+
+      <div className="hero-content pl-content">
+        <div className="hero-eyebrow">Bangladesh National Budget · Archive</div>
+
+        <h1 id="pl-headline" className="pl-headline">
+          Eighteen years of the national budget,<br className="pl-br" /> in one place.
+        </h1>
+        <div className="pl-subhead">FY {startYear} → {endYear} — every taka, traced.</div>
+
+        <div className="pl-countdown-block">
+          <div className="pl-frame">
+            The {span} National Budget will be presented in Parliament on
+            <strong> 11 June 2026</strong>.
+          </div>
+
+          {passed ? (
+            <div className="pl-passed" role="status">
+              The {span} Budget has been presented — figures coming soon.
+            </div>
+          ) : (
+            <div className="pl-countdown" role="timer" aria-hidden="true">
+              {units.map((u, i) => (
+                <React.Fragment key={u.one}>
+                  {i > 0 && <span className="pl-sep" aria-hidden="true"></span>}
+                  <div className="pl-unit">
+                    <span className="pl-digit">{String(u.v).padStart(2, "0")}</span>
+                    <span className="pl-ulabel">{u.v === 1 ? u.one : u.many}</span>
+                  </div>
+                </React.Fragment>
+              ))}
+            </div>
+          )}
+
+          <div className="pl-reassure">
+            This site updates with the new figures within hours of the announcement.
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+Object.assign(window, { Nav, Hero, PreLaunchHero });

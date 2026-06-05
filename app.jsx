@@ -4,8 +4,9 @@ function App() {
   return (
     <>
       <Nav active={tweaks.activeNav}/>
-      <Hero tweaks={tweaks}/>
+      {PRELAUNCH ? <PreLaunchHero/> : <Hero tweaks={tweaks}/>}
       <TakaSection/>
+      <CalcSection/>
       <GDPSection/>
       <Treemap/>
       <DebtSection/>

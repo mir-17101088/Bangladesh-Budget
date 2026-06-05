@@ -1,0 +1,356 @@
+/* ============================================================
+   HOUSEHOLD CALCULATOR — home page styles (REDESIGN · Task 6)
+   ------------------------------------------------------------
+   Built with the frontend-design skill, kept inside the site's
+   editorial language: shared tokens from styles.css (--serif/--ui/
+   --body/--bn, ink ramp, accents, motion) + the .glass panel.
+   Fully fluid — clamp()/min()/max() + auto-fit grids, no fixed
+   pixel breakpoints, no fixed heights. All classes are cx-scoped.
+============================================================ */
+
+.s-calc {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(1,133,198,0.30) 0%, transparent 62%),
+    radial-gradient(ellipse 60% 50% at 50% 0%,  rgba(1,133,198,0.10) 0%, transparent 60%),
+    linear-gradient(180deg, #2b3441 0%, #2a3b52 100%);
+  overflow: clip;
+}
+
+/* ---------------------------------------------------------------
+   THE BRIDGE — narrative zoom from the nation's note into the home
+--------------------------------------------------------------- */
+.cx-bridge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(14px, 2vw, 20px);
+  margin: 0 auto clamp(48px, 7vw, 84px);
+  max-width: 640px;
+}
+.cx-bridge-line {
+  width: 1px;
+  height: clamp(34px, 6vw, 60px);
+  background: linear-gradient(180deg, transparent, var(--eyebrow));
+  opacity: 0.55;
+}
+.cx-bridge-coin {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 500;
+  color: #fff;
+  width: clamp(58px, 9vw, 76px);
+  height: clamp(58px, 9vw, 76px);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, rgba(111,199,238,0.30), rgba(1,133,198,0.12));
+  border: 1px solid rgba(111,199,238,0.45);
+  box-shadow: 0 0 0 6px rgba(1,133,198,0.10), 0 18px 50px -20px rgba(1,133,198,0.8);
+}
+.cx-bridge-text {
+  font-family: var(--body);
+  font-size: clamp(16px, 1.6vw, 20px);
+  line-height: 1.5;
+  color: var(--g2);
+  text-wrap: balance;
+  margin: 0;
+}
+.cx-bridge-text em { color: #fff; font-style: italic; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .cx-bridge-line { transform: scaleY(0); transform-origin: top; transition: transform .7s var(--ease-out); }
+  .cx-bridge-coin { opacity: 0; transform: translateY(10px) scale(.9); transition: opacity .6s var(--ease-out) .25s, transform .6s var(--ease-spring) .25s; }
+  .cx-bridge-text { opacity: 0; transform: translateY(10px); transition: opacity .6s var(--ease-out) .45s, transform .6s var(--ease-out) .45s; }
+  .cx-bridge.in .cx-bridge-line { transform: scaleY(1); }
+  .cx-bridge.in .cx-bridge-coin { opacity: 1; transform: none; }
+  .cx-bridge.in .cx-bridge-text { opacity: 1; transform: none; }
+}
+
+/* ---------------------------------------------------------------
+   LAYOUT — two fluid panels that reflow to a single column
+--------------------------------------------------------------- */
+.cx-wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: clamp(20px, 3vw, 52px);
+  align-items: start;
+}
+.cx-panel {
+  border-radius: clamp(16px, 1.6vw, 24px);
+  padding: clamp(22px, 3vw, 46px);
+  min-width: 0;
+}
+.cx-left {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 2.4vw, 30px);
+}
+
+/* Illustrative pill — honest framing, stays put */
+.cx-illus {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ui);
+  font-size: clamp(9px, 0.8vw, 10px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f0c060;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(176,131,43,0.15);
+  border: 1px solid rgba(176,131,43,0.4);
+}
+
+.cx-q {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.6vw, 34px);
+  line-height: 1.18;
+  color: #fff;
+  margin: 0;
+  text-wrap: pretty;
+}
+.cx-q em { color: #6fc7ee; font-style: italic; font-weight: 400; }
+
+/* ---------- Slider ---------- */
+.cx-slider { display: flex; flex-direction: column; gap: clamp(14px, 1.8vw, 20px); }
+.cx-slider-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.cx-slider-lbl {
+  font-family: var(--ui);
+  font-size: clamp(10px, 0.9vw, 11px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.cx-slider-val {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.4vw, 44px);
+  color: #fff;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.cx-unit {
+  font-family: var(--bn);
+  font-size: 0.42em;
+  color: var(--ink-3);
+  margin-left: 6px;
+  vertical-align: 0.25em;
+}
+
+.cx-track {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.09);
+  margin-top: clamp(20px, 3vw, 30px); /* room for the value bubble */
+}
+.cx-fill {
+  position: absolute; left: 0; top: 0; height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0185C6, #6fc7ee);
+  box-shadow: 0 0 18px rgba(1,133,198,0.55);
+}
+.cx-thumb {
+  position: absolute; top: 50%;
+  width: 24px; height: 24px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #ffffff, #dfeefa);
+  box-shadow: 0 0 0 4px rgba(1,133,198,0.28), 0 6px 16px rgba(0,0,0,0.45);
+  pointer-events: none;
+}
+.cx-bubble {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  transform: translateX(-50%);
+  font-family: var(--ui);
+  font-size: clamp(11px, 1vw, 13px);
+  font-weight: 700;
+  color: #06243a;
+  white-space: nowrap;
+  padding: 5px 11px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #9fdcff, #6fc7ee);
+  box-shadow: 0 8px 22px -8px rgba(1,133,198,0.9);
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+.cx-bubble::after {
+  content: "";
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #6fc7ee;
+}
+/* 44px-tall invisible hit area centred on the slim visual track */
+.cx-input {
+  position: absolute; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 100%; height: 44px; margin: 0;
+  opacity: 0; cursor: pointer; touch-action: pan-y;
+}
+.cx-ticks {
+  display: flex; justify-content: space-between;
+  font-family: var(--ui);
+  font-size: clamp(9px, 0.85vw, 10px);
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cx-fill   { transition: width .35s var(--ease-out); }
+  .cx-thumb  { transition: left .35s var(--ease-out); }
+  .cx-bubble { transition: left .35s var(--ease-out); }
+}
+
+/* ---------- Bracket ladder ---------- */
+.cx-ladder {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(6px, 0.8vw, 10px);
+}
+.cx-rung {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px clamp(8px, 1vw, 13px);
+  border-radius: 11px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.025);
+  color: var(--ink-4);
+  min-width: 0;
+}
+.cx-rung-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+.cx-rung-lbl {
+  font-family: var(--ui);
+  font-size: clamp(9.5px, 0.85vw, 11px);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cx-rung.on {
+  border-color: color-mix(in srgb, var(--rc) 55%, transparent);
+  background: color-mix(in srgb, var(--rc) 16%, transparent);
+  color: #fff;
+}
+.cx-rung.on .cx-rung-dot { opacity: 1; box-shadow: 0 0 10px var(--rc); }
+@media (prefers-reduced-motion: no-preference) {
+  .cx-rung { transition: background .3s var(--ease-out), border-color .3s var(--ease-out), color .3s var(--ease-out); }
+}
+
+.cx-note {
+  font-family: var(--body);
+  font-size: clamp(14px, 1.2vw, 15px);
+  line-height: 1.6;
+  color: var(--g3);
+  margin: 0;
+}
+.cx-note b { color: #fff; font-weight: 600; }
+.cx-note .cx-up { color: #ff7676; }
+
+/* ---------------------------------------------------------------
+   RIGHT — donut + legend
+--------------------------------------------------------------- */
+.cx-right { display: flex; flex-direction: column; gap: clamp(18px, 2.2vw, 28px); }
+.cx-right-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 12px; flex-wrap: wrap;
+}
+
+.cx-pie-wrap {
+  position: relative;
+  width: min(100%, 360px);
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+.cx-pie { width: 100%; height: 100%; display: block; overflow: visible; }
+.cx-pie-track { stroke: rgba(255,255,255,0.05); }
+.cx-arc {
+  stroke-linecap: butt;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cx-arc {
+    transition: stroke-dasharray .55s var(--ease-spring),
+                stroke-dashoffset .55s var(--ease-spring),
+                opacity .25s var(--ease-out);
+  }
+  .cx-arc-lbl { transition: transform .55s var(--ease-spring), opacity .3s var(--ease-out); }
+}
+.cx-arc-lbl {
+  font-family: var(--ui);
+  font-size: 5px;
+  font-weight: 700;
+  fill: #fff;
+  paint-order: stroke;
+  dominant-baseline: middle;
+}
+
+.cx-pie-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+.cx-pie-center .e {
+  font-family: var(--ui);
+  font-size: clamp(8px, 0.9vw, 10px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.cx-pie-center .n {
+  font-family: var(--serif);
+  font-size: clamp(38px, 7vw, 58px);
+  color: #fff;
+  line-height: 1;
+  margin: 5px 0;
+}
+.cx-pie-center .s {
+  font-family: var(--ui);
+  font-size: clamp(9px, 0.95vw, 11px);
+  color: var(--ink-3);
+}
+
+/* ---------- Legend ---------- */
+.cx-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: clamp(6px, 0.9vw, 10px) clamp(10px, 1.4vw, 16px);
+}
+.cx-leg {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 8px;
+  margin: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  min-width: 0;
+}
+.cx-leg:hover, .cx-leg:focus-visible { background: rgba(255,255,255,0.05); outline: none; }
+.cx-sw { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+.cx-nm {
+  font-family: var(--ui); font-size: clamp(11px, 1vw, 12.5px);
+  color: var(--g2); flex: 1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cx-vl {
+  font-family: var(--ui); font-size: clamp(11px, 1vw, 12.5px);
+  font-weight: 700; color: #fff; font-variant-numeric: tabular-nums;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cx-leg { transition: background .2s var(--ease-out), opacity .25s var(--ease-out); }
+}
+.cx-leg.dim { opacity: 0.4; }

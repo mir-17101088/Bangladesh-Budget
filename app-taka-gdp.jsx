@@ -7,8 +7,9 @@ function TakaSection() {
   const [active, setActive] = useState2("education");
   const [hover, setHover] = useState2(null);
   const expandRef = useRef2(null);
-  const total = TAKA_SECTORS.reduce((a, s) => a + s.fy26, 0); // ~100
+  const total = TAKA_SECTORS.reduce((a, s) => a + (s.actual || 0), 0); // ~100, Actual year
   const sector = TAKA_SECTORS.find(s => s.key === active);
+  const actualSpan = fyToSpan(BUDGET.actual); // e.g. "FY 2023—24"
 
   const selectSector = (key, scroll) => {
     setActive(key);
@@ -39,9 +40,10 @@ function TakaSection() {
       <div className="wrap">
         <div className="section-head" style={{ textAlign: "center", margin: "0 auto 56px" }}>
           <span className="eyebrow" style={{ color: "#6fc7ee" }}>The signature view</span>
-          <h2 style={{ marginBottom: 16 }}>Where Does Every ৳100 Go?</h2>
+          <h2 style={{ marginBottom: 16 }}>Where did your ৳100 go?</h2>
           <p className="lede" style={{ margin: "0 auto", maxWidth: 620 }}>
-            Hover or tap a sliver of the note to follow its share of every taka spent — five fiscal years at a glance.
+            Hover or tap a sliver of the note to follow each sector's share of every taka the
+            government actually spent in {actualSpan} — the most recent audited year.
           </p>
         </div>
 
@@ -49,7 +51,7 @@ function TakaSection() {
           <img className="taka-img" src="assets/100_taka_note.jpg" alt="Bangladesh 100 Taka note"/>
           <div className="taka-overlay">
             {TAKA_SECTORS.map((s, idx) => {
-              const w = (s.fy26 / total) * 100;
+              const w = (s.actual / total) * 100;
               const isActive = active === s.key;
               const isHover = hover === s.key;
               return (
@@ -59,7 +61,7 @@ function TakaSection() {
                   style={{ width: w + "%", background: s.color }}
                   role="button"
                   tabIndex={0}
-                  aria-label={s.name + ": ৳" + s.fy26 + " of every ৳100 spent, FY26"}
+                  aria-label={s.name + ": ৳" + s.actual + " of every ৳100 spent, " + BUDGET.actual}
                   aria-pressed={isActive}
                   onMouseEnter={() => setHover(s.key)}
                   onMouseLeave={() => setHover(null)}
@@ -78,13 +80,13 @@ function TakaSection() {
                   }}
                 >
                   {(w > 4 || isHover || isActive) && (
-                    <span className="seg-num">৳{s.fy26}</span>
+                    <span className="seg-num">৳{s.actual}</span>
                   )}
                   {isHover && (
                     <div className="taka-tooltip">
                       <b>{s.name}</b>
-                      <span className="t-amt" style={{ color: s.color }}>৳{s.fy26}</span>
-                      <span style={{ color: "#8B939F", fontSize: 11 }}>per ৳100 spent · FY26</span>
+                      <span className="t-amt" style={{ color: s.color }}>৳{s.actual}</span>
+                      <span style={{ color: "#8B939F", fontSize: 11 }}>per ৳100 spent · {BUDGET.actual}</span>
                     </div>
                   )}
                 </div>
@@ -108,7 +110,7 @@ function TakaSection() {
             >
               <span className="sw" style={{ background: s.color }}></span>
               {s.name}
-              <span className="chip-val">৳{s.fy26}</span>
+              <span className="chip-val">৳{s.actual}</span>
             </button>
           ))}
         </div>
@@ -116,37 +118,45 @@ function TakaSection() {
         <div ref={expandRef} className="taka-expand glass" style={{ "--accent": sector.color }}>
           <div className="taka-expand-head">
             <div>
-              <span className="eyebrow" style={{ color: sector.color }}>Sector trend · FY22 → FY26</span>
+              <span className="eyebrow" style={{ color: sector.color }}>Sector trend · {BUDGET.years[0]} → {BUDGET.proposed}</span>
               <h3>{sector.name} — out of every ৳100</h3>
             </div>
             <div style={{ textAlign: "right" }}>
-              <div className="cap">Latest FY26</div>
+              <div className="cap">Actual {BUDGET.actual}</div>
               <div style={{ fontFamily: "var(--serif)", fontSize: 40, color: sector.color, lineHeight: 1, marginTop: 4 }}>
-                <CountUp value={sector.fy26} decimals={1} prefix="৳" duration={1400}/>
+                <CountUp value={sector.actual} decimals={1} prefix="৳" duration={1400}/>
               </div>
             </div>
           </div>
 
           <div className="taka-bars">
-            {sector.series.map((v, i) => {
-              const max = Math.max(...sector.series) * 1.15;
-              const h = (v / max) * 100;
-              const isLast = i === sector.series.length - 1;
-              return (
-                <div key={i} className={"taka-bar " + (isLast ? "active" : "")}>
-                  <div style={{ flex: 1, width: "100%", display: "flex", alignItems: "flex-end" }}>
-                    <div className="col grow-bar" style={{ "--target-h": h + "%", animationDelay: (i * 90) + "ms" }}>
-                      <span className="val"><CountUp value={v} decimals={1} prefix="৳" duration={1100}/></span>
+            {(() => {
+              const present = BUDGET.years.map(fy => sector.valueAt(fy)).filter(v => v != null);
+              const max = Math.max(...present) * 1.15;
+              return BUDGET.years.map((fy, i) => {
+                const v = sector.valueAt(fy);
+                const h = (v / max) * 100;
+                const status = BUDGET.statusOf(fy);   // actual | revised | proposed | historical
+                const tag = BUDGET.tagFor(fy);         // {label, cls} | null
+                const isActual = fy === BUDGET.actual;
+                return (
+                  <div key={fy} className={"taka-bar " + (isActual ? "active " : "") + status}>
+                    {tag && <span className={"fy-tag " + tag.cls}>{tag.label}</span>}
+                    {isActual && <span className="fy-actual-caption">Actual</span>}
+                    <div style={{ flex: 1, width: "100%", display: "flex", alignItems: "flex-end" }}>
+                      <div className="col grow-bar" style={{ "--target-h": h + "%", animationDelay: (i * 90) + "ms" }}>
+                        <span className="val"><CountUp value={v} decimals={1} prefix="৳" duration={1100}/></span>
+                      </div>
                     </div>
+                    <div className="yr">{fy}</div>
                   </div>
-                  <div className="yr">FY{22 + i}</div>
-                </div>
-              );
-            })}
+                );
+              });
+            })()}
           </div>
 
           <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-            <span className="cap">Y-axis: Taka per ৳100 spent · Source: Ministry of Finance</span>
+            <span className="cap">Y-axis: Taka per ৳100 spent · {BUDGET.years[0]} → {BUDGET.proposed} · Source: Ministry of Finance</span>
             <span className="cap" style={{ color: sector.color }}>● Selected: {sector.name}</span>
           </div>
         </div>
@@ -164,19 +174,21 @@ function GDPSection() {
   const [mode, setMode] = useState2("area");
   const [hoverIdx, setHoverIdx] = useState2(null);
   const W = 720, H = 340, pad = { l: 44, r: 30, t: 36, b: 36 };
-  const xs = (i) => pad.l + (i / (GDP_DATA.length - 1)) * (W - pad.l - pad.r);
-  const allPct = GDP_DATA.map(d => d.pct);
+  // Render only years that have data (drops the null FY27 placeholder).
+  const GDP = GDP_DATA.filter(d => typeof d.pct === "number" && isFinite(d.pct));
+  const xs = (i) => pad.l + (i / (GDP.length - 1)) * (W - pad.l - pad.r);
+  const allPct = GDP.map(d => d.pct);
   const yMin = Math.floor(Math.min(...allPct)) - 1;
   const yMax = Math.ceil(Math.max(...allPct)) + 1;
   const ys = (v) => pad.t + (1 - (v - yMin) / (yMax - yMin)) * (H - pad.t - pad.b);
-  const fy09 = GDP_DATA[0];
-  const last = GDP_DATA[GDP_DATA.length - 1];
-  const peak = GDP_DATA.reduce((a, b) => b.pct > a.pct ? b : a, GDP_DATA[0]);
-  const pandemicIdx = GDP_DATA.findIndex(d => d.fy === "FY20");
-  const peakIdx = GDP_DATA.indexOf(peak);
+  const fy09 = GDP[0];
+  const last = GDP[GDP.length - 1];
+  const peak = GDP.reduce((a, b) => b.pct > a.pct ? b : a, GDP[0]);
+  const pandemicIdx = GDP.findIndex(d => d.fy === "FY20");
+  const peakIdx = GDP.indexOf(peak);
 
-  const pathLine = GDP_DATA.map((d, i) => (i ? "L" : "M") + xs(i) + " " + ys(d.pct)).join(" ");
-  const pathArea = pathLine + " L" + xs(GDP_DATA.length - 1) + " " + (H - pad.b) + " L" + xs(0) + " " + (H - pad.b) + " Z";
+  const pathLine = GDP.map((d, i) => (i ? "L" : "M") + xs(i) + " " + ys(d.pct)).join(" ");
+  const pathArea = pathLine + " L" + xs(GDP.length - 1) + " " + (H - pad.b) + " L" + xs(0) + " " + (H - pad.b) + " Z";
 
   // sliding window of integer y-ticks
   const yTicks = [];
@@ -222,7 +234,7 @@ function GDPSection() {
     const local = pt.matrixTransform(ctm.inverse());
     // nearest data index by x
     let best = 0, bd = Infinity;
-    for (let i = 0; i < GDP_DATA.length; i++) {
+    for (let i = 0; i < GDP.length; i++) {
       const d = Math.abs(local.x - xs(i));
       if (d < bd) { bd = d; best = i; }
     }
@@ -230,7 +242,7 @@ function GDPSection() {
   };
   const onLeave = () => setHoverIdx(null);
 
-  const hoverData = hoverIdx !== null ? GDP_DATA[hoverIdx] : null;
+  const hoverData = hoverIdx !== null ? GDP[hoverIdx] : null;
 
   return (
     <section className="s s-gdp" data-screen-label="03 GDP">
@@ -278,7 +290,7 @@ function GDPSection() {
               ))}
 
               {/* x labels — every other year so it doesn't crowd */}
-              {GDP_DATA.map((d, i) => (
+              {GDP.map((d, i) => (
                 i % 2 === 0 && (
                   <text key={d.fy} className="tick-label" x={xs(i)} y={H - 12} textAnchor="middle">{d.fy}</text>
                 )
@@ -323,9 +335,9 @@ function GDPSection() {
               />
 
               {/* points — fade-in with the sweep */}
-              {GDP_DATA.map((d, i) => {
+              {GDP.map((d, i) => {
                 const px = xs(i), py = ys(d.pct);
-                const progress = i / (GDP_DATA.length - 1);
+                const progress = i / (GDP.length - 1);
                 const visible = draw > progress * 0.92;
                 const isHover = hoverIdx === i;
                 return (
@@ -347,6 +359,19 @@ function GDPSection() {
                 <circle cx={xs(peakIdx)} cy={ys(peak.pct)} r="7" fill="none" stroke="#5fe093" strokeWidth="1.5" className="gdp-peak-pulse"/>
                 <text x={xs(peakIdx) - 10} y={ys(peak.pct) - 12} className="axis-label" fill="#5fe093" textAnchor="end">{peak.pct}%</text>
               </g>
+
+              {/* status marker on the latest (proposed) point */}
+              {(() => {
+                const meta = STATUS_META[BUDGET.statusOf(last.fy)];
+                if (!meta || !meta.tag) return null;
+                return (
+                  <text x={xs(GDP.length - 1)} y={ys(last.pct) - 14} textAnchor="end"
+                        className={"fy-tag-text " + meta.cls}
+                        style={{ fontFamily: "var(--ui)", fontSize: 10, letterSpacing: "0.12em" }}>
+                    {meta.tag.toUpperCase()}
+                  </text>
+                );
+              })()}
 
               {/* hover crosshair + label */}
               {hoverData && (
@@ -374,7 +399,7 @@ function GDPSection() {
 
             {/* HTML tooltip — flip to the LEFT of the point when near the right edge */}
             {hoverData && (() => {
-              const flipLeft = hoverIdx >= GDP_DATA.length - 4;
+              const flipLeft = hoverIdx >= GDP.length - 4;
               const xPct = (xs(hoverIdx) / W) * 100;
               const yPct = (ys(hoverData.pct) / H) * 100;
               return (

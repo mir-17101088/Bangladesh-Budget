@@ -9,7 +9,6 @@ function PriceApp() {
       <ItemSection kind="down" items={CHEAPER}/>
       <TaxSection/>
       <SubsidySection/>
-      <CalcSection/>
       <Footer/>
 
       <TweaksPanel title="Tweaks">

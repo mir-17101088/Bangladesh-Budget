@@ -808,6 +808,148 @@ footer {
 .hero-strip-cell .delta.flat { color: var(--ink-3); }
 
 /* ============================================================
+   PRE-LAUNCH HERO  (.pl-*)  — countdown + archive
+   Native to the existing hero: reuses .hero, .hero-eyebrow, .pill.
+============================================================ */
+.pl-hero {
+  /* Content runs taller than the standard hero, so let it grow and
+     center within a generous min-height instead of clipping. */
+  padding: clamp(64px, 8vh, 104px) 0 clamp(56px, 8vh, 96px);
+}
+.pl-content { max-width: 920px; gap: 0; }
+
+.pl-headline {
+  font-family: var(--serif);
+  font-weight: 500;
+  color: #fff;
+  font-size: clamp(30px, 5.2vh, 60px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  margin: 0 0 clamp(8px, 1.4vh, 16px);
+  text-shadow: 0 4px 40px rgba(2,6,31,0.9), 0 2px 8px rgba(2,6,31,0.8);
+}
+.pl-subhead {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(16px, 2.4vh, 24px);
+  color: var(--ink-2);
+  opacity: 0.92;
+  margin-bottom: clamp(22px, 4vh, 44px);
+  text-shadow: 0 2px 18px rgba(2,6,31,0.85);
+}
+
+/* Countdown block — the centerpiece */
+.pl-countdown-block { display: flex; flex-direction: column; align-items: center; width: 100%; }
+.pl-frame {
+  font-family: var(--ui);
+  font-size: clamp(12px, 1.6vh, 14.5px);
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  max-width: 620px;
+  line-height: 1.5;
+  margin-bottom: clamp(16px, 2.6vh, 28px);
+  text-shadow: 0 2px 14px rgba(2,6,31,0.8);
+}
+.pl-frame strong { color: #fff; font-weight: 600; white-space: nowrap; }
+
+.pl-countdown {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(8px, 1.4vw, 18px);
+  flex-wrap: nowrap;
+}
+.pl-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 1vh, 10px);
+  min-width: clamp(68px, 13vw, 132px);
+  padding: clamp(14px, 2.2vh, 24px) clamp(8px, 1.6vw, 22px);
+  border-radius: 16px;
+  background: rgba(2,6,31,0.42);
+  border: 1px solid rgba(1,133,198,0.32);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.10) inset,
+    0 18px 50px -22px rgba(0,0,0,0.7);
+}
+.pl-digit {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(38px, 8vh, 92px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #ffffff 0%, #cfe7f5 60%, #7fb6dc 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 40px rgba(1,133,198,0.25)) drop-shadow(0 4px 16px rgba(2,6,31,0.8));
+}
+.pl-ulabel {
+  font-family: var(--ui);
+  font-size: clamp(9px, 1.2vh, 11px);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.pl-sep {
+  align-self: center;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(111,199,238,0.6);
+  flex: 0 0 auto;
+  margin-bottom: 22px; /* visually align with the digits, above the labels */
+}
+
+.pl-passed {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(20px, 3.4vh, 34px);
+  color: #fff;
+  max-width: 640px;
+  line-height: 1.25;
+  padding: clamp(20px, 3vh, 30px) clamp(22px, 3vw, 36px);
+  border-radius: 16px;
+  background: rgba(2,6,31,0.42);
+  border: 1px solid rgba(1,133,198,0.32);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  text-shadow: 0 2px 18px rgba(2,6,31,0.85);
+}
+
+.pl-reassure {
+  font-family: var(--body);
+  font-style: italic;
+  font-size: clamp(13px, 1.7vh, 16px);
+  color: var(--ink-3);
+  margin-top: clamp(18px, 3vh, 30px);
+  text-shadow: 0 2px 14px rgba(2,6,31,0.8);
+}
+
+/* ----- Pre-launch hero responsive ----- */
+@media (max-height: 600px) and (min-width: 641px) {
+  /* Very short landscape: top-align & let content flow so the eyebrow/headline
+     are never pushed above the fold by vertical centring. */
+  .pl-hero { display: block; min-height: 0; height: auto; }
+  .pl-hero .pl-content { margin: 0 auto; }
+}
+@media (max-width: 640px) {
+  .pl-headline { font-size: clamp(26px, 8vw, 38px); }
+  .pl-br { display: none; }
+  .pl-countdown { gap: 6px; }
+  .pl-unit { min-width: 0; flex: 1 1 0; padding: 14px 6px; border-radius: 12px; }
+  .pl-digit { font-size: clamp(30px, 11vw, 46px); }
+  .pl-ulabel { font-size: 9px; letter-spacing: 0.14em; }
+  .pl-sep { display: none; }
+  .pl-frame { font-size: 12.5px; padding: 0 6px; }
+}
+@media (max-width: 400px) {
+  .pl-unit { padding: 12px 4px; }
+  .pl-digit { font-size: clamp(26px, 11vw, 40px); }
+  .pl-ulabel { font-size: 8px; letter-spacing: 0.1em; }
+}
+
+/* ============================================================
    RESPONSIVE — tablet & mobile
 ============================================================ */
 
@@ -1072,7 +1214,7 @@ footer {
 ============================================================ */
 .tm-svg-wrap { position: relative; }
 .tm-list { display: none; }
-.chart-scroll { width: 100%; }
+.chart-scroll { width: 100%; position: relative; overflow: visible; }
 
 @media (max-width: 640px) {
   /* Wide charts: scroll horizontally instead of shrinking labels to ~4px */
