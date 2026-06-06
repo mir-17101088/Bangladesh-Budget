@@ -808,145 +808,296 @@ footer {
 .hero-strip-cell .delta.flat { color: var(--ink-3); }
 
 /* ============================================================
-   PRE-LAUNCH HERO  (.pl-*)  — countdown + archive
-   Native to the existing hero: reuses .hero, .hero-eyebrow, .pill.
+   PRE-LAUNCH HERO  (.pl-*)  —  "Throughout History"
+   An asymmetric editorial broadsheet cover: left-anchored display
+   type over a darkened cinematic field, a colossal gradient-clipped
+   ৳ as the signature layer, and a prominent live countdown dateline.
+   Reuses .hero scaffolding (video / dots / glow / floating ৳).
 ============================================================ */
 .pl-hero {
-  /* Content runs taller than the standard hero, so let it grow and
-     center within a generous min-height instead of clipping. */
-  padding: clamp(64px, 8vh, 104px) 0 clamp(56px, 8vh, 96px);
+  padding: clamp(76px, 9vh, 132px) 0 clamp(68px, 9vh, 116px);
 }
-.pl-content { max-width: 920px; gap: 0; }
+
+/* ---- Legibility veil: left-weighted so the type column always reads
+   crisply over the live footage, while the cinematic right side breathes ---- */
+.pl-veil {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    linear-gradient(100deg,
+      rgba(3,9,38,0.84) 0%, rgba(3,9,38,0.72) 24%, rgba(3,9,38,0.40) 50%,
+      rgba(3,9,38,0.12) 74%, rgba(3,9,38,0.02) 100%),
+    linear-gradient(0deg, rgba(3,9,38,0.55) 0%, rgba(3,9,38,0) 40%);
+}
+/* Quieter footage so the headline always wins */
+.pl-hero .hero-video { opacity: 0.72; }
+
+/* ---- Signature: a monumental ৳ bleeding off the right edge ---- */
+.pl-watermark {
+  position: absolute; z-index: 0; pointer-events: none; user-select: none;
+  top: 50%; right: clamp(-60px, -2vw, 0px);
+  transform: translateY(-50%);
+  font-family: var(--bn);
+  font-weight: 500;
+  font-size: clamp(440px, 58vw, 940px);
+  line-height: 0.8;
+  background: linear-gradient(158deg, rgba(159,216,245,0.22) 0%, rgba(1,133,198,0.11) 52%, rgba(1,133,198,0) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 90px rgba(1,133,198,0.18));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pl-watermark { animation: plWmIn 1.5s var(--ease-out) .1s both; }
+}
+@keyframes plWmIn {
+  from { opacity: 0; transform: translateY(-50%) scale(1.05); }
+  to   { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+
+/* ---- Editorial column: left-aligned within a centred measure ---- */
+.pl-content {
+  align-items: flex-start;
+  text-align: left;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 80px);
+}
+
+.pl-eyebrow {
+  display: inline-flex; align-items: center; gap: clamp(12px, 1.4vw, 18px);
+  font-family: var(--ui);
+  font-size: clamp(11px, 1.35vh, 13px);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--eyebrow);
+  margin: 0 0 clamp(16px, 2.6vh, 28px);
+  text-shadow: 0 2px 14px rgba(2,6,31,0.85);
+}
+.pl-eyebrow::before {
+  content: ""; width: clamp(30px, 4.5vw, 60px); height: 2px;
+  background: linear-gradient(90deg, var(--eyebrow), rgba(111,199,238,0));
+}
 
 .pl-headline {
   font-family: var(--serif);
-  font-weight: 500;
-  color: #fff;
-  font-size: clamp(30px, 5.2vh, 60px);
-  line-height: 1.04;
-  letter-spacing: -0.025em;
-  text-wrap: balance;
-  margin: 0 0 clamp(8px, 1.4vh, 16px);
-  text-shadow: 0 4px 40px rgba(2,6,31,0.9), 0 2px 8px rgba(2,6,31,0.8);
-}
-.pl-subhead {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(16px, 2.4vh, 24px);
-  color: var(--ink-2);
-  opacity: 0.92;
-  margin-bottom: clamp(22px, 4vh, 44px);
-  text-shadow: 0 2px 18px rgba(2,6,31,0.85);
-}
-
-/* Countdown block — the centerpiece */
-.pl-countdown-block { display: flex; flex-direction: column; align-items: center; width: 100%; }
-.pl-frame {
-  font-family: var(--ui);
-  font-size: clamp(12px, 1.6vh, 14.5px);
-  letter-spacing: 0.04em;
-  color: var(--ink-2);
-  max-width: 620px;
-  line-height: 1.5;
-  margin-bottom: clamp(16px, 2.6vh, 28px);
-  text-shadow: 0 2px 14px rgba(2,6,31,0.8);
-}
-.pl-frame strong { color: #fff; font-weight: 600; white-space: nowrap; }
-
-.pl-countdown {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  gap: clamp(8px, 1.4vw, 18px);
-  flex-wrap: nowrap;
-}
-.pl-unit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(6px, 1vh, 10px);
-  min-width: clamp(68px, 13vw, 132px);
-  padding: clamp(14px, 2.2vh, 24px) clamp(8px, 1.6vw, 22px);
-  border-radius: 16px;
-  background: rgba(2,6,31,0.42);
-  border: 1px solid rgba(1,133,198,0.32);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.10) inset,
-    0 18px 50px -22px rgba(0,0,0,0.7);
-}
-.pl-digit {
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(38px, 8vh, 92px);
-  line-height: 1;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-  background: linear-gradient(180deg, #ffffff 0%, #cfe7f5 60%, #7fb6dc 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 0 40px rgba(1,133,198,0.25)) drop-shadow(0 4px 16px rgba(2,6,31,0.8));
-}
-.pl-ulabel {
-  font-family: var(--ui);
-  font-size: clamp(9px, 1.2vh, 11px);
   font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  color: #fff;
+  font-size: clamp(54px, 11.5vh, 156px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin: 0 0 clamp(22px, 3.4vh, 44px);
+  text-shadow: 0 6px 54px rgba(2,6,31,0.88), 0 2px 10px rgba(2,6,31,0.8);
+}
+
+/* ---- Lede: the emotional hook gets pull-quote weight ---- */
+.pl-lede { margin: 0; max-width: 36ch; }
+.pl-lede-pre {
+  font-family: var(--ui);
+  font-size: clamp(13px, 1.5vh, 15px);
+  letter-spacing: 0.02em;
   color: var(--ink-3);
 }
-.pl-sep {
-  align-self: center;
-  width: 4px; height: 4px; border-radius: 50%;
-  background: rgba(111,199,238,0.6);
-  flex: 0 0 auto;
-  margin-bottom: 22px; /* visually align with the digits, above the labels */
+.pl-hook {
+  display: block;
+  margin-top: 6px;
+  max-width: 14em;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(22px, 3.5vh, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-wrap: balance;
+  text-shadow: 0 4px 32px rgba(2,6,31,0.85);
+}
+
+.pl-support {
+  font-family: var(--body);
+  font-size: clamp(15px, 1.95vh, 19px);
+  line-height: 1.5;
+  color: var(--ink-1);
+  max-width: 52ch;
+  margin: clamp(14px, 2vh, 22px) 0 clamp(22px, 3.4vh, 36px);
+  text-shadow: 0 2px 14px rgba(2,6,31,0.8);
+}
+.pl-support strong { color: #fff; font-weight: 600; }
+
+/* ---- Data-literacy legend: scannable chips, never prose ---- */
+.pl-legend {
+  list-style: none; margin: 0 0 clamp(30px, 4.6vh, 52px); padding: 0;
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.pl-chip {
+  display: inline-flex; align-items: baseline; gap: 9px;
+  padding: 8px 15px 8px 12px;
+  border-radius: 999px;
+  background: rgba(2,6,31,0.46);
+  border: 1px solid rgba(255,255,255,0.13);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  white-space: nowrap;
+}
+.pl-chip-fy {
+  font-family: var(--ui); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.06em; color: var(--eyebrow);
+  font-variant-numeric: tabular-nums;
+}
+.pl-chip-lab {
+  font-family: var(--ui); font-size: 11.5px; font-weight: 500;
+  letter-spacing: 0.03em; color: var(--ink-2);
+}
+
+/* ---- Prominent live countdown dateline ---- */
+.pl-count {
+  position: relative;
+  display: inline-flex; flex-direction: column;
+  gap: clamp(13px, 1.9vh, 19px);
+  max-width: 100%;
+  padding: clamp(18px, 2.6vh, 26px) clamp(20px, 2.4vw, 34px);
+  border-radius: 18px;
+  background:
+    linear-gradient(158deg, rgba(1,133,198,0.16) 0%, rgba(2,6,31,0.52) 58%),
+    rgba(2,6,31,0.52);
+  border: 1px solid rgba(1,133,198,0.42);
+  backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.10) inset,
+    0 0 80px -30px rgba(1,133,198,0.75),
+    0 30px 64px -32px rgba(0,0,0,0.78);
+}
+.pl-count-head {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px;
+}
+.pl-live {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ui); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #7fe3aa;
+}
+.pl-live-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #34d27b; box-shadow: 0 0 12px rgba(52,210,123,0.8);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pl-live-dot { animation: plPulse 2s ease-out infinite; }
+}
+@keyframes plPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(52,210,123,0.55), 0 0 12px rgba(52,210,123,0.8); }
+  70%  { box-shadow: 0 0 0 11px rgba(52,210,123,0), 0 0 12px rgba(52,210,123,0.8); }
+  100% { box-shadow: 0 0 0 0 rgba(52,210,123,0), 0 0 12px rgba(52,210,123,0.8); }
+}
+.pl-count-ctx {
+  font-family: var(--ui); font-size: clamp(11px, 1.4vh, 13px);
+  letter-spacing: 0.03em; color: var(--ink-3);
+}
+.pl-count-ctx strong { color: #fff; font-weight: 600; white-space: nowrap; }
+
+.pl-timer { display: flex; align-items: baseline; gap: clamp(12px, 1.4vw, 22px); }
+.pl-tu {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  min-width: clamp(54px, 6vw, 80px);
+}
+.pl-tnum {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(42px, 6.6vh, 78px);
+  line-height: 0.9; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #ffffff 0%, #d9edf9 54%, #84bbe0 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 4px 18px rgba(2,6,31,0.7));
+}
+.pl-tlab {
+  font-family: var(--ui); font-size: clamp(9px, 1.1vh, 11px);
+  font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.pl-colon {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(34px, 5.2vh, 60px);
+  line-height: 0.9; color: rgba(111,199,238,0.5);
+  font-variant-numeric: tabular-nums;
 }
 
 .pl-passed {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(20px, 3.4vh, 34px);
-  color: #fff;
-  max-width: 640px;
-  line-height: 1.25;
-  padding: clamp(20px, 3vh, 30px) clamp(22px, 3vw, 36px);
-  border-radius: 16px;
-  background: rgba(2,6,31,0.42);
-  border: 1px solid rgba(1,133,198,0.32);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(20px, 3.2vh, 30px); color: #fff; line-height: 1.25;
   text-shadow: 0 2px 18px rgba(2,6,31,0.85);
 }
 
-.pl-reassure {
+/* ---- Reassurance footer beneath the countdown ---- */
+.pl-foot {
   font-family: var(--body);
   font-style: italic;
-  font-size: clamp(13px, 1.7vh, 16px);
-  color: var(--ink-3);
-  margin-top: clamp(18px, 3vh, 30px);
-  text-shadow: 0 2px 14px rgba(2,6,31,0.8);
+  font-size: clamp(13px, 1.6vh, 16px);
+  line-height: 1.45;
+  color: var(--ink-2);
+  max-width: 48ch;
+  margin: clamp(16px, 2.4vh, 24px) 0 0;
+  text-shadow: 0 2px 12px rgba(2,6,31,0.78);
 }
 
-/* ----- Pre-launch hero responsive ----- */
+/* ---- Orchestrated load reveal (inherits heroRise from .hero-content > *) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .pl-content > .pl-eyebrow  { animation-delay: .06s; }
+  .pl-content > .pl-headline { animation-delay: .16s; }
+  .pl-content > .pl-lede     { animation-delay: .30s; }
+  .pl-content > .pl-support  { animation-delay: .42s; }
+  .pl-content > .pl-legend   { animation-delay: .52s; }
+  .pl-content > .pl-count    { animation-delay: .64s; }
+  .pl-content > .pl-foot     { animation-delay: .74s; }
+}
+
+/* ============================================================
+   Pre-launch hero — responsive
+============================================================ */
+/* Short landscape: top-align, flow, drop the watermark */
 @media (max-height: 600px) and (min-width: 641px) {
-  /* Very short landscape: top-align & let content flow so the eyebrow/headline
-     are never pushed above the fold by vertical centring. */
-  .pl-hero { display: block; min-height: 0; height: auto; }
-  .pl-hero .pl-content { margin: 0 auto; }
+  .pl-hero { display: block; min-height: 0; height: auto; padding: clamp(32px, 7vh, 56px) 0; }
+  .pl-watermark { display: none; }
+  .pl-headline { font-size: clamp(42px, 9.5vh, 70px); }
+  .pl-hook { font-size: clamp(22px, 5vh, 34px); }
+  .pl-tnum { font-size: clamp(32px, 7.5vh, 52px); }
 }
+
+/* Phones: confident heading, demoted detail, compact full-width countdown */
 @media (max-width: 640px) {
-  .pl-headline { font-size: clamp(26px, 8vw, 38px); }
-  .pl-br { display: none; }
-  .pl-countdown { gap: 6px; }
-  .pl-unit { min-width: 0; flex: 1 1 0; padding: 14px 6px; border-radius: 12px; }
-  .pl-digit { font-size: clamp(30px, 11vw, 46px); }
-  .pl-ulabel { font-size: 9px; letter-spacing: 0.14em; }
-  .pl-sep { display: none; }
-  .pl-frame { font-size: 12.5px; padding: 0 6px; }
+  .pl-hero { display: block; min-height: 0; padding: 44px 0 48px; }
+  .pl-content {
+    max-width: 100%;
+    padding-left: max(18px, env(safe-area-inset-left));
+    padding-right: max(18px, env(safe-area-inset-right));
+  }
+  .pl-watermark { display: none; }
+  .pl-veil {
+    background: linear-gradient(180deg, rgba(3,9,38,0.46) 0%, rgba(3,9,38,0.62) 50%, rgba(3,9,38,0.86) 100%);
+  }
+  .pl-hero .hero-video { opacity: 0.62; }
+  .pl-hero .hero-glow { width: 560px; height: 560px; }
+  .pl-headline { font-size: clamp(42px, 14.5vw, 62px); line-height: 0.96; margin-bottom: clamp(16px, 4vw, 26px); }
+  .pl-lede { max-width: 100%; }
+  .pl-hook { font-size: clamp(20px, 6.2vw, 29px); }
+  .pl-support { font-size: 14.5px; }
+  .pl-legend { gap: 8px; }
+  .pl-chip { padding: 7px 12px; }
+  .pl-chip-lab { font-size: 11px; }
+  .pl-count { display: flex; width: 100%; padding: 16px; border-radius: 14px; }
+  .pl-timer { justify-content: space-between; gap: 6px; width: 100%; }
+  .pl-tu { min-width: 0; flex: 1 1 0; }
+  .pl-tnum { font-size: clamp(30px, 10.5vw, 46px); }
+  .pl-tlab { font-size: 8.5px; letter-spacing: 0.12em; }
+  .pl-colon { font-size: clamp(22px, 7vw, 34px); }
 }
+
+/* ≤400px: tighten one more step */
 @media (max-width: 400px) {
-  .pl-unit { padding: 12px 4px; }
-  .pl-digit { font-size: clamp(26px, 11vw, 40px); }
-  .pl-ulabel { font-size: 8px; letter-spacing: 0.1em; }
+  .pl-headline { font-size: clamp(34px, 13.5vw, 48px); }
+  .pl-hook { font-size: clamp(18px, 6.8vw, 25px); }
+  .pl-lede-pre { font-size: 12.5px; }
+  .pl-support { font-size: 14px; }
+  .pl-count { padding: 14px 12px; }
+  .pl-tnum { font-size: clamp(26px, 11vw, 38px); }
+  .pl-tlab { font-size: 8px; letter-spacing: 0.08em; }
+  .pl-colon { display: none; }
 }
 
 /* ============================================================

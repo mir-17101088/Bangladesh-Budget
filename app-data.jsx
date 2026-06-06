@@ -348,10 +348,7 @@ function PreLaunchHero() {
     { v: secs, one: "Second", many: "Seconds" },
   ];
 
-  // Dynamic archive span, backed by real data with a safe editorial fallback.
-  const covered = (typeof GDP_DATA !== "undefined" ? GDP_DATA : []).filter(d => d && d.pct != null);
-  const startYear = covered.length ? fyToYear(covered[0].fy) : 2009;
-  const endYear = covered.length ? fyToYear(covered[covered.length - 1].fy) : 2026;
+  // FY 2026—27 — the budget this live countdown points to.
   const span = fyToSpan("FY27"); // "FY 2026—27"
 
   return (
@@ -378,42 +375,60 @@ function PreLaunchHero() {
         <span>৳</span><span>৳</span><span>৳</span><span>৳</span><span>৳</span><span>৳</span>
       </div>
 
+      <div className="pl-veil" aria-hidden="true"></div>
+      <div className="pl-watermark" aria-hidden="true">৳</div>
+
       <div className="hero-content pl-content">
-        <div className="hero-eyebrow">Bangladesh National Budget · Archive</div>
+        <p className="pl-eyebrow">Bangladesh National Budget</p>
 
-        <h1 id="pl-headline" className="pl-headline">
-          Eighteen years of the national budget,<br className="pl-br" /> in one place.
-        </h1>
-        <div className="pl-subhead">FY {startYear} → {endYear} — every taka, traced.</div>
+        <h1 id="pl-headline" className="pl-headline">Throughout History</h1>
 
-        <div className="pl-countdown-block">
-          <div className="pl-frame">
-            The {span} National Budget will be presented in Parliament on
-            <strong> 11 June 2026</strong>.
+        <p className="pl-lede">
+          <span className="pl-lede-pre">53 budgets since FY1972-73, but </span>
+          <span className="pl-hook">where did taxpayers’ money actually go?</span>
+        </p>
+        <p className="pl-support">
+          Take a look at <strong>The Daily Star’s</strong> breakdown of the country’s last 18 budgets.
+        </p>
+
+        <ul className="pl-legend" aria-label="What each year’s figures represent">
+          <li className="pl-chip"><span className="pl-chip-fy">FY24</span><span className="pl-chip-lab">Actual expenditure</span></li>
+          <li className="pl-chip"><span className="pl-chip-fy">FY25</span><span className="pl-chip-lab">Revised allocation</span></li>
+          <li className="pl-chip"><span className="pl-chip-fy">FY26</span><span className="pl-chip-lab">Proposed</span></li>
+        </ul>
+
+        <div
+          className="pl-count"
+          role="group"
+          aria-label={`Live countdown to the ${span} National Budget, presented in Parliament on 11 June 2026`}
+        >
+          <div className="pl-count-head">
+            <span className="pl-live"><span className="pl-live-dot" aria-hidden="true"></span>Live</span>
+            <span className="pl-count-ctx">
+              {span} budget · Parliament · <strong>11 June 2026</strong>
+            </span>
           </div>
 
           {passed ? (
             <div className="pl-passed" role="status">
-              The {span} Budget has been presented — figures coming soon.
+              Budget presented — figures coming soon.
             </div>
           ) : (
-            <div className="pl-countdown" role="timer" aria-hidden="true">
+            <div className="pl-timer" aria-hidden="true">
               {units.map((u, i) => (
                 <React.Fragment key={u.one}>
-                  {i > 0 && <span className="pl-sep" aria-hidden="true"></span>}
-                  <div className="pl-unit">
-                    <span className="pl-digit">{String(u.v).padStart(2, "0")}</span>
-                    <span className="pl-ulabel">{u.v === 1 ? u.one : u.many}</span>
-                  </div>
+                  {i > 0 && <span className="pl-colon" aria-hidden="true">:</span>}
+                  <span className="pl-tu">
+                    <span className="pl-tnum">{String(u.v).padStart(2, "0")}</span>
+                    <span className="pl-tlab">{u.v === 1 ? u.one : u.many}</span>
+                  </span>
                 </React.Fragment>
               ))}
             </div>
           )}
-
-          <div className="pl-reassure">
-            This site updates with the new figures within hours of the announcement.
-          </div>
         </div>
+
+        <p className="pl-foot">This site updates with the new figures of FY27 within hours of the announcement.</p>
       </div>
     </section>
   );
