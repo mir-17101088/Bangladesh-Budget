@@ -137,8 +137,15 @@
   --cap: 5px;                         /* soft pill end-cap radius */
 }
 /* border-spacing: 0 (horizontal) fuses each row into one continuous band so it
-   reads as printed data, not tiles; the vertical value keeps sectors apart. */
-.heat-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; font-family: var(--ui); }
+   reads as printed data, not tiles; the vertical value keeps sectors apart.
+   table-layout: fixed makes the 17 FY columns EQUAL and lets each cell fill its
+   column exactly — so the ribbon stays seamless and every segment lines up under
+   its FY header at ANY width (without this, wide screens stretch the columns past
+   the fixed cell width and the gaps — and the grid look — come back). */
+.heat-table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0 8px; font-family: var(--ui); }
+/* Pin the label + RISES columns; the 17 FY columns share the remainder equally. */
+.heat-table thead th:first-child { width: 168px; }
+.heat-table th.col-h.rises-h { width: 76px; }
 .heat-table th, .heat-table td { font-size: 11px; padding: 0; text-align: center; }
 .heat-table th.col-h {
   color: var(--ink-3); font-weight: 500; letter-spacing: 0.06em;
@@ -147,10 +154,10 @@
 .heat-table td.row-h {
   text-align: left; color: var(--g2); font-weight: 500; padding-right: 14px;
   font-size: 12px;
-  white-space: nowrap;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .heat-table .h-cell {
-  width: 38px; height: 30px;
+  width: 100%; height: 30px;                  /* fill the column → seamless + aligned */
   border-radius: 0;                          /* interior segments are seamless */
   border-right: 1px solid var(--seam);       /* a printed year rule, NOT a gap */
 }
