@@ -140,17 +140,17 @@ const SECTOR_VALUES = {
 const SECTOR_META = [
   { k: "interest", name: "Interest" },
   { k: "publicsvc", name: "Public Services" },
-  { k: "education", name: "Education & Tech" },
+  { k: "education", name: "Education" },
   { k: "transport", name: "Transport" },
   { k: "agri", name: "Agriculture" },
-  { k: "localgov", name: "Local Govt" },
+  { k: "localgov", name: "Local Government" },
   { k: "social", name: "Social Security" },
   { k: "defence", name: "Defence" },
-  { k: "energy", name: "Fuel & Energy" },
+  { k: "energy", name: "Energy" },
   { k: "order", name: "Public Order" },
   { k: "health", name: "Health" },
   { k: "housing", name: "Housing" },
-  { k: "rec", name: "Recreation" },
+  { k: "rec", name: "Recreation & Culture" },
   { k: "industry", name: "Industry" },
 ];
 
@@ -201,7 +201,7 @@ function _parseNum(s) {
 
 const SUB_SECTOR_RAW = {
   defence: {
-    names: ["Defence Ministry", "Other Services", "Armed Forces Div"],
+    names: ["Defence Ministry", "Other Services", "Armed Forces Division"],
     colors: ["#7D0066", "#a8338d", "#d066b8"],
     data: {
       FY09: [6124, 136, 0], FY10: [8590, 169, 0], FY11: [10917, 207, 0],
@@ -227,7 +227,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   agri: {
-    names: ["Agri Ministry", "Fisheries & Livestock", "Environment & Forest", "Min of Land", "Water Resources"],
+    names: ["Agriculture Ministry", "Fisheries & Livestock", "Environment, Forest & Climate Change Ministry", "Land Ministry", "Water Resources Ministry"],
     colors: ["#019933", "#33b359", "#66cc80", "#0d7a3a", "#4ddb8a"],
     data: {
       FY09: [6977, 508, 226, 385, 1461], FY10: [7350, 635, 820, 504, 1838],
@@ -242,7 +242,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   education: {
-    names: ["Primary & Mass Edu", "Secondary & Higher Edu", "Science & Tech", "ICT Division", "Technical & Madrasah"],
+    names: ["Primary & Mass Education Ministry", "Secondary & Higher Education Division", "Science & Technology Ministry", "Information & Communication Technology Division", "Technical & Madrasa Education Division"],
     colors: ["#0185C6", "#33a0d6", "#66bbe6", "#0269a0", "#99d5f0"],
     data: {
       FY09: [5331, 6538, 229, 0, 0], FY10: [6838, 8712, 354, 0, 0],
@@ -257,7 +257,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   energy: {
-    names: ["Energy & Mineral Resources", "Power Division"],
+    names: ["Energy & Mineral Resources Division", "Power Division"],
     colors: ["#FF6B35", "#ff9966"],
     data: {
       FY09: [241, 2309], FY10: [1367, 2102], FY11: [1200, 6033],
@@ -270,7 +270,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   health: {
-    names: ["Health Services Div", "Medical Edu & Family Welfare"],
+    names: ["Health Services Division", "Medical Education & Family Welfare Division"],
     colors: ["#4ECDC4", "#88e0da"],
     data: {
       FY09: [5104, 0], FY10: [6271, 0], FY11: [7287, 0],
@@ -283,7 +283,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   housing: {
-    names: ["Ministry of Housing"],
+    names: ["Housing & Public Works Ministry"],
     colors: ["#A8E6CF"],
     data: {
       FY09: [1373], FY10: [1249], FY11: [1325], FY12: [1336],
@@ -294,7 +294,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   industry: {
-    names: ["Industries Ministry", "Textiles & Jute", "Commerce", "Labour & Employment", "Expatriate Welfare"],
+    names: ["Industries Ministry", "Textiles & Jute Ministry", "Commerce Ministry", "Labour & Employment Ministry", "Expatriates' Welfare & Overseas Employment Ministry"],
     colors: ["#FF8C94", "#ffb3b8", "#e66670", "#cc4d58", "#ff6673"],
     data: {
       FY09: [486, 83, 156, 62, 62], FY10: [453, 107, 120, 133, 133],
@@ -309,7 +309,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   localgov: {
-    names: ["Local Govt Division", "Rural Dev & Cooperative", "Ctg Hill Tracts Ministry"],
+    names: ["Local Government Division", "Rural development & Cooperative Division", "Ctg Hill Tracts Ministry"],
     colors: ["#96CEB4", "#b8e0cc", "#6db893"],
     data: {
       FY09: [5938, 427, 532], FY10: [7653, 377, 430], FY11: [9037, 630, 539],
@@ -322,7 +322,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   order: {
-    names: ["Law & Justice Div", "Supreme Court", "Home Affairs (Public Security)", "ACC", "Legislative & Parliament", "Security Services Div"],
+    names: ["Law & Justice Division", "Supreme Court", "Public Security Division", "ACC", "Legislative and Parliamentary Affairs Division", "Security Services Division"],
     colors: ["#FFEAA7", "#ffe080", "#ffd54f", "#e6c84d", "#ccb343", "#b39e3a"],
     data: {
       FY09: [317, 35, 5309, 23, 0, 0], FY10: [404, 53, 6097, 23, 5, 0],
@@ -337,7 +337,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   rec: {
-    names: ["Ministry of Information", "Cultural Affairs", "Religious Affairs", "Youth & Sports"],
+    names: ["Information & Broadcasting Ministry", "Cultural Affairs Ministry", "Religious Affairs Ministry", "Youth & Sports Ministry"],
     colors: ["#DDA0DD", "#c77dc7", "#e6b8e6", "#b366b3"],
     data: {
       FY09: [466, 124, 180, 154], FY10: [369, 125, 256, 279],
@@ -352,7 +352,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   social: {
-    names: ["Social Welfare", "Women & Children Affairs", "Liberation War Affairs", "Food Division", "Disaster & Relief"],
+    names: ["Social Welfare Ministry", "Women & Children's Affairs Ministry", "Liberation War Affairs Ministry", "Food Ministry", "Disaster Management & Relief Ministry"],
     colors: ["#45B7D1", "#6dc9de", "#95dbeb", "#2e9ab3", "#1a8099"],
     data: {
       FY09: [965, 1232, 163, 5525, 0], FY10: [1263, 1211, 309, 353, 3823],
@@ -367,7 +367,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   transport: {
-    names: ["Roads & Railways", "Railway Ministry", "Shipping", "Civil Aviation & Tourism", "Post & Telecom", "Bridges Division"],
+    names: ["Road Transport & Highways Division", "Railway Ministry", "Shipping Ministry", "Civil Aviation & Tourism Ministry", "Posts & Telecommunication Division", "Bridges Division"],
     colors: ["#B0832B", "#c9a04e", "#e0bd72", "#967020", "#7d5d18", "#dbb34a"],
     data: {
       FY09: [3555, 0, 185, 33, 432, 0], FY10: [4828, 0, 297, 593, 574, 331],
@@ -382,7 +382,7 @@ const SUB_SECTOR_RAW = {
     }
   },
   publicsvc: {
-    names: ["Office of President", "Parliament", "PMO", "Cabinet Div", "Election Commission", "Public Administration", "PSC", "Finance Division", "IRD", "Banking Division", "ERD", "Planning Div", "IMED", "Statistics & Informatics", "Foreign Affairs", "Tax Ombudsman"],
+    names: ["President's Office", "Bangladesh Parliament", "PMO", "Cabinet Division", "EC Secretariat", "Public Administration Ministry", "PSC", "Finance Division", "IRD", "Financial Institutions Division", "ERD", "Planning Division", "IMED", "Statistics", "Foreign Affairs Ministry", "Tax Ombudsman"],
     colors: [
       "#997B50", "#b3955e", "#cc af6c", "#8a6e47", "#7a623e",
       "#a88960", "#c4a47a", "#d4b88e", "#bfa070", "#a08050",
@@ -642,13 +642,6 @@ Object.assign(GDP_SECTOR_DATA, _gdpRaw);
 //   proposed-year total budget is known. The view omits any year missing from
 //   this map, so partial data never breaks the chart.
 // ──────────────────────────────────────────────────────────────────────
-const TOTAL_BUDGET_BY_YEAR = {
-  FY09: 88064,  FY10: 101608, FY11: 128268, FY12: 152428, FY13: 174013,
-  FY14: 188208, FY15: 204380, FY16: 238433, FY17: 269499, FY18: 321862,
-  FY19: 391690, FY20: 420160, FY21: 460160, FY22: 518188, FY23: 573857,
-  FY24: 611392, FY25: 680789, FY26: 715252,
-};
-
 const BUDGET_SHARE_SECTOR_DATA = {};
 Object.keys(SECTOR_VALUES).forEach(k => {
   const perYear = {};
@@ -666,15 +659,15 @@ Object.keys(SECTOR_VALUES).forEach(k => {
 SECTORS.forEach(s => {
   const gdpArr = SECTOR_YEARS.map(fy => GDP_SECTOR_DATA[s.k]?.[fy]?.pct ?? 0);
   const absArr = SECTOR_YEARS.map(fy => SECTOR_VALUES[s.k]?.[fy] ?? 0);
-  
+
   s.riseGdp = countRises(gdpArr);
   s.riseAbs = countRises(absArr);
   s.rise = s.riseGdp; // Heatmap sort uses this by default
-  
+
   s.gdpProposed = GDP_SECTOR_DATA[s.k]?.[BUDGET.proposed]?.pct ?? 0;
   s.gdp09 = GDP_SECTOR_DATA[s.k]?.['FY09']?.pct ?? 0;
   s.gdpGrowth = (s.gdpProposed - s.gdp09).toFixed(2);
-  
+
   s.peakYearGdp = SECTOR_YEARS[gdpArr.indexOf(Math.max(...gdpArr))];
   s.peakYearAbs = SECTOR_YEARS[absArr.indexOf(Math.max(...absArr))];
 
@@ -703,14 +696,16 @@ const DEPTS = [
 
   { name: "Finance Division", amt: 153655, pct: 25.13, parent: "Public Services", color: "#997B50" },
   { name: "Domestic Interest", amt: 100000, pct: 16.36, parent: "Interest", color: "#C60001" },
-  { name: "LG & Rural Dev", amt: 42433, pct: 6.94, parent: "Local Govt", color: "#96CEB4" },
+  { name: "Secondary & Higher Education Division", amt: 47563, pct: 7.78, parent: "Education", color: "#0185C6" },
+  { name: "Local Government Division", amt: 42433, pct: 6.94, parent: "Local Government", color: "#96CEB4" },
   { name: "Defence Ministry", amt: 38728, pct: 6.33, parent: "Defence", color: "#7D0066" },
-  { name: "Roads & Railways", amt: 38496, pct: 6.30, parent: "Transport", color: "#B0832B" },
-  { name: "Health Services", amt: 31022, pct: 5.07, parent: "Health", color: "#4ECDC4" },
-  { name: "Agri Ministry", amt: 27224, pct: 4.45, parent: "Agriculture", color: "#019933" },
-  { name: "Home Affairs", amt: 27001, pct: 4.42, parent: "Public Order", color: "#FFEAA7" },
-  { name: "Foreign Interest", amt: 22000, pct: 3.60, parent: "Interest", color: "#C60001" },
-  { name: "Power Division", amt: 20342, pct: 3.33, parent: "Energy", color: "#FF6B35" },
+  { name: "Road Transport & Highways Division", amt: 38496, pct: 6.30, parent: "Transport", color: "#B0832B" },
+  { name: "Primary & Mass Education Ministry", amt: 35403, pct: 5.79, parent: "Education", color: "#0185C6" },
+  { name: "Health Services Division", amt: 31022, pct: 5.07, parent: "Health", color: "#4ECDC4" },
+  { name: "Agriculture Ministry", amt: 27224, pct: 4.45, parent: "Agriculture", color: "#019933" },
+  { name: "Public Security Division", amt: 27001, pct: 4.42, parent: "Public Order", color: "#FFEAA7" },
+  //{ name: "Foreign Interest", amt: 22000, pct: 3.60, parent: "Interest", color: "#C60001" },
+  //{ name: "Power Division", amt: 20342, pct: 3.33, parent: "Energy", color: "#FF6B35" },
   //{ name: "Primary & Mass Edu", amt: 13991, pct: 2.29, parent: "Education", color: "#0185C6" },
   //{ name: "Social Welfare", amt: 13991, pct: 2.29, parent: "Social Security", color: "#45B7D1" },
 
@@ -749,5 +744,5 @@ function patternFor(_unused, key) {
 Object.assign(window, {
   SECTORS, FY_YEARS, SECTOR_YEARS, DEFENCE_STACK, DEPTS, IMPL, patternFor, SECTOR_VALUES,
   getSubSectorConfig, GDP_SECTOR_DATA, SUB_SECTOR_RAW,
-  BUDGET_SHARE_SECTOR_DATA, TOTAL_BUDGET_BY_YEAR,
+  BUDGET_SHARE_SECTOR_DATA,
 });

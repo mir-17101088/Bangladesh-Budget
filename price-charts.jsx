@@ -43,7 +43,7 @@ function ResourceDonut({ segments, view, active, setActive, onDrill, size = 340 
 
   return (
     <svg className="donut-svg" viewBox={"0 0 " + size + " " + size}
-         role="img" aria-label="Donut chart of where the budget's resources come from">
+      role="img" aria-label="Donut chart of where the budget's resources come from">
       <g key={view} className="ring" transform={"rotate(-90 " + cx + " " + cy + ")"}>
         {arcs.map(({ s, i, startLen, segLen, midDeg, isHero }) => {
           const isActive = active === i;
@@ -58,13 +58,13 @@ function ResourceDonut({ segments, view, active, setActive, onDrill, size = 340 
           };
           const interactive = clickable
             ? {
-                role: "button", tabIndex: 0,
-                "aria-expanded": false,
-                "aria-label": s.name + ", " + s.pct + " percent, " + fmtCr(s.cr) + ". Activate to break down.",
-                onClick: () => onDrill(s.drill),
-                onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onDrill(s.drill); } },
-                style: { cursor: "pointer" },
-              }
+              role: "button", tabIndex: 0,
+              "aria-expanded": false,
+              "aria-label": s.name + ", " + s.pct + " percent, " + fmtCr(s.cr) + ". Activate to break down.",
+              onClick: () => onDrill(s.drill),
+              onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onDrill(s.drill); } },
+              style: { cursor: "pointer" },
+            }
             : { "aria-hidden": true };
           return (
             <circle
@@ -88,9 +88,9 @@ function ResourceDonut({ segments, view, active, setActive, onDrill, size = 340 
         {/* Persistent shimmer keyline over the clickable slice */}
         {hero && (
           <circle className="ring-shimmer" cx={cx} cy={cy} r={R + W_HERO / 2 + 3}
-                  fill="none" stroke="#d6f4ec" strokeWidth="1.5" strokeLinecap="round"
-                  strokeDasharray={hero.segLen + " " + C} strokeDashoffset={-hero.startLen}
-                  aria-hidden="true" />
+            fill="none" stroke="#d6f4ec" strokeWidth="1.5" strokeLinecap="round"
+            strokeDasharray={hero.segLen + " " + C} strokeDashoffset={-hero.startLen}
+            aria-hidden="true" />
         )}
       </g>
 
@@ -190,8 +190,8 @@ function TaxSection() {
     <section className="s s-tax" data-screen-label="04 Resources">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">Chapter 04 · Where it comes from</span>
-          <h2>Funding the ৳7,90,000 crore budget.</h2>
+          <span className="eyebrow">Where it comes from</span>
+          <h2>Funding the ৳7,90,000 crore budget</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 760 }}>
             Most of the {PRICE_FY_SPAN} budget is self-financed: the state earns roughly seven taka of every ten
             it spends — tax revenue alone is <strong style={{ color: "#fff", fontWeight: 600 }}>63.2%</strong>.
@@ -314,8 +314,8 @@ function SubsidySection() {
     <section className="s s-subsidy" data-screen-label="05 Subsidies">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow" style={{ color: "#f0c060" }}>Chapter 05 · The subsidy trend</span>
-          <h2>The subsidy bill nearly doubled <em style={{ fontStyle: "italic", color: "#f0c060" }}>in three years</em>.</h2>
+          <span className="eyebrow" style={{ color: "#f0c060" }}>The subsidy trend</span>
+          <h2>The subsidy bill nearly doubled <em style={{ fontStyle: "italic", color: "#f0c060" }}>in three years</em></h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
             Power, fertiliser, and food subsidies are the three big drivers. From ৳5.8 of every ৳100 in FY22, the share climbed to ৳11.0 in FY25 — and is projected higher still.
           </p>
@@ -346,7 +346,7 @@ function SubsidySection() {
                   {tag && <span className={"fy-tag " + tag.cls}>{tag.label}</span>}
                   <div className="colw">
                     <div className="col grow-bar" style={{ "--target-h": h + "%", animationDelay: (i * 110) + "ms" }}>
-                      <span className="v">{notYetActual ? "~৳" : "৳"}<CountUp value={s.v} decimals={1} duration={1200}/></span>
+                      <span className="v">{notYetActual ? "~৳" : "৳"}<CountUp value={s.v} decimals={1} duration={1200} /></span>
                       {s.delta && <span className="delta">{s.delta}</span>}
                     </div>
                   </div>
@@ -357,7 +357,7 @@ function SubsidySection() {
           </div>
 
           <div className="sub-callout">
-            <span className="big"><CountUp value={2.0} decimals={1} suffix="×" duration={1400}/></span>
+            <span className="big"><CountUp value={2.0} decimals={1} suffix="×" duration={1400} /></span>
             <span className="txt">"Nearly doubled in three years." Power & fertiliser subsidies alone now consume nearly the same share as defence.</span>
           </div>
         </div>

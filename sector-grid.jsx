@@ -31,8 +31,8 @@ function SectorGridSection({ active, setActive }) {
     <section className="s s-sector-grid" data-screen-label="02 Sector Grid">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">Chapter 02 · The fourteen sectors</span>
-          <h2>Every sector, every taka.</h2>
+          <span className="eyebrow">The fourteen sectors</span>
+          <h2>Every sector, every taka</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
             {BUDGET.proposed} totals and their FY09→{BUDGET.proposed} trajectories. Tap a card to open the stacked sub-sector view.
           </p>

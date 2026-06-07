@@ -22,7 +22,8 @@ function buildTreemap(items, W, H) {
   const rest = sorted.slice(6);
   const bigSum = big.reduce((a, b) => a + b.pct, 0);
   const restSum = rest.reduce((a, b) => a + b.pct, 0);
-  const topH = (bigSum / (bigSum + restSum)) * H;
+  let topH = (bigSum / (bigSum + restSum)) * H;
+  topH = topH * 0.65; // Shrink top row slightly to give more room to lower departments
   const botH = H - topH;
 
   // top row of 6
@@ -59,10 +60,11 @@ function buildTreemap(items, W, H) {
 
 function Treemap() {
   const [hover, setHover] = useState2(null);
+  const [showCount, setShowCount] = useState2(15);
   const W = 1184, H = 580;
-  const cells = useMemo2(() => buildTreemap(TREEMAP, W, H), []);
-  // Ranked list is the legible/tappable mobile representation of the same data.
+  // Ranked list is the legible/tappable representation of the same data.
   const tmList = useMemo2(() => [...TREEMAP].sort((a, b) => b.pct - a.pct), []);
+  const cells = useMemo2(() => buildTreemap(tmList.slice(0, 15), W, H), [tmList]);
   const tmListMax = Math.max(...TREEMAP.map(t => t.pct));
 
   return (
@@ -88,6 +90,12 @@ function Treemap() {
               const big = c.w * c.h > 18000;
               const med = c.w * c.h > 6000;
               const pad = big ? 14 : (med ? 10 : 6);
+              const innerW = Math.max(0, c.w - pad * 2);
+              
+              // Dynamically scale down the font size if the box is too narrow for long words
+              const maxFitSize = Math.max(8, innerW / 8.5); // assumes longest word is ~14 chars
+              const nameSize = big ? Math.min(22, maxFitSize) : med ? Math.min(13, maxFitSize) : Math.min(10, maxFitSize);
+
               return (
                 <g key={i}
                   onMouseEnter={() => setHover(i)}
@@ -107,12 +115,11 @@ function Treemap() {
                     fill="url(#tmScrim)" rx="4" pointerEvents="none" />
                   {/* HTML text via foreignObject — wraps automatically */}
                   <foreignObject x={c.x + pad} y={c.y + pad}
-                    width={Math.max(0, c.w - pad * 2)}
+                    width={innerW}
                     height={Math.max(0, c.h - pad * 2)}
                     pointerEvents="none">
                     <div className={"tm-fo " + (big ? "big" : med ? "med" : "sm")}>
-                      <div className="tm-fo-name">{c.name}</div>
-                      {big && <div className="tm-fo-parent">{c.parent}</div>}
+                      <div className="tm-fo-name" style={{ fontSize: nameSize }}>{c.name}</div>
                       <div className="tm-fo-pct">{c.pct.toFixed(big ? 2 : 1)}%</div>
                     </div>
                   </foreignObject>
@@ -133,25 +140,12 @@ function Treemap() {
             </defs>
           </svg>
 
-          {hover !== null && (
-            <div className="glass" style={{
-              position: "absolute", top: 20, right: 20,
-              padding: "16px 20px", maxWidth: 260,
-              borderColor: cells[hover].c + "66"
-            }}>
-              <div className="cap" style={{ color: cells[hover].c, marginBottom: 6 }}>{cells[hover].parent.toUpperCase()}</div>
-              <div style={{ fontFamily: "var(--serif)", fontSize: 22, marginBottom: 8 }}>{cells[hover].name}</div>
-              <div style={{ fontFamily: "var(--ui)", fontSize: 32, fontWeight: 700, color: cells[hover].c }}>{cells[hover].pct.toFixed(2)}%</div>
-              <div className="cap" style={{ marginTop: 6 }}>of FY24 total expenditure</div>
-            </div>
-          )}
         </div>
 
-        {/* Mobile: the treemap shrinks its foreignObject labels to ~3px, so phones
-            get a fully legible, tappable ranked-bar list of the same data instead. */}
+        {/* The ranked list is used on both mobile and desktop (for items > 15) */}
         <ol className="tm-list" aria-label="Departments by share of FY24 expenditure">
-          {tmList.map((c, i) => (
-            <li key={i} className="tm-list-row" style={{ "--c": c.c }}>
+          {tmList.slice(0, showCount).map((c, i) => (
+            <li key={i} className={"tm-list-row " + (i < 15 ? "tm-hide-desktop" : "")} style={{ "--c": c.c }}>
               <span className="tm-list-rank">{i + 1}</span>
               <div className="tm-list-body">
                 <div className="tm-list-top">
@@ -167,10 +161,15 @@ function Treemap() {
           ))}
         </ol>
 
-        <div style={{ marginTop: 28, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-          <span className="cap">Each cell sized by share of FY24 expenditure ~ Top 20 shown</span>
-          <span className="cap">Colored by parent sector</span>
-        </div>
+        {tmList.length > 15 && (
+          <div style={{ marginTop: 24, textAlign: "center" }}>
+            <button className="tm-show-more-btn" onClick={() => setShowCount(showCount >= tmList.length ? 15 : showCount + 15)}>
+              {showCount >= tmList.length ? "Show less" : "Show more"}
+            </button>
+          </div>
+        )}
+
+
 
         <RelevantNews items={RELEVANT_NEWS.treemap} accent="#B0832B" />
       </div>
@@ -268,6 +267,22 @@ function DebtSection() {
   const totals = DEBT.map(d => d.d + d.f);
   const maxV = Math.ceil(Math.max(...totals) * 1.18 / 10000) * 10000;
 
+  const proposedFy = BUDGET.proposed;
+  const proposedInterest = INTEREST_DATA.find(d => d.fy === proposedFy) || { d: 100000, f: 22000 };
+  const proposedTotalInterest = (proposedInterest.d || 0) + (proposedInterest.f || 0);
+  const proposedTotalBudget = window.TOTAL_BUDGET_BY_YEAR[proposedFy] || 1;
+  const calculatedInterestPct = (proposedTotalInterest / proposedTotalBudget) * 100;
+
+  const fy09 = INTEREST_DATA.find(d => d.fy === "FY09") || { d: 13839, f: 1341 };
+  const d_mult = (proposedInterest.d / fy09.d).toFixed(1);
+  const f_mult = (proposedInterest.f / fy09.f).toFixed(1);
+
+  const fy11 = INTEREST_DATA.find(d => d.fy === "FY11") || { d: 14200, f: 1423 };
+  const totalInt11 = fy11.d + fy11.f;
+  const totalBud11 = window.TOTAL_BUDGET_BY_YEAR["FY11"] || 128268;
+  const pct11 = (totalInt11 / totalBud11 * 100).toFixed(1);
+
+
   const fallbackW = isMobile
     ? Math.max(260, window.innerWidth - 64)
     : Math.min(1180, Math.max(360, window.innerWidth - 96));
@@ -335,7 +350,7 @@ function DebtSection() {
         </div>
 
         <div className="debt-callout">
-          <span className="big"><CountUp value={TAKA_SECTORS.find(s => s.key === "interest").proposed} decimals={1} prefix="৳" duration={1600} /></span>
+          <span className="big"><CountUp value={calculatedInterestPct} decimals={1} prefix="৳" duration={1600} /></span>
           <span className="txt">of every ৳100 in the {BUDGET.proposed} budget goes to paying interest</span>
         </div>
 
@@ -467,8 +482,8 @@ function DebtSection() {
                       {isLast && (
                         <g>
                           <text x={x + bw / 2} y={tallestTopY - 24} textAnchor="middle"
-                            style={{ fontFamily: "var(--serif)", fontSize: 18, fill: "#fff" }}>
-                            ৳{(total / 1000).toFixed(1)}k Cr
+                            style={{ fontFamily: "var(--ui)", fontSize: 18, fill: "#fff", fontWeight: 600 }}>
+                            Tk {(total / 1000).toFixed(1)}k Cr
                           </text>
                         </g>
                       )}
@@ -509,13 +524,13 @@ function DebtSection() {
                   const cx = pad.l + idx * step + step / 2;
                   const totalH = (total / maxV) * innerH;
                   const barTop = pad.t + innerH - totalH;
-                  
+
                   // Dynamically find the height of the next bar to ensure the text clears it
                   const nextD = DEBT[idx + 1];
                   const nextTotal = nextD ? nextD.d + nextD.f : total;
                   const nextTotalH = (nextTotal / maxV) * innerH;
                   const nextBarTop = pad.t + innerH - nextTotalH;
-                  
+
                   const targetTop = Math.min(barTop, nextBarTop);
 
                   return (
@@ -537,9 +552,9 @@ function DebtSection() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20, marginTop: 32, paddingTop: 28, borderTop: "1px solid rgba(198,0,1,0.18)" }}>
-            <Stat label={"Domestic, FY09 → " + BUDGET.proposed} big="7.0×" sub="৳13.8k → ৳100k Cr" />
-            <Stat label={"Foreign, FY09 → " + BUDGET.proposed} big="16.0×" sub="৳1.3k → ৳22k Cr" />
-            <Stat label={BUDGET.proposed + " share of every ৳100"} big={"৳" + TAKA_SECTORS.find(s => s.key === "interest").proposed} sub="up from ৳12.2 in FY11" />
+            <Stat label={"Domestic, FY09 → " + BUDGET.proposed} big={d_mult + "×"} sub={`৳${(fy09.d / 1000).toFixed(1)}k → ৳${(proposedInterest.d / 1000).toFixed(0)}k Cr`} />
+            <Stat label={"Foreign, FY09 → " + BUDGET.proposed} big={f_mult + "×"} sub={`৳${(fy09.f / 1000).toFixed(1)}k → ৳${(proposedInterest.f / 1000).toFixed(0)}k Cr`} />
+            <Stat label={BUDGET.proposed + " share of every ৳100"} big={"৳" + calculatedInterestPct.toFixed(1)} sub={`up from ৳${pct11} in FY11`} />
           </div>
         </div>
 

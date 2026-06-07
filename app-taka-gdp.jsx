@@ -48,7 +48,7 @@ function TakaSection() {
         </div>
 
         <div className="taka-stage">
-          <img className="taka-img" src="assets/100_taka_note.jpg" alt="Bangladesh 100 Taka note"/>
+          <img className="taka-img" src="assets/100_taka_note.jpg" alt="Bangladesh 100 Taka note" />
           <div className="taka-overlay">
             {TAKA_SECTORS.map((s, idx) => {
               const w = (s.actual / total) * 100;
@@ -124,7 +124,7 @@ function TakaSection() {
             <div style={{ textAlign: "right" }}>
               <div className="cap">Actual {BUDGET.actual}</div>
               <div style={{ fontFamily: "var(--serif)", fontSize: 40, color: sector.color, lineHeight: 1, marginTop: 4 }}>
-                <CountUp value={sector.actual} decimals={1} prefix="৳" duration={1400}/>
+                <CountUp value={sector.actual} decimals={1} prefix="৳" duration={1400} />
               </div>
             </div>
           </div>
@@ -145,7 +145,7 @@ function TakaSection() {
                     {isActual && <span className="fy-actual-caption">Actual</span>}
                     <div style={{ flex: 1, width: "100%", display: "flex", alignItems: "flex-end" }}>
                       <div className="col grow-bar" style={{ "--target-h": h + "%", animationDelay: (i * 90) + "ms" }}>
-                        <span className="val"><CountUp value={v} decimals={1} prefix="৳" duration={1100}/></span>
+                        <span className="val"><CountUp value={v} decimals={1} prefix="৳" duration={1100} /></span>
                       </div>
                     </div>
                     <div className="yr">{fy}</div>
@@ -248,8 +248,8 @@ function GDPSection() {
     <section className="s s-gdp" data-screen-label="03 GDP">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">Chapter 02 · The economy view</span>
-          <h2>A growing slice of the economy.</h2>
+          <span className="eyebrow">The economy view</span>
+          <h2>A growing slice of the economy</h2>
           <p className="lede" style={{ marginTop: 18 }}>
             From {fy09.pct}% of GDP in {fy09.fy} to {peak.pct}% in {peak.fy} — the government's footprint has steadily widened.
           </p>
@@ -267,24 +267,24 @@ function GDPSection() {
             <svg viewBox={"0 0 " + W + " " + H} className="gdp-svg" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="gdpFill" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#0185C6" stopOpacity="0.7"/>
-                  <stop offset="100%" stopColor="#0185C6" stopOpacity="0.0"/>
+                  <stop offset="0%" stopColor="#0185C6" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#0185C6" stopOpacity="0.0" />
                 </linearGradient>
                 <linearGradient id="gdpLine" x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="0%" stopColor="#6fc7ee"/>
-                  <stop offset="100%" stopColor="#fff"/>
+                  <stop offset="0%" stopColor="#6fc7ee" />
+                  <stop offset="100%" stopColor="#fff" />
                 </linearGradient>
                 <clipPath id="gdpReveal">
                   <rect x={0} y={0}
-                        width={pad.l + (W - pad.l - pad.r) * draw}
-                        height={H}/>
+                    width={pad.l + (W - pad.l - pad.r) * draw}
+                    height={H} />
                 </clipPath>
               </defs>
 
               {/* y gridlines */}
               {yTicks.map(v => (
                 <g key={v}>
-                  <line className="tick" x1={pad.l} x2={W - pad.r} y1={ys(v)} y2={ys(v)}/>
+                  <line className="tick" x1={pad.l} x2={W - pad.r} y1={ys(v)} y2={ys(v)} />
                   <text className="tick-label" x={pad.l - 8} y={ys(v) + 3} textAnchor="end">{v}%</text>
                 </g>
               ))}
@@ -305,12 +305,12 @@ function GDPSection() {
                   <>
                     {pandemicIdx >= 0 && (
                       <g style={{ opacity: draw > 0.85 ? 1 : 0, transition: "opacity .5s ease" }}>
-                        <line x1={xs(pandemicIdx)} x2={xs(pandemicIdx)} y1={pad.t} y2={H - pad.b} stroke="#FFEAA7" strokeDasharray="3 4" strokeOpacity="0.45"/>
+                        <line x1={xs(pandemicIdx)} x2={xs(pandemicIdx)} y1={pad.t} y2={H - pad.b} stroke="#FFEAA7" strokeDasharray="3 4" strokeOpacity="0.45" />
                         <text x={xs(pandemicIdx) - 8} y={pandemicY} className="axis-label" fill="#FFEAA7" textAnchor="end">Pandemic FY20</text>
                       </g>
                     )}
                     <g style={{ opacity: draw > 0.95 ? 1 : 0, transition: "opacity .5s ease" }}>
-                      <line x1={xs(peakIdx)} x2={xs(peakIdx)} y1={pad.t} y2={H - pad.b} stroke="#5fe093" strokeDasharray="3 4" strokeOpacity="0.45"/>
+                      <line x1={xs(peakIdx)} x2={xs(peakIdx)} y1={pad.t} y2={H - pad.b} stroke="#5fe093" strokeDasharray="3 4" strokeOpacity="0.45" />
                       <text x={xs(peakIdx) + 8} y={peakY} className="axis-label" fill="#5fe093">Record {peak.fy}</text>
                     </g>
                   </>
@@ -319,7 +319,7 @@ function GDPSection() {
 
               {/* area — revealed via clipPath sweep */}
               {mode === "area" && (
-                <path d={pathArea} fill="url(#gdpFill)" clipPath="url(#gdpReveal)"/>
+                <path d={pathArea} fill="url(#gdpFill)" clipPath="url(#gdpReveal)" />
               )}
 
               {/* line — stroke-dashoffset reveal */}
@@ -342,21 +342,21 @@ function GDPSection() {
                 const isHover = hoverIdx === i;
                 return (
                   <circle key={d.fy} cx={px} cy={py}
-                          r={isHover ? 5.5 : 3.5}
-                          fill="#fff"
-                          stroke="#0185C6" strokeWidth={isHover ? 2 : 1.5}
-                          style={{
-                            opacity: visible ? 1 : 0,
-                            transition: "opacity .25s ease, r .15s ease, stroke-width .15s ease",
-                            transformOrigin: px + "px " + py + "px",
-                            filter: isHover ? "drop-shadow(0 0 6px #6fc7ee)" : "none",
-                          }}/>
+                    r={isHover ? 5.5 : 3.5}
+                    fill="#fff"
+                    stroke="#0185C6" strokeWidth={isHover ? 2 : 1.5}
+                    style={{
+                      opacity: visible ? 1 : 0,
+                      transition: "opacity .25s ease, r .15s ease, stroke-width .15s ease",
+                      transformOrigin: px + "px " + py + "px",
+                      filter: isHover ? "drop-shadow(0 0 6px #6fc7ee)" : "none",
+                    }} />
                 );
               })}
 
               {/* highlight peak */}
               <g style={{ opacity: draw > 0.95 ? 1 : 0, transition: "opacity .5s ease" }}>
-                <circle cx={xs(peakIdx)} cy={ys(peak.pct)} r="7" fill="none" stroke="#5fe093" strokeWidth="1.5" className="gdp-peak-pulse"/>
+                <circle cx={xs(peakIdx)} cy={ys(peak.pct)} r="7" fill="none" stroke="#5fe093" strokeWidth="1.5" className="gdp-peak-pulse" />
                 <text x={xs(peakIdx) - 10} y={ys(peak.pct) - 12} className="axis-label" fill="#5fe093" textAnchor="end">{peak.pct}%</text>
               </g>
 
@@ -365,9 +365,9 @@ function GDPSection() {
                 const meta = STATUS_META[BUDGET.statusOf(last.fy)];
                 if (!meta || !meta.tag) return null;
                 return (
-                  <text x={xs(GDP.length - 1)} y={ys(last.pct) - 14} textAnchor="end"
-                        className={"fy-tag-text " + meta.cls}
-                        style={{ fontFamily: "var(--ui)", fontSize: 10, letterSpacing: "0.12em" }}>
+                  <text x={xs(GDP.length - 1)} y={ys(last.pct) + 20} textAnchor="end"
+                    className={"fy-tag-text " + meta.cls}
+                    style={{ fontFamily: "var(--ui)", fontSize: 10, letterSpacing: "0.12em" }}>
                     {meta.tag.toUpperCase()}
                   </text>
                 );
@@ -377,24 +377,24 @@ function GDPSection() {
               {hoverData && (
                 <g pointerEvents="none">
                   <line x1={xs(hoverIdx)} x2={xs(hoverIdx)}
-                        y1={pad.t} y2={H - pad.b}
-                        stroke="#6fc7ee" strokeOpacity="0.55" strokeWidth="1" strokeDasharray="3 3"/>
+                    y1={pad.t} y2={H - pad.b}
+                    stroke="#6fc7ee" strokeOpacity="0.55" strokeWidth="1" strokeDasharray="3 3" />
                   <circle cx={xs(hoverIdx)} cy={ys(hoverData.pct)} r="7"
-                          fill="none" stroke="#6fc7ee" strokeWidth="1.5"/>
+                    fill="none" stroke="#6fc7ee" strokeWidth="1.5" />
                 </g>
               )}
 
               {/* mouse capture rect — covers chart plot area */}
               <rect x={pad.l} y={pad.t}
-                    width={W - pad.l - pad.r} height={H - pad.t - pad.b}
-                    fill="transparent"
-                    onMouseMove={onMove}
-                    onMouseLeave={onLeave}
-                    onTouchMove={(e) => {
-                      const t = e.touches[0]; if (!t) return;
-                      onMove({ clientX: t.clientX, clientY: t.clientY, currentTarget: e.currentTarget });
-                    }}
-                    style={{ cursor: "crosshair" }}/>
+                width={W - pad.l - pad.r} height={H - pad.t - pad.b}
+                fill="transparent"
+                onMouseMove={onMove}
+                onMouseLeave={onLeave}
+                onTouchMove={(e) => {
+                  const t = e.touches[0]; if (!t) return;
+                  onMove({ clientX: t.clientX, clientY: t.clientY, currentTarget: e.currentTarget });
+                }}
+                style={{ cursor: "crosshair" }} />
             </svg>
 
             {/* HTML tooltip — flip to the LEFT of the point when near the right edge */}
@@ -404,8 +404,8 @@ function GDPSection() {
               const yPct = (ys(hoverData.pct) / H) * 100;
               return (
                 <div className={"gdp-tip " + (flipLeft ? "flip" : "")} style={{
-                  left:  `calc(${xPct}% ${flipLeft ? "- 8px" : "+ 8px"})`,
-                  top:   `calc(${yPct}% - 14px)`,
+                  left: `calc(${xPct}% ${flipLeft ? "- 8px" : "+ 8px"})`,
+                  top: `calc(${yPct}% - 14px)`,
                 }}>
                   <div className="gdp-tip-fy">{hoverData.fy}</div>
                   <div className="gdp-tip-pct">{hoverData.pct.toFixed(1)}<span>%</span></div>
@@ -418,15 +418,15 @@ function GDPSection() {
           <div className="gdp-stat-card glass">
             <div>
               <span className="eyebrow" style={{ display: "block", marginBottom: 18 }}>From — to</span>
-              <div style={{ fontFamily: "var(--serif)", fontSize: 26, color: "#D3D6DB", fontStyle: "italic" }}>{fy09.pct}% <span style={{color: "#8B939F"}}>{fy09.fy}</span></div>
+              <div style={{ fontFamily: "var(--serif)", fontSize: 26, color: "#D3D6DB", fontStyle: "italic" }}>{fy09.pct}% <span style={{ color: "#8B939F" }}>{fy09.fy}</span></div>
               <div style={{ fontFamily: "var(--ui)", fontSize: 11, color: "#8B939F", margin: "8px 0", letterSpacing: "0.2em" }}>↓ {GDP_DATA.length - 1} YEARS</div>
-              <div className="big"><CountUp value={last.pct} decimals={1} suffix="%" duration={1500}/></div>
+              <div className="big"><CountUp value={last.pct} decimals={1} suffix="%" duration={1500} /></div>
               <div style={{ fontFamily: "var(--ui)", fontSize: 11, color: "#B0B5BE", marginTop: 8, letterSpacing: "0.1em" }}>{last.fy} · OF GDP</div>
-              <div className="arrow">+<CountUp value={last.pct - fy09.pct} decimals={1}/> pp · +<CountUp value={((last.pct - fy09.pct) / fy09.pct) * 100} decimals={0}/>%</div>
+              <div className="arrow">+<CountUp value={last.pct - fy09.pct} decimals={1} /> pp · +<CountUp value={((last.pct - fy09.pct) / fy09.pct) * 100} decimals={0} />%</div>
             </div>
             <div style={{ paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)", marginTop: 24 }}>
               <span className="body" style={{ fontStyle: "italic" }}>
-                The Bangladeshi state has quietly captured a third more of national output in a decade and a half.
+                Tk 14 out of every Tk 100 produced in the country now goes to national budgets, up from Tk 11 spent 16 years ago.
               </span>
             </div>
           </div>

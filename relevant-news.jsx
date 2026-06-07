@@ -48,14 +48,16 @@ const RELEVANT_NEWS = {
       title: "What the FY2027 budget must prioritise",
       kicker: "Macro Mirror",
       source: "The Daily Star",
-      date: "Jun 1, 2026",
+      date: "Jun 2, 2026",
+      image: "news-images/budget_planning.jpg",
     },
     {
       url: "https://www.thedailystar.net/business/column/news/good-budget-bad-times-4149321",
       title: "Good budget in bad times",
       kicker: "Column",
       source: "The Daily Star",
-      date: "Apr 20, 2026",
+      date: "Apr 12, 2026",
+      image: "news-images/good_budget.jpg",
     },
   ],
 
@@ -64,19 +66,24 @@ const RELEVANT_NEWS = {
   gdp: [
     {
       url: "https://www.thedailystar.net/business/economy/news/big-numbers-tight-choices-4177311",
+      title: "Big in numbers, tight in choices",
+      kicker: "Budget Special",
+      source: "The Daily Star",
+      date: "May 17, 2026",
+      image: "news-images/budget.jpg",
     },
   ],
 
   // ── Treemap · department by department ──  (accent: gold)
-  treemap: [
-    {
-      url: "https://www.thedailystar.net/opinion/views/macro-mirror/news/conservative-budget-fy2026-3909971",
-      title: "A conservative budget for FY2026",
-      kicker: "Macro Mirror",
-      source: "The Daily Star",
-      date: "Jun 2, 2025",
-    },
-  ],
+  //treemap: [
+  //{
+  //url: "https://www.thedailystar.net/opinion/views/macro-mirror/news/conservative-budget-fy2026-3909971",
+  //title: "A conservative budget for FY2026",
+  //kicker: "Macro Mirror",
+  //source: "The Daily Star",
+  // date: "Jun 2, 2025",
+  // },
+  //],
 
   // ── Interest / debt story ──  (accent: red)
   debt: [
@@ -86,38 +93,27 @@ const RELEVANT_NEWS = {
       kicker: "Opinion",
       source: "The Daily Star",
       date: "Jun 4, 2025",
+      image: "news-images/missed_opportunity.jpg",
       // image: "structural-reform.jpg",   // ← drop the file in news-images/ and uncomment
     },
   ],
 
   /* ════════ PRICE IMPACT page ════════ */
   price_pricier: [
-    {
-      url: "https://www.thedailystar.net/business/economy/news/big-numbers-tight-choices-4177311",
-      title: "Big in numbers, tight in choices",
-      kicker: "Economy",
-      source: "The Daily Star",
-      date: "May 2026",
-    },
+
   ],
-  price_cheaper:  [],
-  price_tax:      [],
-  price_subsidy:  [],
-  price_calc:     [],
+  price_cheaper: [],
+  price_tax: [],
+  price_subsidy: [],
+  price_calc: [],
 
   /* ════════ SECTOR DEEP DIVE page ════════ */
   sector_grid: [
-    {
-      url: "https://www.thedailystar.net/business/column/news/good-budget-bad-times-4149321",
-      title: "Good budget in bad times",
-      kicker: "Column",
-      source: "The Daily Star",
-      date: "Apr 20, 2026",
-    },
+
   ],
-  sector_heatmap:  [],
+  sector_heatmap: [],
   sector_rankings: [],
-  sector_gauges:   [],
+  sector_gauges: [],
 };
 
 /* ── helpers ─────────────────────────────────────────────── */
@@ -160,10 +156,10 @@ function relnewsFormatDate(d) {
    anything missing is filled from microlink.io when reachable. */
 function useLinkPreview(item) {
   const seed = {
-    title:  item.title  || relnewsTitleFromUrl(item.url),
-    image:  item.image  || null,
+    title: item.title || relnewsTitleFromUrl(item.url),
+    image: item.image || null,
     source: item.source || relnewsHost(item.url),
-    date:   item.date   || null,
+    date: item.date || null,
     kicker: item.kicker || null,
   };
   const needFetch = !item.title || !item.image || !item.date;
@@ -177,10 +173,10 @@ function useLinkPreview(item) {
 
     const apply = (f) => {
       setData({
-        title:  item.title  || f.title  || relnewsTitleFromUrl(item.url),
-        image:  item.image  || f.image  || null,
+        title: item.title || f.title || relnewsTitleFromUrl(item.url),
+        image: item.image || f.image || null,
         source: item.source || f.source || relnewsHost(item.url),
-        date:   item.date   || f.date   || null,
+        date: item.date || f.date || null,
         kicker: item.kicker || f.kicker || null,
       });
       setLoading(false);
@@ -194,10 +190,10 @@ function useLinkPreview(item) {
         if (!alive) return;
         const md = (j && j.data) || {};
         const f = {
-          title:  md.title || null,
-          image:  (md.image && md.image.url) || (md.logo && md.logo.url) || null,
+          title: md.title || null,
+          image: (md.image && md.image.url) || (md.logo && md.logo.url) || null,
           source: md.publisher || null,
-          date:   md.date || null,
+          date: md.date || null,
           kicker: null,
         };
         RELNEWS_CACHE.set(item.url, f);
@@ -232,9 +228,9 @@ function RelNewsCard({ item, accent }) {
         {showImg
           ? <img src={imgSrc} alt="" loading="lazy" referrerPolicy="no-referrer" onError={() => setImgOk(false)} />
           : (<><span className="relnews-thumb-glyph">৳</span>
-               <span className="relnews-thumb-ring"></span></>)}
+            <span className="relnews-thumb-ring"></span></>)}
         <span className="relnews-ext" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7M9 7h8v8" /></svg>
         </span>
       </div>
       <div className="relnews-body">

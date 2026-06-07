@@ -11,7 +11,7 @@ function HeatmapSection() {
     <section className="s s-heat" data-screen-label="04 Heatmap">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">Chapter 04 · The {SECTORS.length}×{totalTransitions} grid</span>
+          <span className="eyebrow">The overall view </span>
           <h2>Which sectors won the decade?</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
             For each of {totalTransitions} year-on-year transitions, did the sector's share of GDP rise or fall? Sorted by total wins, top to bottom.
@@ -75,10 +75,10 @@ function RankingsSection() {
     <section className="s s-rankings" data-screen-label="05 Rankings">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">Chapter 05 · Top 10</span>
-          <h2>The biggest single line items.</h2>
+          <span className="eyebrow">Top 10</span>
+          <h2>The biggest single line areas</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            Two items — debt interest and the Finance Division's catch-all — already consumed more than a quarter of all FY26's proposed expenditure.
+            Two areas — debt interest and the Finance Division's catch-all — already consumed more than a quarter of all FY26's proposed expenditure.
           </p>
         </div>
 
@@ -96,7 +96,8 @@ function RankingsSection() {
                   <div className="rk-num">{i + 1}</div>
                   <div className="rk-bar-wrap">
                     <div className="rk-bar-bg">
-                      <div className="rk-bar" style={{ width: inView ? (w + "%") : "0%", "--c": d.color, transitionDelay: (i * 60) + "ms" }}>
+                      <div className="rk-bar" style={{ width: inView ? (w + "%") : "0%", "--c": d.color, transitionDelay: (i * 60) + "ms" }}></div>
+                      <div className="rk-bar-content">
                         <span className="rk-name">{d.name}</span>
                         <span className="rk-sub">{d.parent}</span>
                       </div>
@@ -194,8 +195,8 @@ function GaugesSection() {
     <section className="s s-gauges" data-screen-label="06 Gauges">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">Chapter 06 · Promise vs delivery</span>
-          <h2>The implementation gap.</h2>
+          <span className="eyebrow">Promise vs delivery</span>
+          <h2>The implementation gap</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
             For each fiscal year, the share of the proposed budget that was actually spent. Implementation hovered in the low 80s through the late 2010s; FY11 and FY23 stand out.
           </p>
@@ -251,9 +252,9 @@ function SectorHero() {
     <section className="page-hero" data-screen-label="01 Page Hero">
       <div className="wrap">
         <div className="crumb">
-          <span>Budget at a Glance</span><span style={{ color: "var(--g7)" }}>·</span><b>Chapter 03</b>
+          <span>Budget at a Glance</span><span style={{ color: "var(--g7)" }}>·</span>
         </div>
-        <h1>Fourteen sectors, <em>one ledger</em>.</h1>
+        <h1>Fourteen sectors, <em>one ledger</em></h1>
         <p className="dek">
           Sector by sector — totals, sub-sector stacks, GDP-share moves, and how much of each fiscal promise was actually delivered.
         </p>

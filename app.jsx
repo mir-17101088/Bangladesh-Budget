@@ -6,7 +6,6 @@ function App() {
       <Nav active={tweaks.activeNav}/>
       {PRELAUNCH ? <PreLaunchHero/> : <Hero tweaks={tweaks}/>}
       <TakaSection/>
-      <CalcSection/>
       <GDPSection/>
       <Treemap/>
       <DebtSection/>

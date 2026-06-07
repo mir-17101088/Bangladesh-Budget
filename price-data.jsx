@@ -41,24 +41,36 @@ const priceValid = (arr) => (arr || []).filter(it => it && it.name && String(it.
 
 // ── What got PRICIER (costlier) ──────────────────────────────
 const PRICIER = [
-  { name: "Steel flats & rods",     cat: "Mild steel · specific tax",            icon: "bar",
+  {
+    name: "Steel flats & rods", cat: "Mild steel · specific tax", icon: "bar",
     change: "Specific tax on mild-steel products raised by about 20%.",
-    badge: "↑ ~20%", note: "" },
-  { name: "Flat construction",      cat: "Construction services · VAT",          icon: "building",
+    badge: "↑ ~20%", note: ""
+  },
+  {
+    name: "Flat construction", cat: "Construction services · VAT", icon: "building",
     change: "VAT on construction-company services raised to 10%, from 7.5%.",
-    badge: "VAT 7.5% → 10%", note: "" },
-  { name: "Locally-made phones",    cat: "Local assembly · VAT",                 icon: "phone",
+    badge: "VAT 7.5% → 10%", note: ""
+  },
+  {
+    name: "Locally-made phones", cat: "Local assembly · VAT", icon: "phone",
     change: "VAT exemption on local phone production and assembly trimmed; the exact increase was not specified.",
-    badge: "", note: "" },
-  { name: "Toiletries & cosmetics", cat: "Hygiene plastics · VAT + customs",     icon: "lip",
+    badge: "", note: ""
+  },
+  {
+    name: "Toiletries & cosmetics", cat: "Hygiene plastics · VAT + customs", icon: "lip",
     change: "VAT on plastic hygiene products and toiletries doubled to 15%, from 7.5%; imported cosmetics also face higher customs valuation.",
-    badge: "VAT 7.5% → 15%", note: "" },
-  { name: "Cigarettes",             cat: "Tobacco · excise + supplementary duty", icon: "smoke",
+    badge: "VAT 7.5% → 15%", note: ""
+  },
+  {
+    name: "Cigarettes", cat: "Tobacco · excise + supplementary duty", icon: "smoke",
     change: "Excise and supplementary duties on cigarettes were raised — among the items the budget made costlier.",
-    badge: "", note: "" },
-  { name: "Plastic household goods", cat: "Plasticware · VAT",                    icon: "bottle",
+    badge: "", note: ""
+  },
+  {
+    name: "Plastic household goods", cat: "Plasticware · VAT", icon: "bottle",
     change: "VAT on plastic household products doubled to 15%, from 7.5%.",
-    badge: "VAT 7.5% → 15%", note: "" },
+    badge: "VAT 7.5% → 15%", note: ""
+  },
 
   // ── FY27 placeholder — fill in & duplicate as needed. Empty `name` ⇒ not rendered.
   // { name: "", cat: "", icon: "", change: "", badge: "", note: "" },
@@ -66,24 +78,36 @@ const PRICIER = [
 
 // ── What got CHEAPER ─────────────────────────────────────────
 const CHEAPER = [
-  { name: "Cancer drugs",       cat: "Medicine · duty-free inputs",     icon: "pill",
+  {
+    name: "Cancer drugs", cat: "Medicine · duty-free inputs", icon: "pill",
     change: "Duty-free facilities expanded for the raw materials and equipment used to make cancer medicines.",
-    badge: "Duty-free", note: "" },
-  { name: "Insulin",            cat: "Medicine · duty relief",          icon: "syringe",
+    badge: "Duty-free", note: ""
+  },
+  {
+    name: "Insulin", cat: "Medicine · duty relief", icon: "syringe",
     change: "Among the items getting cheaper as the budget widened pharmaceutical duty-relief measures.",
-    badge: "", note: "" },
-  { name: "Sugar",              cat: "Refined sugar · import duty",      icon: "sugar",
+    badge: "", note: ""
+  },
+  {
+    name: "Sugar", cat: "Refined sugar · import duty", icon: "sugar",
     change: "Specific import duty on refined sugar cut by ৳500 a tonne, to ৳4,000.",
-    badge: "−৳500 / tonne", note: "" },
-  { name: "Sanitary napkins",   cat: "Hygiene · VAT",                    icon: "droplet",
+    badge: "−৳500 / tonne", note: ""
+  },
+  {
+    name: "Sanitary napkins", cat: "Hygiene · VAT", icon: "droplet",
     change: "A local-level VAT exemption was introduced for sanitary napkins.",
-    badge: "VAT exempt", note: "" },
-  { name: "Ice cream",          cat: "Frozen treats · supplementary duty", icon: "icecream",
+    badge: "VAT exempt", note: ""
+  },
+  {
+    name: "Ice cream", cat: "Frozen treats · supplementary duty", icon: "icecream",
     change: "Supplementary duty on ice cream halved to 5%, from 10%.",
-    badge: "SD 10% → 5%", note: "" },
-  { name: "Land registration",  cat: "Property · registration fee",      icon: "doc",
+    badge: "SD 10% → 5%", note: ""
+  },
+  {
+    name: "Land registration", cat: "Property · registration fee", icon: "doc",
     change: "Land registration charges were reduced.",
-    badge: "", note: "" },
+    badge: "", note: ""
+  },
 
   // ── FY27 placeholder — fill in & duplicate as needed. Empty `name` ⇒ not rendered.
   // { name: "", cat: "", icon: "", change: "", badge: "", note: "" },
@@ -111,19 +135,19 @@ const CHEAPER = [
 ============================================================ */
 const RESOURCES_TOTAL_CR = 790000;            // ৳7,90,000 Cr (Tk 7,900 billion)
 const RESOURCES = [
-  { key: "nbr",     name: "Tax Revenue (NBR)",     pct: 63.2, cr: 499280, color: "#0E8C7F", group: "earned",   drill: "nbr" },
-  { key: "domloan", name: "Domestic Loan",         pct: 15.8, cr: 124820, color: "#6E6CC9", group: "borrowed" },
-  { key: "forloan", name: "Foreign Loan",          pct: 12.2, cr: 96380,  color: "#9C9AE0", group: "borrowed" },
-  { key: "nontax",  name: "Non-Tax Revenue",       pct: 5.8,  cr: 45820,  color: "#28B49E", group: "earned"   },
-  { key: "nonnbr",  name: "Tax Revenue (Non-NBR)", pct: 2.4,  cr: 18960,  color: "#5FD2B6", group: "earned"   },
-  { key: "grants",  name: "Foreign Grants",        pct: 0.6,  cr: 4740,   color: "#E0A93B", group: "granted"  },
+  { key: "nbr", name: "Tax Revenue (NBR)", pct: 63.2, cr: 499280, color: "#0E8C7F", group: "earned", drill: "nbr" },
+  { key: "domloan", name: "Domestic Loan", pct: 15.8, cr: 124820, color: "#6E6CC9", group: "borrowed" },
+  { key: "forloan", name: "Foreign Loan", pct: 12.2, cr: 96380, color: "#9C9AE0", group: "borrowed" },
+  { key: "nontax", name: "Non-Tax Revenue", pct: 5.8, cr: 45820, color: "#28B49E", group: "earned" },
+  { key: "nonnbr", name: "Tax Revenue (Non-NBR)", pct: 2.4, cr: 18960, color: "#5FD2B6", group: "earned" },
+  { key: "grants", name: "Foreign Grants", pct: 0.6, cr: 4740, color: "#E0A93B", group: "granted" },
 ];
 
 // How each group reads in the summary + legend. Order = display order.
 const RESOURCE_GROUPS = [
-  { key: "earned",   label: "Earned",   note: "tax + non-tax revenue the state collects itself" },
+  { key: "earned", label: "Earned", note: "tax + non-tax revenue the state collects itself" },
   { key: "borrowed", label: "Borrowed", note: "domestic + foreign loans to be repaid" },
-  { key: "granted",  label: "Granted",  note: "foreign grants — money that needn't be repaid" },
+  { key: "granted", label: "Granted", note: "foreign grants — money that needn't be repaid" },
 ];
 
 // Drill-downs keyed by the `drill` value above. Only "nbr" exists today.
@@ -134,11 +158,11 @@ const RESOURCE_DRILLDOWNS = {
     short: "NBR",
     total_cr: 499280,                          // ৳4,99,280 Cr (budget doc: Tk 4,990 billion)
     items: [
-      { name: "VAT",                pct: 37.8, cr: 188728, color: "#0E8C7F" },
-      { name: "Income Tax",         pct: 36.5, cr: 182237, color: "#28B49E" },
-      { name: "Supplementary Duty", pct: 13.7, cr: 68401,  color: "#4FCBB4" },
-      { name: "Import Duty",        pct: 10.3, cr: 51426,  color: "#86DDC9" },
-      { name: "Others",             pct: 1.7,  cr: 8488,   color: "#B9ECDD" },
+      { name: "VAT", pct: 37.8, cr: 188728, color: "#0E8C7F" },
+      { name: "Income Tax", pct: 36.5, cr: 182237, color: "#28B49E" },
+      { name: "Supplementary Duty", pct: 13.7, cr: 68401, color: "#4FCBB4" },
+      { name: "Import Duty", pct: 10.3, cr: 51426, color: "#86DDC9" },
+      { name: "Others", pct: 1.7, cr: 8488, color: "#B9ECDD" },
     ],
   },
 };
@@ -146,7 +170,7 @@ const RESOURCE_DRILLDOWNS = {
 // ── Number formatting (Bangladeshi/Indian grouping) ──────────
 // fmtCr(499280)  → "৳4,99,280 Cr"   (exact, published amount)
 // fmtLakhCr(499280) → "৳4.99L Cr"   (compact lakh-crore, for the hero number)
-const fmtCr     = (n) => "৳" + Math.round(n).toLocaleString("en-IN") + " Cr";
+const fmtCr = (n) => "৳" + Math.round(n).toLocaleString("en-IN") + " Cr";
 const fmtLakhCr = (n) => "৳" + (n / 100000).toFixed(2) + "L Cr";
 
 // ⟶ GO-LIVE FY27 (price): add the FY27 subsidy share (per ৳100). Status/styling
@@ -172,8 +196,8 @@ function PriceHero() {
     <section className="page-hero" data-screen-label="01 Page Hero">
       <div className="wrap">
         <div className="crumb">
-          <span>Budget at a Glance</span><span style={{ color: "var(--g7)"}}>·</span><b>Chapter 02</b>
-          <span style={{ color: "var(--g7)"}}>·</span><span>{PRICE_FY_SPAN}</span>
+          <span>Budget at a Glance</span><span style={{ color: "var(--g7)" }}>·</span>
+          <span style={{ color: "var(--g7)" }}>·</span><span>{PRICE_FY_SPAN}</span>
         </div>
         <h1>What got pricier, <em>what got cheaper</em>.</h1>
         <p className="dek">
@@ -196,22 +220,22 @@ function PriceHero() {
         <div className="page-hero-stats">
           <div className="phs-cell red">
             <div className="l">Costlier — selected</div>
-            <div className="n"><CountUp value={upN}/></div>
+            <div className="n"><CountUp value={upN} /></div>
             <div className="s">higher VAT, excise &amp; duties — and many more</div>
           </div>
           <div className="phs-cell green">
             <div className="l">Cheaper — selected</div>
-            <div className="n"><CountUp value={dnN}/></div>
+            <div className="n"><CountUp value={dnN} /></div>
             <div className="s">cuts, exemptions &amp; waivers — and many more</div>
           </div>
           <div className="phs-cell">
             <div className="l">Tax revenue target</div>
-            <div className="n">৳<CountUp value={4.54} decimals={2}/>L Cr</div>
+            <div className="n">৳<CountUp value={4.54} decimals={2} />L Cr</div>
             <div className="s">NBR + non-NBR · 57% of budget</div>
           </div>
           <div className="phs-cell">
             <div className="l">Subsidy bill</div>
-            <div className="n">৳<CountUp value={11.5} decimals={1}/></div>
+            <div className="n">৳<CountUp value={11.5} decimals={1} /></div>
             <div className="s">per ৳100 spent · 2× since FY22</div>
           </div>
         </div>
@@ -227,25 +251,25 @@ function ItemIcon({ kind, color }) {
   const c = color || "currentColor";
   const props = { width: 28, height: 28, viewBox: "0 0 24 24", fill: "none", stroke: c, strokeWidth: 1.6, strokeLinecap: "round", strokeLinejoin: "round" };
   switch (kind) {
-    case "smoke":   return <svg {...props}><rect x="3" y="11" width="14" height="4" rx="0.5"/><path d="M17 11h2v4h-2"/><path d="M5 8c0-2 2-2 2-4M9 8c0-2 2-2 2-4"/></svg>;
-    case "phone":   return <svg {...props}><rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="12" cy="18" r="0.6" fill={c}/></svg>;
-    case "car":     return <svg {...props}><path d="M3 14h18l-2-5H5l-2 5z"/><path d="M3 14v4M21 14v4"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>;
-    case "snack":   return <svg {...props}><path d="M5 7h14l-1.5 12h-11L5 7z"/><path d="M9 11v5M12 11v5M15 11v5"/></svg>;
-    case "soda":    return <svg {...props}><path d="M7 4h10l-1 16H8L7 4z"/><path d="M8 8h8M10 4V2M14 4V2"/></svg>;
-    case "lip":     return <svg {...props}><path d="M7 10c1-3 3-3 5-1 2-2 4-2 5 1l-2 8H9l-2-8z"/><path d="M11 14h2"/></svg>;
-    case "shirt":   return <svg {...props}><path d="M7 4l-3 4 2 2v10h12V10l2-2-3-4-3 2c-1 1-3 1-4 0L7 4z"/></svg>;
-    case "tractor": return <svg {...props}><circle cx="7" cy="17" r="3"/><circle cx="17" cy="17" r="2"/><path d="M4 13V8h7l2 4h6v5"/><path d="M11 8V5h3"/></svg>;
-    case "sun":     return <svg {...props}><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg>;
-    case "pill":    return <svg {...props}><rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-25 12 12)"/><path d="M9 8l4 8" transform="rotate(-25 12 12)"/></svg>;
-    case "book":    return <svg {...props}><path d="M4 4h7v16H4z"/><path d="M11 4h9v16h-9"/><path d="M11 8h6M11 12h6"/></svg>;
-    case "bar":     return <svg {...props}><rect x="3" y="10" width="18" height="4" rx="0.5"/><path d="M6 10V8M10 10V8M14 10V8M18 10V8"/></svg>;
-    case "building":return <svg {...props}><path d="M3 21h18"/><path d="M5 21V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v16"/><path d="M14 21V10h4a1 1 0 0 1 1 1v10"/><path d="M8 8h1M11 8h1M8 12h1M11 12h1M8 16h1M11 16h1"/></svg>;
-    case "bottle":  return <svg {...props}><path d="M10 2h4v2.5l1.1 2.1a3 3 0 0 1 .4 1.5V20a1 1 0 0 1-1 1H9.5a1 1 0 0 1-1-1V8.1a3 3 0 0 1 .4-1.5L10 4.5V2z"/><path d="M9 12h6"/></svg>;
-    case "syringe": return <svg {...props}><path d="M18 3l3 3"/><path d="M15.5 5.5l3 3"/><path d="M5 19l-2 2"/><path d="M14 7l3 3-8.5 8.5L5 19.5l1-3.5L14 7z"/><path d="M8 13l3 3"/></svg>;
-    case "sugar":   return <svg {...props}><rect x="3.5" y="11.5" width="7" height="7" rx="1"/><rect x="13.5" y="11.5" width="7" height="7" rx="1"/><rect x="8.5" y="4.5" width="7" height="7" rx="1"/></svg>;
-    case "droplet": return <svg {...props}><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>;
-    case "icecream":return <svg {...props}><path d="M8 9a4 4 0 0 1 8 0"/><path d="M7.5 10h9l-4.5 11-4.5-11z"/><path d="M9.6 14h4.8"/></svg>;
-    case "doc":     return <svg {...props}><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 13h5M10 16h5"/></svg>;
+    case "smoke": return <svg {...props}><rect x="3" y="11" width="14" height="4" rx="0.5" /><path d="M17 11h2v4h-2" /><path d="M5 8c0-2 2-2 2-4M9 8c0-2 2-2 2-4" /></svg>;
+    case "phone": return <svg {...props}><rect x="6" y="3" width="12" height="18" rx="2" /><circle cx="12" cy="18" r="0.6" fill={c} /></svg>;
+    case "car": return <svg {...props}><path d="M3 14h18l-2-5H5l-2 5z" /><path d="M3 14v4M21 14v4" /><circle cx="7" cy="18" r="1.6" /><circle cx="17" cy="18" r="1.6" /></svg>;
+    case "snack": return <svg {...props}><path d="M5 7h14l-1.5 12h-11L5 7z" /><path d="M9 11v5M12 11v5M15 11v5" /></svg>;
+    case "soda": return <svg {...props}><path d="M7 4h10l-1 16H8L7 4z" /><path d="M8 8h8M10 4V2M14 4V2" /></svg>;
+    case "lip": return <svg {...props}><path d="M7 10c1-3 3-3 5-1 2-2 4-2 5 1l-2 8H9l-2-8z" /><path d="M11 14h2" /></svg>;
+    case "shirt": return <svg {...props}><path d="M7 4l-3 4 2 2v10h12V10l2-2-3-4-3 2c-1 1-3 1-4 0L7 4z" /></svg>;
+    case "tractor": return <svg {...props}><circle cx="7" cy="17" r="3" /><circle cx="17" cy="17" r="2" /><path d="M4 13V8h7l2 4h6v5" /><path d="M11 8V5h3" /></svg>;
+    case "sun": return <svg {...props}><circle cx="12" cy="12" r="4" /><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4" /></svg>;
+    case "pill": return <svg {...props}><rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-25 12 12)" /><path d="M9 8l4 8" transform="rotate(-25 12 12)" /></svg>;
+    case "book": return <svg {...props}><path d="M4 4h7v16H4z" /><path d="M11 4h9v16h-9" /><path d="M11 8h6M11 12h6" /></svg>;
+    case "bar": return <svg {...props}><rect x="3" y="10" width="18" height="4" rx="0.5" /><path d="M6 10V8M10 10V8M14 10V8M18 10V8" /></svg>;
+    case "building": return <svg {...props}><path d="M3 21h18" /><path d="M5 21V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v16" /><path d="M14 21V10h4a1 1 0 0 1 1 1v10" /><path d="M8 8h1M11 8h1M8 12h1M11 12h1M8 16h1M11 16h1" /></svg>;
+    case "bottle": return <svg {...props}><path d="M10 2h4v2.5l1.1 2.1a3 3 0 0 1 .4 1.5V20a1 1 0 0 1-1 1H9.5a1 1 0 0 1-1-1V8.1a3 3 0 0 1 .4-1.5L10 4.5V2z" /><path d="M9 12h6" /></svg>;
+    case "syringe": return <svg {...props}><path d="M18 3l3 3" /><path d="M15.5 5.5l3 3" /><path d="M5 19l-2 2" /><path d="M14 7l3 3-8.5 8.5L5 19.5l1-3.5L14 7z" /><path d="M8 13l3 3" /></svg>;
+    case "sugar": return <svg {...props}><rect x="3.5" y="11.5" width="7" height="7" rx="1" /><rect x="13.5" y="11.5" width="7" height="7" rx="1" /><rect x="8.5" y="4.5" width="7" height="7" rx="1" /></svg>;
+    case "droplet": return <svg {...props}><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z" /></svg>;
+    case "icecream": return <svg {...props}><path d="M8 9a4 4 0 0 1 8 0" /><path d="M7.5 10h9l-4.5 11-4.5-11z" /><path d="M9.6 14h4.8" /></svg>;
+    case "doc": return <svg {...props}><path d="M7 3h7l4 4v14H7z" /><path d="M14 3v4h4" /><path d="M10 13h5M10 16h5" /></svg>;
     default: return null;
   }
 }
@@ -275,7 +299,7 @@ function ItemSection({ kind, items }) {
           </div>
           <div className="text">
             <span className="eyebrow" style={{ color: accent }}>
-              {up ? "Chapter 02 · Up the slope" : "Chapter 03 · Down the slope"}
+              {up ? "Up the slope" : "Down the slope"}
             </span>
             <h2>
               What got {up ? <span className="acc-red">pricier</span> : <span className="acc-grn">cheaper</span>}.
@@ -291,7 +315,7 @@ function ItemSection({ kind, items }) {
         <div className="item-grid">
           {visible.map((it, i) => (
             <article key={i} className={"item-card " + (up ? "up" : "down")}>
-              {it.icon && <div className="item-icon"><ItemIcon kind={it.icon} color={accent}/></div>}
+              {it.icon && <div className="item-icon"><ItemIcon kind={it.icon} color={accent} /></div>}
               <div className="item-name">{it.name}</div>
               {it.cat && <div className="item-sub">{it.cat}</div>}
               {it.change && <div className="item-duty">{it.change}</div>}
