@@ -124,9 +124,21 @@
 .see-legend .ll { display: inline-flex; align-items: center; gap: 8px; }
 .see-legend .sw { width: 14px; height: 12px; border-radius: 3px; }
 
-/* Heatmap */
-.heat-wrap { padding: 32px 36px; border-radius: 22px; }
-.heat-table { width: 100%; border-collapse: separate; border-spacing: 3px; font-family: var(--ui); }
+/* Heatmap — a read-only "heat ribbon" infographic (not an interactive grid).
+   Vivid diverging palette: rose = electric teal-cyan (lighter, the "wins"),
+   fell = vivid terracotta (deeper, recedes). The two states differ in BOTH hue
+   (cyan vs orange, safe for red/green colour-blindness) and luminance (~15% gap,
+   safe in greyscale/monochromacy), so direction never relies on colour alone. */
+.heat-wrap {
+  padding: 32px 36px; border-radius: 22px;
+  --rose: #3CC3DE;                    /* GDP share rose — electric teal-cyan */
+  --fell: #CB5A30;                    /* GDP share fell — vivid terracotta */
+  --seam: rgba(255,255,255,0.05);     /* faint year rule WITHIN the ribbon */
+  --cap: 5px;                         /* soft pill end-cap radius */
+}
+/* border-spacing: 0 (horizontal) fuses each row into one continuous band so it
+   reads as printed data, not tiles; the vertical value keeps sectors apart. */
+.heat-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; font-family: var(--ui); }
 .heat-table th, .heat-table td { font-size: 11px; padding: 0; text-align: center; }
 .heat-table th.col-h {
   color: var(--ink-3); font-weight: 500; letter-spacing: 0.06em;
@@ -139,13 +151,14 @@
 }
 .heat-table .h-cell {
   width: 38px; height: 30px;
-  border-radius: 4px;
-  position: relative;
+  border-radius: 0;                          /* interior segments are seamless */
+  border-right: 1px solid var(--seam);       /* a printed year rule, NOT a gap */
 }
-.heat-table .h-cell.up   { background: rgba(1,153,51,0.7); }
-.heat-table .h-cell.up::after { content: "▲"; color: rgba(255,255,255,0.7); font-size: 8px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-.heat-table .h-cell.dn   { background: rgba(198,0,1,0.55); }
-.heat-table .h-cell.dn::after { content: "▼"; color: rgba(255,255,255,0.7); font-size: 8px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.heat-table .h-cell.up { background: var(--rose); }
+.heat-table .h-cell.dn { background: var(--fell); }
+/* Soft pill end-caps so each sector reads as one continuous ribbon, not tiles. */
+.heat-table .h-cell.cap-l { border-top-left-radius: var(--cap); border-bottom-left-radius: var(--cap); }
+.heat-table .h-cell.cap-r { border-top-right-radius: var(--cap); border-bottom-right-radius: var(--cap); border-right: none; }
 .heat-table .sum-h {
   font-family: var(--serif); font-size: 16px; color: #fff;
   padding-left: 18px; text-align: left;
@@ -244,7 +257,7 @@
    cells flex down. The ≤960/≤640/≤400 blocks below refine sizing further. */
 @media (max-width: 1040px) {
   .heat-wrap { padding: 24px 18px; border-radius: 16px; overflow: hidden; }
-  .heat-table { table-layout: fixed; width: 100%; border-spacing: 2px; }
+  .heat-table { table-layout: fixed; width: 100%; border-spacing: 0 6px; }
   .heat-table thead th:first-child { width: 124px; }   /* sector-label column */
   .heat-table th.col-h.rises-h {
     width: 56px; writing-mode: horizontal-tb; transform: none;
@@ -280,7 +293,7 @@
 
   /* Heatmap fits screen — compact cells, no horizontal scroll */
   .heat-wrap { padding: 24px 18px; border-radius: 16px; }
-  .heat-table { border-spacing: 2px; }
+  .heat-table { border-spacing: 0 6px; }
   .heat-table .h-cell { width: 100%; height: 24px; min-width: 0; }
   .heat-table th.col-h { font-size: 10px; padding-bottom: 8px; letter-spacing: 0; }
   .heat-table td.row-h {
@@ -349,14 +362,12 @@
      the label + RISES columns are sized there; the 17 cells share the rest.
      overflow:hidden on the card clips any sub-pixel spill to its rounded edge. */
   .heat-wrap { padding: 16px 10px; border-radius: 14px; overflow: hidden; }
-  .heat-table { table-layout: fixed; width: 100%; border-spacing: 1.5px; }
+  .heat-table { table-layout: fixed; width: 100%; border-spacing: 0 4px; }
   .heat-table thead th:first-child { width: 86px; }   /* sector-label column */
   .heat-table th.col-h.rises-h { width: 40px; }        /* RISES column */
-  .heat-table .h-cell { width: 100%; height: 18px; min-width: 0; border-radius: 2px; }
-  /* Keep the ▲/▼ glyphs (shrunk) on small screens so rise/fall is never
-     conveyed by colour alone — essential for red/green colour-blind users. */
-  .heat-table .h-cell.up::after,
-  .heat-table .h-cell.dn::after { font-size: 6.5px; }
+  .heat-table .h-cell { width: 100%; height: 18px; min-width: 0; }
+  /* Arrows removed: the teal/clay diverging palette differs in both hue and
+     luminance, so rise/fall survives colour-blindness without per-cell glyphs. */
   /* Vertical (rotated) column headers so 17 narrow columns fit */
   .heat-table th.col-h {
     writing-mode: vertical-rl;
@@ -428,7 +439,7 @@
   .gauge-row, .gauge-row.row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rk-row { grid-template-columns: 18px 1fr 68px; gap: 8px; }
   .heat-wrap { padding: 14px 8px; }
-  .heat-table { border-spacing: 1px; }
+  .heat-table { border-spacing: 0 3px; }
   .heat-table thead th:first-child { width: 70px; }   /* narrower label column */
   .heat-table th.col-h.rises-h { width: 36px; }        /* narrower RISES column */
   .heat-table td.row-h { max-width: 70px; width: 70px; font-size: 9.5px; padding-right: 3px; }
