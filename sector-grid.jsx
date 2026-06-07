@@ -88,6 +88,7 @@ function ExpandedSection({ active }) {
   const [tooltip, setTooltip] = useStateSD(null); // { x, y, data, isMobile }
   const chartContainerRef = React.useRef(null);
   const tooltipRef = React.useRef(null);
+  const touchStartRef = React.useRef(null); // {x,y} of the last touchstart on a bar — used to tell a tap from a scroll
 
   const [isMobile, setIsMobile] = useStateSD(window.innerWidth <= 640);
   React.useEffect(() => {
@@ -104,6 +105,9 @@ function ExpandedSection({ active }) {
 
   // GDP% data for this sector
   const gdpData = useMemoSD(() => GDP_SECTOR_DATA[active] || {}, [active]);
+
+  // % of total budget data for this sector
+  const budData = useMemoSD(() => BUDGET_SHARE_SECTOR_DATA[active] || {}, [active]);
 
   // Build bars for ABSOLUTE view.
   // Only include years that actually have a sub-sector breakdown — a year with a
@@ -133,7 +137,21 @@ function ExpandedSection({ active }) {
     }).filter(b => b.pct != null);
   }, [active]);
 
-  const allBars = mode === "abs" ? absBars : gdpBars;
+  // Build bars for % of total budget view — single bar per year (same shape as GDP)
+  const budBars = useMemoSD(() => {
+    return SECTOR_YEARS.map(fy => {
+      const status = BUDGET.statusOf(fy);
+      const entry = budData[fy];
+      return {
+        fy, pct: entry ? entry.pct : null, total: entry ? entry.total : null, status,
+        notYetActual: status === "revised" || status === "proposed",
+      };
+    }).filter(b => b.pct != null);
+  }, [active]);
+
+  // The two percent views (GDP share / budget share) share one rendering path.
+  const pctBars = mode === "bud" ? budBars : gdpBars;
+  const allBars = mode === "abs" ? absBars : pctBars;
   const n = allBars.length;
 
   // ── Measure the real container width with a ResizeObserver so the chart
@@ -174,13 +192,13 @@ function ExpandedSection({ active }) {
 
   // Headroom above the tallest bar so the floating value/tag labels never sit on a bar.
   const maxAbs = mode === "abs" ? Math.max(...absBars.map(b => b.total)) * (isMobile ? 1.12 : 1.16) : 0;
-  const maxGdp = mode === "gdp" ? Math.max(...gdpBars.map(b => b.pct)) * (isMobile ? 1.22 : 1.28) : 0;
-  const dispMax = mode === "abs" ? maxAbs : maxGdp;
+  const maxPct = mode !== "abs" ? Math.max(...pctBars.map(b => b.pct)) * (isMobile ? 1.22 : 1.28) : 0;
+  const dispMax = mode === "abs" ? maxAbs : maxPct;
 
   // Floating callouts (proposed value + revised/proposed tags) anchor to the TOP
   // of the tallest bar, i.e. inside the clear headroom above every bar — so they
   // never sit on a bar, even when a neighbour bar is taller than the labelled one.
-  const dataMax = mode === "abs" ? Math.max(...absBars.map(b => b.total)) : Math.max(...gdpBars.map(b => b.pct));
+  const dataMax = mode === "abs" ? Math.max(...absBars.map(b => b.total)) : Math.max(...pctBars.map(b => b.pct));
   const tallestTopY = pad.t + innerH - (dataMax / dispMax) * innerH;
   // Only show the side-by-side REVISED/PROPOSED tags when columns are wide enough
   // that the two labels can't touch; otherwise the top-margin annotation carries it.
@@ -210,8 +228,10 @@ function ExpandedSection({ active }) {
     const container = chartContainerRef.current;
     if (!container) return;
     const rect = container.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    // Works for mouse (clientX/Y), touchstart/move (touches) and touchend (changedTouches).
+    const touch = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]);
+    const clientX = touch ? touch.clientX : e.clientX;
+    const clientY = touch ? touch.clientY : e.clientY;
 
     // Check width dynamically inside the handler to ensure truthiness
     const currentIsMobile = window.innerWidth <= 640;
@@ -229,6 +249,27 @@ function ExpandedSection({ active }) {
     // On mobile, let the bottom sheet stay open until explicitly closed
     if (window.innerWidth > 640) {
       setTooltip(null);
+    }
+  };
+
+  // Touch: showing the tooltip on touchstart made it pop up the instant a finger
+  // landed — including at the start of a scroll. Instead, remember where the touch
+  // began and only show the tooltip on touchend if the finger barely moved (a tap).
+  // A clear drag is a scroll and is left to scroll the page normally.
+  const TAP_SLOP = 12; // px of movement still treated as a tap, not a scroll
+  const handleBarTouchStart = (e) => {
+    const t = e.touches && e.touches[0];
+    touchStartRef.current = t ? { x: t.clientX, y: t.clientY } : null;
+  };
+  const handleBarTouchEnd = (e, barData, barIndex) => {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start) return;
+    const t = e.changedTouches && e.changedTouches[0];
+    if (!t) return;
+    if (Math.abs(t.clientX - start.x) <= TAP_SLOP && Math.abs(t.clientY - start.y) <= TAP_SLOP) {
+      e.preventDefault(); // a tap → suppress the ghost click and show the tooltip
+      handleBarEnter(e, barData, barIndex);
     }
   };
 
@@ -282,10 +323,10 @@ function ExpandedSection({ active }) {
           </div>
         </>
       )}
-      {tooltip.mode === "gdp" && (
+      {tooltip.mode !== "abs" && (
         <div className="see-tooltip-row">
           <span className="see-tooltip-sw" style={{ background: s.color }}></span>
-          <span className="see-tooltip-name">as % of GDP</span>
+          <span className="see-tooltip-name">{tooltip.mode === "gdp" ? "as % of GDP" : "as % of total budget"}</span>
           <span className="see-tooltip-val">{tooltip.bar.pct.toFixed(2)}%</span>
         </div>
       )}
@@ -302,8 +343,9 @@ function ExpandedSection({ active }) {
               <h3>{s.name} — {SECTOR_YEARS.length} years{mode === "abs" && subCount > 1 ? `, ${subCount} sub-sectors` : ""}.</h3>
             </div>
             <div className="see-toggle" style={{ "--accent": s.color }}>
-              <button className={mode === "abs" ? "active" : ""} style={{ background: mode === "abs" ? s.color : "transparent" }} onClick={() => setMode("abs")}>Absolute · ৳ Cr</button>
+              <button className={mode === "abs" ? "active" : ""} style={{ background: mode === "abs" ? s.color : "transparent" }} onClick={() => setMode("abs")}>{isMobile ? "Absolute" : "Absolute · ৳ Cr"}</button>
               <button className={mode === "gdp" ? "active" : ""} style={{ background: mode === "gdp" ? s.color : "transparent" }} onClick={() => setMode("gdp")}>% of GDP</button>
+              <button className={mode === "bud" ? "active" : ""} style={{ background: mode === "bud" ? s.color : "transparent" }} onClick={() => setMode("bud")}>% of Budget</button>
             </div>
           </div>
 
@@ -315,12 +357,19 @@ function ExpandedSection({ active }) {
                 <div className="see-stat"><div className="l">Years of rise</div><div className="v"><CountUp value={s.riseAbs || 0} />{`/${SECTOR_YEARS.length - 1}`}</div><div className="s">YoY increases (absolute)</div></div>
                 <div className="see-stat"><div className="l">Peak year</div><div className="v">{s.peakYearAbs || BUDGET.proposed}</div><div className="s">all-time high in the series</div></div>
               </>
-            ) : (
+            ) : mode === "gdp" ? (
               <>
                 <div className="see-stat"><div className="l">{BUDGET.proposed} share</div><div className="v"><CountUp value={parseFloat(s.gdpProposed) || 0} decimals={2} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>%</span></div><div className="s">vs FY09: {(s.gdp09 || 0).toFixed(2)}%</div></div>
                 <div className="see-stat"><div className="l">Change since FY09</div><div className="v" style={{ color: s.color }}><CountUp value={parseFloat(s.gdpGrowth) || 0} decimals={2} prefix={parseFloat(s.gdpGrowth) > 0 ? "+" : ""} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>pts</span></div><div className="s">FY09 → {BUDGET.proposed}</div></div>
                 <div className="see-stat"><div className="l">Years of rise</div><div className="v"><CountUp value={s.riseGdp || 0} />{`/${SECTOR_YEARS.length - 1}`}</div><div className="s">YoY increases (% share)</div></div>
                 <div className="see-stat"><div className="l">Peak year</div><div className="v">{s.peakYearGdp || BUDGET.proposed}</div><div className="s">highest GDP share</div></div>
+              </>
+            ) : (
+              <>
+                <div className="see-stat"><div className="l">{BUDGET.proposed} share</div><div className="v"><CountUp value={parseFloat(s.budProposed) || 0} decimals={2} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>%</span></div><div className="s">vs FY09: {(s.bud09 || 0).toFixed(2)}%</div></div>
+                <div className="see-stat"><div className="l">Change since FY09</div><div className="v" style={{ color: s.color }}><CountUp value={parseFloat(s.budGrowth) || 0} decimals={2} prefix={parseFloat(s.budGrowth) > 0 ? "+" : ""} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>pts</span></div><div className="s">FY09 → {BUDGET.proposed}</div></div>
+                <div className="see-stat"><div className="l">Years of rise</div><div className="v"><CountUp value={s.riseBud || 0} />{`/${SECTOR_YEARS.length - 1}`}</div><div className="s">YoY increases (% of budget)</div></div>
+                <div className="see-stat"><div className="l">Peak year</div><div className="v">{s.peakYearBud || BUDGET.proposed}</div><div className="s">highest budget share</div></div>
               </>
             )}
           </div>
@@ -421,7 +470,8 @@ function ExpandedSection({ active }) {
                         onMouseEnter={(e) => handleBarEnter(e, b, i)}
                         onMouseMove={(e) => handleBarEnter(e, b, i)}
                         onMouseLeave={handleBarLeave}
-                        onTouchStart={(e) => { e.preventDefault(); handleBarEnter(e, b, i); }} />
+                        onTouchStart={handleBarTouchStart}
+                        onTouchEnd={(e) => handleBarTouchEnd(e, b, i)} />
 
                       {isProposed && (
                         <text x={pad.l + totSize + 6} y={y + bw / 2 + 4} textAnchor="start"
@@ -459,7 +509,8 @@ function ExpandedSection({ active }) {
                         onMouseEnter={(e) => handleBarEnter(e, b, i)}
                         onMouseMove={(e) => handleBarEnter(e, b, i)}
                         onMouseLeave={handleBarLeave}
-                        onTouchStart={(e) => { e.preventDefault(); handleBarEnter(e, b, i); }} />
+                        onTouchStart={handleBarTouchStart}
+                        onTouchEnd={(e) => handleBarTouchEnd(e, b, i)} />
                       {showYearLabel(i, isProposed) && (
                         <text x={x + bw / 2} y={H - 20} textAnchor="middle" className="tick-label"
                           style={{ fill: b.notYetActual ? s.color : undefined, opacity: b.notYetActual ? 0.9 : 1 }}>{b.fy}</text>
@@ -480,8 +531,8 @@ function ExpandedSection({ active }) {
                 }
               })}
 
-              {/* ── GDP% VIEW: single-color bars ── */}
-              {mode === "gdp" && gdpBars.map((b, i) => {
+              {/* ── PERCENT VIEWS (GDP share / budget share): single-color bars ── */}
+              {mode !== "abs" && pctBars.map((b, i) => {
                 const baseDelay = i * 45;
                 const isProposed = b.fy === BUDGET.proposed;
                 const barSize = (b.pct / dispMax) * (isMobile ? innerW : innerH);
@@ -504,7 +555,8 @@ function ExpandedSection({ active }) {
                         onMouseEnter={(e) => handleBarEnter(e, b, i)}
                         onMouseMove={(e) => handleBarEnter(e, b, i)}
                         onMouseLeave={handleBarLeave}
-                        onTouchStart={(e) => { e.preventDefault(); handleBarEnter(e, b, i); }} />
+                        onTouchStart={handleBarTouchStart}
+                        onTouchEnd={(e) => handleBarTouchEnd(e, b, i)} />
                       {isProposed && (
                         <text x={pad.l + barSize + 6} y={y + bw / 2 + 4} textAnchor="start"
                           style={{ fontFamily: "var(--serif)", fontSize: 13, fill: "#fff" }}>
@@ -533,7 +585,8 @@ function ExpandedSection({ active }) {
                         onMouseEnter={(e) => handleBarEnter(e, b, i)}
                         onMouseMove={(e) => handleBarEnter(e, b, i)}
                         onMouseLeave={handleBarLeave}
-                        onTouchStart={(e) => { e.preventDefault(); handleBarEnter(e, b, i); }} />
+                        onTouchStart={handleBarTouchStart}
+                        onTouchEnd={(e) => handleBarTouchEnd(e, b, i)} />
                       {showYearLabel(i, isProposed) && (
                         <text x={x + bw / 2} y={H - 20} textAnchor="middle" className="tick-label"
                           style={{ fill: b.notYetActual ? s.color : undefined, opacity: b.notYetActual ? 0.9 : 1 }}>{b.fy}</text>
@@ -576,7 +629,7 @@ function ExpandedSection({ active }) {
               </>
             ) : (
               <>
-                <span className="ll"><span className="sw" style={{ background: s.color }}></span>Total {s.name} as % of GDP</span>
+                <span className="ll"><span className="sw" style={{ background: s.color }}></span>Total {s.name} as {mode === "gdp" ? "% of GDP" : "% of total budget"}</span>
                 <span className="ll" style={{ marginLeft: "auto" }}>
                   <span className="sw" style={{ background: "transparent", border: "1px dashed " + s.color }}></span>
                   {BUDGET.revised}–{BUDGET.proposed} · not yet actual

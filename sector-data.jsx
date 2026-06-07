@@ -631,6 +631,37 @@ const _gdpRaw = {
 };
 Object.assign(GDP_SECTOR_DATA, _gdpRaw);
 
+// ──────────────────────────────────────────────────────────────────────
+// % OF TOTAL BUDGET data — from "as % of total budget.csv".
+// Each year's share = a sector's annual total ÷ that year's TOTAL BUDGET
+// (the CSV's final column). Deriving it from SECTOR_VALUES (same totals the
+// Absolute view uses) keeps the two views perfectly consistent and reproduces
+// the CSV's percentages exactly. Shape mirrors GDP_SECTOR_DATA:
+//   sector key → { [FY]: { total, pct } }.
+// ⟶ GO-LIVE FY27 (% of budget): add `FY27: <total budget in Cr>` below once the
+//   proposed-year total budget is known. The view omits any year missing from
+//   this map, so partial data never breaks the chart.
+// ──────────────────────────────────────────────────────────────────────
+const TOTAL_BUDGET_BY_YEAR = {
+  FY09: 88064,  FY10: 101608, FY11: 128268, FY12: 152428, FY13: 174013,
+  FY14: 188208, FY15: 204380, FY16: 238433, FY17: 269499, FY18: 321862,
+  FY19: 391690, FY20: 420160, FY21: 460160, FY22: 518188, FY23: 573857,
+  FY24: 611392, FY25: 680789, FY26: 715252,
+};
+
+const BUDGET_SHARE_SECTOR_DATA = {};
+Object.keys(SECTOR_VALUES).forEach(k => {
+  const perYear = {};
+  FY_YEARS.forEach(fy => {
+    const val = SECTOR_VALUES[k][fy];
+    const tot = TOTAL_BUDGET_BY_YEAR[fy];
+    if (typeof val === "number" && typeof tot === "number" && tot > 0) {
+      perYear[fy] = { total: val, pct: (val / tot) * 100 };
+    }
+  });
+  BUDGET_SHARE_SECTOR_DATA[k] = perYear;
+});
+
 // Re-calculate stats for each sector
 SECTORS.forEach(s => {
   const gdpArr = SECTOR_YEARS.map(fy => GDP_SECTOR_DATA[s.k]?.[fy]?.pct ?? 0);
@@ -646,6 +677,14 @@ SECTORS.forEach(s => {
   
   s.peakYearGdp = SECTOR_YEARS[gdpArr.indexOf(Math.max(...gdpArr))];
   s.peakYearAbs = SECTOR_YEARS[absArr.indexOf(Math.max(...absArr))];
+
+  // % of total budget stats (mirror the GDP-share stats)
+  const budArr = SECTOR_YEARS.map(fy => BUDGET_SHARE_SECTOR_DATA[s.k]?.[fy]?.pct ?? 0);
+  s.riseBud = countRises(budArr);
+  s.budProposed = BUDGET_SHARE_SECTOR_DATA[s.k]?.[BUDGET.proposed]?.pct ?? 0;
+  s.bud09 = BUDGET_SHARE_SECTOR_DATA[s.k]?.['FY09']?.pct ?? 0;
+  s.budGrowth = (s.budProposed - s.bud09).toFixed(2);
+  s.peakYearBud = SECTOR_YEARS[budArr.indexOf(Math.max(...budArr))];
 });
 
 // Keep the old DEFENCE_STACK alias for backward compat (unused but safe)
@@ -710,4 +749,5 @@ function patternFor(_unused, key) {
 Object.assign(window, {
   SECTORS, FY_YEARS, SECTOR_YEARS, DEFENCE_STACK, DEPTS, IMPL, patternFor, SECTOR_VALUES,
   getSubSectorConfig, GDP_SECTOR_DATA, SUB_SECTOR_RAW,
+  BUDGET_SHARE_SECTOR_DATA, TOTAL_BUDGET_BY_YEAR,
 });
