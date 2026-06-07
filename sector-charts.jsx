@@ -243,7 +243,7 @@ function GaugesSection() {
 /* ============================================================
    PAGE HERO
 ============================================================ */
-function SectorHero() {
+function SectorHero({ setActive }) {
   const top = [...SECTORS].sort((a, b) => b.proposed - a.proposed)[0];
   const fastest = [...SECTORS].sort((a, b) => (b.proposed / b.fy09) - (a.proposed / a.fy09))[0];
   const implP = IMPL.filter(g => typeof g.v === "number");
@@ -259,10 +259,10 @@ function SectorHero() {
           Sector by sector — totals, sub-sector stacks, GDP-share moves, and how much of each fiscal promise was actually delivered.
         </p>
         <div className="page-hero-stats">
-          <div className="phs-cell"><div className="l">Sectors tracked</div><div className="n"><CountUp value={SECTORS.length} duration={1000} /></div><div className="s">FY09 — {BUDGET.proposed} · {SECTOR_YEARS.length}-year panel</div></div>
-          <div className="phs-cell"><div className="l">Top sector {BUDGET.proposed}</div><div className="n">{top.name}</div><div className="s">৳<CountUp value={top.proposed / 1000} decimals={1} />k Cr</div></div>
-          <div className="phs-cell green"><div className="l">Fastest grower</div><div className="n"><CountUp value={parseFloat(fastest.growth)} decimals={1} suffix="×" /></div><div className="s">{fastest.name} · since FY09</div></div>
-          <div className="phs-cell"><div className="l">Avg implementation</div><div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%" /></div><div className="s">FY09 — {BUDGET.proposed} average</div></div>
+          <div className="phs-cell" onClick={() => document.querySelector('.s-sector-grid')?.scrollIntoView({behavior: 'smooth'})}><div className="l">Sectors tracked</div><div className="n"><CountUp value={SECTORS.length} duration={1000} /></div><div className="s">FY09 — {BUDGET.proposed} · {SECTOR_YEARS.length}-year panel</div></div>
+          <div className="phs-cell" onClick={() => setActive && setActive(top.k)}><div className="l">Top sector {BUDGET.proposed}</div><div className="n">{top.name}</div><div className="s">৳<CountUp value={top.proposed / 1000} decimals={1} />k Cr</div></div>
+          <div className="phs-cell green" onClick={() => setActive && setActive(fastest.k)}><div className="l">Fastest grower</div><div className="n"><CountUp value={parseFloat(fastest.growth)} decimals={1} suffix="×" /></div><div className="s">{fastest.name} · since FY09</div></div>
+          <div className="phs-cell" onClick={() => document.querySelector('.s-gauges')?.scrollIntoView({behavior: 'smooth'})}><div className="l">Avg implementation</div><div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%" /></div><div className="s">FY09 — {BUDGET.proposed} average</div></div>
         </div>
       </div>
     </section>

@@ -699,9 +699,9 @@ section.s {
 
 .s-debt {
   background:
-    radial-gradient(ellipse 90% 70% at 50% 30%, rgba(198, 0, 1, 0.32) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 60% at 100% 100%, rgba(255, 87, 87, 0.14) 0%, transparent 55%),
-    linear-gradient(160deg, #2c2630 0%, #352630 60%, #3a2730 100%);
+    radial-gradient(ellipse 90% 70% at 50% 30%, rgba(147, 51, 234, 0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 100% 100%, rgba(192, 132, 252, 0.14) 0%, transparent 55%),
+    linear-gradient(160deg, #2a243b 0%, #2e2540 60%, #322642 100%);
 }
 
 .s-news {
@@ -3316,5 +3316,55 @@ footer {
     font-size: 15px;
     margin-top: 12px;
     padding-top: 12px;
+  }
+}
+
+/* ============================================================
+   BACK TO TOP BUTTON
+============================================================ */
+.back-to-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02)), rgba(20, 25, 35, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.9);
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.back-to-top:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05)), rgba(30, 35, 45, 0.5);
+  border-color: rgba(111,199,238,0.5);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(111,199,238,0.2);
+  color: #6fc7ee;
+}
+
+@media (max-width: 640px) {
+  .back-to-top {
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
   }
 }

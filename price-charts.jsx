@@ -51,8 +51,7 @@ function ResourceDonut({ segments, view, active, setActive, onDrill, size = 340 
           const dim = active != null && !isActive ? 0.4 : 1;
           const clickable = !!s.drill;
           const handlers = {
-            onMouseEnter: () => setActive(i),
-            onMouseLeave: () => setActive(null),
+            onClick: () => setActive(active === i ? null : i),
             onFocus: () => setActive(i),
             onBlur: () => setActive(null),
           };
@@ -63,7 +62,6 @@ function ResourceDonut({ segments, view, active, setActive, onDrill, size = 340 
               "aria-label": s.name + ", " + s.pct + " percent, " + fmtCr(s.cr) + ". Activate to break down.",
               onClick: () => onDrill(s.drill),
               onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onDrill(s.drill); } },
-              style: { cursor: "pointer" },
             }
             : { "aria-hidden": true };
           return (
@@ -78,7 +76,7 @@ function ResourceDonut({ segments, view, active, setActive, onDrill, size = 340 
               strokeDasharray={segLen + " " + C}
               strokeDashoffset={-startLen}
               opacity={dim}
-              style={{ "--seglen": segLen, "--c": C, "--delay": (i * 70) + "ms" }}
+              style={{ "--seglen": segLen, "--c": C, "--delay": (i * 70) + "ms", cursor: "pointer" }}
               {...handlers}
               {...interactive}
             />
@@ -113,8 +111,8 @@ function LegendRow({ d, idx, active, setActive, onDrill }) {
   const clickable = !!d.drill;
   const common = {
     className: "dl-row" + (active === idx ? " active" : "") + (clickable ? " clickable" : ""),
-    onMouseEnter: () => setActive(idx),
-    onMouseLeave: () => setActive(null),
+    onClick: () => setActive(active === idx ? null : idx),
+    style: { cursor: "pointer" },
   };
   const inner = (
     <>

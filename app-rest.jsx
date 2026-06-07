@@ -23,7 +23,7 @@ function buildTreemap(items, W, H) {
   const bigSum = big.reduce((a, b) => a + b.pct, 0);
   const restSum = rest.reduce((a, b) => a + b.pct, 0);
   let topH = (bigSum / (bigSum + restSum)) * H;
-  topH = topH * 0.65; // Shrink top row slightly to give more room to lower departments
+  topH = topH * 0.80; // Shrink top row slightly to give more room to lower departments
   const botH = H - topH;
 
   // top row of 6
@@ -39,7 +39,7 @@ function buildTreemap(items, W, H) {
   const rowB = rest.slice(halfIdx);
   const rowASum = rowA.reduce((a, b) => a + b.pct, 0);
   const rowBSum = rowB.reduce((a, b) => a + b.pct, 0);
-  const aH = (rowASum / (rowASum + rowBSum)) * botH;
+  const aH = ((rowASum / (rowASum + rowBSum)) * botH) * 0.85;
   const bH = botH - aH;
 
   cx = 0;
@@ -78,7 +78,7 @@ function Treemap() {
           </p>
         </div>
 
-        <div className="tm-svg-wrap">
+        <div className="tm-svg-wrap" style={{ marginBottom: "24px" }}>
           <svg viewBox={"0 0 " + W + " " + H} style={{ width: "100%", height: "auto", display: "block", borderRadius: 18, overflow: "hidden" }}>
             <defs>
               <filter id="cellShine">
@@ -92,9 +92,12 @@ function Treemap() {
               const pad = big ? 14 : (med ? 10 : 6);
               const innerW = Math.max(0, c.w - pad * 2);
               
-              // Dynamically scale down the font size if the box is too narrow for long words
-              const maxFitSize = Math.max(8, innerW / 8.5); // assumes longest word is ~14 chars
-              const nameSize = big ? Math.min(22, maxFitSize) : med ? Math.min(13, maxFitSize) : Math.min(10, maxFitSize);
+              // Robustly scale down font size based on the longest word to prevent mid-word letter breaks.
+              const words = c.name.split(/[\s&\-]+/).filter(Boolean);
+              const maxWordLen = words.length > 0 ? Math.max(...words.map(w => w.length)) : 10;
+              // Assuming ~0.62em average character width for the UI font.
+              const maxFitSize = Math.max(9, innerW / (maxWordLen * 0.62));
+              const nameSize = big ? Math.min(22, maxFitSize) : med ? Math.min(14, maxFitSize) : Math.min(11, maxFitSize);
 
               return (
                 <g key={i}
@@ -118,9 +121,9 @@ function Treemap() {
                     width={innerW}
                     height={Math.max(0, c.h - pad * 2)}
                     pointerEvents="none">
-                    <div className={"tm-fo " + (big ? "big" : med ? "med" : "sm")}>
-                      <div className="tm-fo-name" style={{ fontSize: nameSize }}>{c.name}</div>
-                      <div className="tm-fo-pct">{c.pct.toFixed(big ? 2 : 1)}%</div>
+                    <div className={"tm-fo " + (big ? "big" : med ? "med" : "sm")} style={{ fontFamily: "var(--ui)" }}>
+                      <div className="tm-fo-name" style={{ fontSize: nameSize, fontFamily: "var(--ui)" }}>{c.name}</div>
+                      <div className="tm-fo-pct" style={{ fontFamily: "var(--ui)" }}>{c.pct.toFixed(big ? 2 : 1)}%</div>
                     </div>
                   </foreignObject>
                 </g>
@@ -326,12 +329,12 @@ function DebtSection() {
       )}
       <div className="see-tooltip-fy">{tooltip.bar.fy}</div>
       <div className="see-tooltip-row">
-        <span className="see-tooltip-sw" style={{ background: "#7a0001" }}></span>
+        <span className="see-tooltip-sw" style={{ background: "#4c1d95" }}></span>
         <span className="see-tooltip-name">Domestic</span>
         <span className="see-tooltip-val">৳{tooltip.bar.d.toLocaleString("en-IN")} Cr</span>
       </div>
       <div className="see-tooltip-row">
-        <span className="see-tooltip-sw" style={{ background: "#ff5757" }}></span>
+        <span className="see-tooltip-sw" style={{ background: "#c084fc" }}></span>
         <span className="see-tooltip-name">Foreign</span>
         <span className="see-tooltip-val">৳{tooltip.bar.f.toLocaleString("en-IN")} Cr</span>
       </div>
@@ -345,7 +348,7 @@ function DebtSection() {
     <section className="s s-debt" data-screen-label="05 Debt">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow" style={{ color: "#ff5757" }}>The debt story</span>
+          <span className="eyebrow" style={{ color: "#c084fc" }}>The debt story</span>
           <h2>The Interest Bill</h2>
         </div>
 
@@ -357,12 +360,12 @@ function DebtSection() {
         <div className="debt-chart-wrap glass">
           <div className="debt-chart-head">
             <div>
-              <span className="eyebrow" style={{ color: "#ff5757", display: "block" }}>Government interest payments · FY09 — {BUDGET.proposed}</span>
+              <span className="eyebrow" style={{ color: "#c084fc", display: "block" }}>Government interest payments · FY09 — {BUDGET.proposed}</span>
               <span className="cap" style={{ marginTop: 6, display: "block" }}>In Crore Taka</span>
             </div>
             <div className="debt-legend">
-              <span className="ll"><span className="sw" style={{ background: "#7a0001" }}></span>Domestic</span>
-              <span className="ll"><span className="sw" style={{ background: "#ff5757" }}></span>Foreign</span>
+              <span className="ll"><span className="sw" style={{ background: "#4c1d95" }}></span>Domestic</span>
+              <span className="ll"><span className="sw" style={{ background: "#c084fc" }}></span>Foreign</span>
             </div>
           </div>
 
@@ -370,20 +373,20 @@ function DebtSection() {
             <svg className="see-chart" width={W} height={H} viewBox={"0 0 " + W + " " + H} style={{ width: W + "px", height: H + "px", display: "block", overflow: "visible" }}>
               <defs>
                 <linearGradient id="domGrad" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#a00103" />
-                  <stop offset="100%" stopColor="#4a0002" />
+                  <stop offset="0%" stopColor="#7e22ce" />
+                  <stop offset="100%" stopColor="#3b0764" />
                 </linearGradient>
                 <linearGradient id="forGrad" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#ff7676" />
-                  <stop offset="100%" stopColor="#c63131" />
+                  <stop offset="0%" stopColor="#d8b4fe" />
+                  <stop offset="100%" stopColor="#9333ea" />
                 </linearGradient>
                 <linearGradient id="domGradH" x1="1" x2="0" y1="0" y2="0">
-                  <stop offset="0%" stopColor="#a00103" />
-                  <stop offset="100%" stopColor="#4a0002" />
+                  <stop offset="0%" stopColor="#7e22ce" />
+                  <stop offset="100%" stopColor="#3b0764" />
                 </linearGradient>
                 <linearGradient id="forGradH" x1="1" x2="0" y1="0" y2="0">
-                  <stop offset="0%" stopColor="#ff7676" />
-                  <stop offset="100%" stopColor="#c63131" />
+                  <stop offset="0%" stopColor="#d8b4fe" />
+                  <stop offset="100%" stopColor="#9333ea" />
                 </linearGradient>
               </defs>
 
@@ -427,9 +430,9 @@ function DebtSection() {
 
                   return (
                     <g key={d.fy}>
-                      {isActual && <rect x={pad.l} y={y - 2} width={innerW + pad.r} height={bw + 4} fill="#ff5757" opacity="0.06" rx="3" />}
+                      {isActual && <rect x={pad.l} y={y - 2} width={innerW + pad.r} height={bw + 4} fill="#c084fc" opacity="0.06" rx="3" />}
                       <text x={pad.l - 8} y={y + bw / 2 + 4} textAnchor="end" className="tick-label"
-                        style={{ fill: isProposed ? "#ff5757" : undefined, opacity: isProposed ? 0.9 : 1, fontSize: 10 }}>{d.fy}</text>
+                        style={{ fill: isProposed ? "#c084fc" : undefined, opacity: isProposed ? 0.9 : 1, fontSize: 10 }}>{d.fy}</text>
 
                       <AnimatedRect axis="x" x={pad.l} y={y} width={domW} height={bw} fill="url(#domGradH)" duration={900} delay={delay} />
                       <AnimatedRect axis="x" x={pad.l + domW} y={y} width={forW} height={bw} fill="url(#forGradH)" rx="2" duration={900} delay={delay + 50} />
@@ -460,7 +463,7 @@ function DebtSection() {
                   return (
                     <g key={d.fy}>
                       {isActual && (
-                        <rect x={x - 3} y={pad.t} width={bw + 6} height={innerH} fill="#ff5757" opacity="0.06" rx="3" />
+                        <rect x={x - 3} y={pad.t} width={bw + 6} height={innerH} fill="#c084fc" opacity="0.06" rx="3" />
                       )}
 
                       <AnimatedRect x={x} y={pad.t + innerH - domH} width={bw} height={domH} fill="url(#domGrad)" duration={900} delay={delay} />
@@ -476,7 +479,7 @@ function DebtSection() {
 
                       {showYearLabel(i, isProposed) && (
                         <text x={x + bw / 2} y={H - 20} textAnchor="middle" className="tick-label"
-                          style={{ fill: isProposed ? "#ff5757" : undefined, opacity: isProposed ? 0.9 : 1 }}>{d.fy}</text>
+                          style={{ fill: isProposed ? "#c084fc" : undefined, opacity: isProposed ? 0.9 : 1 }}>{d.fy}</text>
                       )}
 
                       {isLast && (
@@ -490,13 +493,13 @@ function DebtSection() {
                       {stMeta && (stMeta.word === "Proposed" || stMeta.word === "Revised") && (
                         <text x={x + bw / 2} y={tallestTopY - 8} textAnchor="middle"
                           className={"fy-tag-text " + stMeta.cls}
-                          style={{ fontFamily: "var(--ui)", fontSize: 8, letterSpacing: "0.12em", fill: stMeta.cls === "fy-proposed" ? undefined : "#ff7676" }}>
+                          style={{ fontFamily: "var(--ui)", fontSize: 8, letterSpacing: "0.12em", fill: stMeta.cls === "fy-proposed" ? undefined : "#d8b4fe" }}>
                           {stMeta.word.toUpperCase()}
                         </text>
                       )}
                       {isPeak && !isLast && (
                         <text x={x + bw / 2} y={pad.t + innerH - totalH - 10} textAnchor="middle"
-                          style={{ fontFamily: "var(--ui)", fontSize: 8, fill: "rgba(255,118,118,0.7)", letterSpacing: "0.12em" }}>৳{(total / 1000).toFixed(0)}k</text>
+                          style={{ fontFamily: "var(--ui)", fontSize: 8, fill: "rgba(216,180,254,0.7)", letterSpacing: "0.12em" }}>৳{(total / 1000).toFixed(0)}k</text>
                       )}
                     </g>
                   );
@@ -515,9 +518,9 @@ function DebtSection() {
                   const tx = pad.l + totalW;
                   return (
                     <g pointerEvents="none" key={c.fy}>
-                      <line x1={tx + 8} y1={cy} x2={tx + 20} y2={cy} stroke="#ff7676" strokeDasharray="2 2" strokeWidth="1" />
+                      <line x1={tx + 8} y1={cy} x2={tx + 20} y2={cy} stroke="#d8b4fe" strokeDasharray="2 2" strokeWidth="1" />
                       <text x={tx + 24} y={cy + 3} textAnchor="start"
-                        style={{ fontFamily: "var(--ui)", fontSize: 8, fill: "#ff7676", letterSpacing: "0.1em" }}>{c.text}</text>
+                        style={{ fontFamily: "var(--ui)", fontSize: 8, fill: "#d8b4fe", letterSpacing: "0.1em" }}>{c.text}</text>
                     </g>
                   );
                 } else {
@@ -535,9 +538,9 @@ function DebtSection() {
 
                   return (
                     <g pointerEvents="none" key={c.fy}>
-                      <line x1={cx} y1={targetTop - 22} x2={cx} y2={barTop - 8} stroke="#ff7676" strokeDasharray="3 3" strokeWidth="1" />
+                      <line x1={cx} y1={targetTop - 22} x2={cx} y2={barTop - 8} stroke="#d8b4fe" strokeDasharray="3 3" strokeWidth="1" />
                       <text x={cx} y={targetTop - 28} textAnchor="middle"
-                        style={{ fontFamily: "var(--ui)", fontSize: 9, fill: "#ff7676", letterSpacing: "0.12em" }}>{c.text}</text>
+                        style={{ fontFamily: "var(--ui)", fontSize: 9, fill: "#d8b4fe", letterSpacing: "0.12em" }}>{c.text}</text>
                     </g>
                   );
                 }
@@ -551,14 +554,14 @@ function DebtSection() {
             }
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20, marginTop: 32, paddingTop: 28, borderTop: "1px solid rgba(198,0,1,0.18)" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20, marginTop: 32, paddingTop: 28, borderTop: "1px solid rgba(147,51,234,0.18)" }}>
             <Stat label={"Domestic, FY09 → " + BUDGET.proposed} big={d_mult + "×"} sub={`৳${(fy09.d / 1000).toFixed(1)}k → ৳${(proposedInterest.d / 1000).toFixed(0)}k Cr`} />
             <Stat label={"Foreign, FY09 → " + BUDGET.proposed} big={f_mult + "×"} sub={`৳${(fy09.f / 1000).toFixed(1)}k → ৳${(proposedInterest.f / 1000).toFixed(0)}k Cr`} />
             <Stat label={BUDGET.proposed + " share of every ৳100"} big={"৳" + calculatedInterestPct.toFixed(1)} sub={`up from ৳${pct11} in FY11`} />
           </div>
         </div>
 
-        <RelevantNews items={RELEVANT_NEWS.debt} accent="#ff5757" />
+        <RelevantNews items={RELEVANT_NEWS.debt} accent="#c084fc" />
       </div>
     </section>
   );
@@ -574,7 +577,7 @@ function Stat({ label, big, sub }) {
   return (
     <div>
       <div className="cap" style={{ marginBottom: 6 }}>{label}</div>
-      <div style={{ fontFamily: "var(--serif)", fontSize: 36, color: "#ff7676", lineHeight: 1 }}>
+      <div style={{ fontFamily: "var(--serif)", fontSize: 36, color: "#d8b4fe", lineHeight: 1 }}>
         {num !== null
           ? <CountUp value={num} decimals={decimals} prefix={prefix} suffix={suffix} duration={1300} />
           : big}
@@ -630,9 +633,88 @@ function NewsSection() {
 /* ============================================================
    FOOTER
 ============================================================ */
+function BackToTop() {
+  const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const toggleVisible = () => {
+      if (window.scrollY > 300) {
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+    };
+    toggleVisible(); // Check immediately on mount
+    window.addEventListener('scroll', toggleVisible, { passive: true });
+    return () => window.removeEventListener('scroll', toggleVisible);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  return (
+    <>
+      <style>{`
+        .b2t {
+          position: fixed;
+          bottom: 40px;
+          right: 40px;
+          width: 52px;
+          height: 52px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02)), rgba(20, 25, 35, 0.4);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255,255,255,0.15);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 99999;
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(20px) scale(0.9);
+          transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .b2t.vis {
+          opacity: 1;
+          pointer-events: auto;
+          transform: translateY(0) scale(1);
+        }
+        .b2t:hover {
+          background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05)), rgba(30, 35, 45, 0.5);
+          border-color: rgba(111,199,238,0.5);
+          transform: translateY(-4px) scale(1.05);
+          box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(111,199,238,0.2);
+          color: #6fc7ee;
+        }
+        @media (max-width: 640px) {
+          .b2t { bottom: 24px; right: 24px; width: 44px; height: 44px; }
+        }
+      `}</style>
+      <button 
+        onClick={scrollToTop} 
+        className={`b2t ${visible ? 'vis' : ''}`}
+        aria-label="Back to top"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+      </button>
+    </>
+  );
+}
+
 function Footer() {
   return (
     <footer>
+      <BackToTop />
       <div className="wrap">
         <div className="foot-top">
           <div className="foot-brand">

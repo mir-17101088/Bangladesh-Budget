@@ -12,8 +12,11 @@
     radial-gradient(ellipse 80% 70% at 50% 0%, rgba(125,0,102,0.30) 0%, transparent 65%),
     radial-gradient(ellipse 60% 50% at 100% 100%, rgba(1,133,198,0.12) 0%, transparent 60%),
     linear-gradient(180deg, #323C49 0%, #322836 100%);
-  border-top: 1px solid rgba(125,0,102,0.24);
   border-bottom: 1px solid rgba(125,0,102,0.18);
+  padding-top: 0 !important;
+}
+.s-sector-grid {
+  padding-bottom: 20px !important;
 }
 .s-heat           {
   background:

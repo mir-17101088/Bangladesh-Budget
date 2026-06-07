@@ -135,12 +135,12 @@ const CHEAPER = [
 ============================================================ */
 const RESOURCES_TOTAL_CR = 790000;            // ৳7,90,000 Cr (Tk 7,900 billion)
 const RESOURCES = [
-  { key: "nbr", name: "Tax Revenue (NBR)", pct: 63.2, cr: 499280, color: "#0E8C7F", group: "earned", drill: "nbr" },
-  { key: "domloan", name: "Domestic Loan", pct: 15.8, cr: 124820, color: "#6E6CC9", group: "borrowed" },
-  { key: "forloan", name: "Foreign Loan", pct: 12.2, cr: 96380, color: "#9C9AE0", group: "borrowed" },
-  { key: "nontax", name: "Non-Tax Revenue", pct: 5.8, cr: 45820, color: "#28B49E", group: "earned" },
-  { key: "nonnbr", name: "Tax Revenue (Non-NBR)", pct: 2.4, cr: 18960, color: "#5FD2B6", group: "earned" },
-  { key: "grants", name: "Foreign Grants", pct: 0.6, cr: 4740, color: "#E0A93B", group: "granted" },
+  { key: "nbr", name: "Tax Revenue (NBR)", pct: 63.2, cr: 499280, color: "#00E6D2", group: "earned", drill: "nbr" },
+  { key: "domloan", name: "Domestic Loan", pct: 15.8, cr: 124820, color: "#6666FF", group: "borrowed" },
+  { key: "forloan", name: "Foreign Loan", pct: 12.2, cr: 96380, color: "#9999FF", group: "borrowed" },
+  { key: "nontax", name: "Non-Tax Revenue", pct: 5.8, cr: 45820, color: "#00FFD5", group: "earned" },
+  { key: "nonnbr", name: "Tax Revenue (Non-NBR)", pct: 2.4, cr: 18960, color: "#33FFCD", group: "earned" },
+  { key: "grants", name: "Foreign Grants", pct: 0.6, cr: 4740, color: "#FFB700", group: "granted" },
 ];
 
 // How each group reads in the summary + legend. Order = display order.
@@ -158,11 +158,11 @@ const RESOURCE_DRILLDOWNS = {
     short: "NBR",
     total_cr: 499280,                          // ৳4,99,280 Cr (budget doc: Tk 4,990 billion)
     items: [
-      { name: "VAT", pct: 37.8, cr: 188728, color: "#0E8C7F" },
-      { name: "Income Tax", pct: 36.5, cr: 182237, color: "#28B49E" },
-      { name: "Supplementary Duty", pct: 13.7, cr: 68401, color: "#4FCBB4" },
-      { name: "Import Duty", pct: 10.3, cr: 51426, color: "#86DDC9" },
-      { name: "Others", pct: 1.7, cr: 8488, color: "#B9ECDD" },
+      { name: "VAT", pct: 37.8, cr: 188728, color: "#00E6D2" },
+      { name: "Income Tax", pct: 36.5, cr: 182237, color: "#FF3366" },
+      { name: "Supplementary Duty", pct: 13.7, cr: 68401, color: "#FFCC00" },
+      { name: "Import Duty", pct: 10.3, cr: 51426, color: "#AA00FF" },
+      { name: "Others", pct: 1.7, cr: 8488, color: "#3399FF" },
     ],
   },
 };
@@ -218,22 +218,22 @@ function PriceHero() {
         )}
 
         <div className="page-hero-stats">
-          <div className="phs-cell red">
+          <div className="phs-cell red" onClick={() => document.querySelector('.s-pricier')?.scrollIntoView({behavior: 'smooth'})}>
             <div className="l">Costlier — selected</div>
             <div className="n"><CountUp value={upN} /></div>
             <div className="s">higher VAT, excise &amp; duties — and many more</div>
           </div>
-          <div className="phs-cell green">
+          <div className="phs-cell green" onClick={() => document.querySelector('.s-cheaper')?.scrollIntoView({behavior: 'smooth'})}>
             <div className="l">Cheaper — selected</div>
             <div className="n"><CountUp value={dnN} /></div>
             <div className="s">cuts, exemptions &amp; waivers — and many more</div>
           </div>
-          <div className="phs-cell">
+          <div className="phs-cell" onClick={() => document.querySelector('.s-tax')?.scrollIntoView({behavior: 'smooth'})}>
             <div className="l">Tax revenue target</div>
-            <div className="n">৳<CountUp value={4.54} decimals={2} />L Cr</div>
-            <div className="s">NBR + non-NBR · 57% of budget</div>
+            <div className="n">৳<CountUp value={4.99} decimals={2} />L Cr</div>
+            <div className="s">NBR + non-NBR · 65.6% of budget</div>
           </div>
-          <div className="phs-cell">
+          <div className="phs-cell" onClick={() => document.querySelector('.s-subsidy')?.scrollIntoView({behavior: 'smooth'})}>
             <div className="l">Subsidy bill</div>
             <div className="n">৳<CountUp value={11.5} decimals={1} /></div>
             <div className="s">per ৳100 spent · 2× since FY22</div>
