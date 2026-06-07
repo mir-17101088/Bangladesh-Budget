@@ -226,6 +226,35 @@
   .gauge-row, .gauge-row.row2 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 
+/* Heatmap fit — kicks in at the exact width (≈1040px) where the desktop
+   38px-square layout (intrinsic min-width ~887px) stops fitting its card and
+   was overflowing (then getting clipped by html{overflow-x:clip}).
+   table-layout:fixed pins the table to its container at every width below this,
+   so neither the labels, the RISES figures, nor mobile font-boosting can push
+   it past the card. Vertical FY headers keep all 17 columns legible as the
+   cells flex down. The ≤960/≤640/≤400 blocks below refine sizing further. */
+@media (max-width: 1040px) {
+  .heat-wrap { padding: 24px 18px; border-radius: 16px; overflow: hidden; }
+  .heat-table { table-layout: fixed; width: 100%; border-spacing: 2px; }
+  .heat-table thead th:first-child { width: 124px; }   /* sector-label column */
+  .heat-table th.col-h.rises-h {
+    width: 56px; writing-mode: horizontal-tb; transform: none;
+    text-align: left; padding-left: 8px !important; font-size: 9px; letter-spacing: 0.06em;
+  }
+  .heat-table th.col-h {
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    white-space: nowrap; height: auto; vertical-align: bottom;
+    font-size: 10px; letter-spacing: 0; padding: 4px 0 8px;
+  }
+  .heat-table td.row-h {
+    font-size: 11px; padding-right: 8px; width: 124px; max-width: 124px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .heat-table .h-cell { width: 100%; min-width: 0; height: 24px; }
+  .heat-table .sum-h { font-size: 13px; padding-left: 8px; white-space: nowrap; }
+  .heat-table .sum-h .of { font-size: 9.5px; }
+}
+
 @media (max-width: 960px) {
   /* Cards: 2 cols */
   .sg-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -304,9 +333,16 @@
   .see-toggle button { flex: 1 1 0; min-width: 0; font-size: 10px; padding: 6px 6px; white-space: nowrap; }
   .see-legend { gap: 14px; font-size: 10px; }
 
-  /* Heatmap — compact for phones, vertical column labels, fits screen */
-  .heat-wrap { padding: 16px 10px; border-radius: 14px; }
-  .heat-table { border-spacing: 1.5px; }
+  /* Heatmap — compact for phones, vertical column labels, fits screen.
+     table-layout:fixed pins the table to its container width, so neither long
+     labels, the RISES figures, nor mobile font-boosting can push it wider than
+     the card. Column widths come from the first (header) row in fixed mode, so
+     the label + RISES columns are sized there; the 17 cells share the rest.
+     overflow:hidden on the card clips any sub-pixel spill to its rounded edge. */
+  .heat-wrap { padding: 16px 10px; border-radius: 14px; overflow: hidden; }
+  .heat-table { table-layout: fixed; width: 100%; border-spacing: 1.5px; }
+  .heat-table thead th:first-child { width: 86px; }   /* sector-label column */
+  .heat-table th.col-h.rises-h { width: 40px; }        /* RISES column */
   .heat-table .h-cell { width: 100%; height: 18px; min-width: 0; border-radius: 2px; }
   /* Keep the ▲/▼ glyphs (shrunk) on small screens so rise/fall is never
      conveyed by colour alone — essential for red/green colour-blind users. */
@@ -383,6 +419,9 @@
   .gauge-row, .gauge-row.row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rk-row { grid-template-columns: 18px 1fr 68px; gap: 8px; }
   .heat-wrap { padding: 14px 8px; }
+  .heat-table { border-spacing: 1px; }
+  .heat-table thead th:first-child { width: 70px; }   /* narrower label column */
+  .heat-table th.col-h.rises-h { width: 36px; }        /* narrower RISES column */
   .heat-table td.row-h { max-width: 70px; width: 70px; font-size: 9.5px; padding-right: 3px; }
   .heat-table .h-cell { height: 16px; }
   .heat-table th.col-h { font-size: 8px; padding: 4px 0 4px; }

@@ -77,6 +77,11 @@ html, body {
 html { overflow-x: clip; }
 body { overflow-x: clip; }
 
+/* Stop mobile browsers (notably Android Chrome) from auto-inflating text.
+   That "font boosting" silently widened table labels/figures on some phones,
+   pushing the heatmap past the viewport (where overflow-x:clip then cut it off). */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
 ::selection { background: var(--blue); color: #fff; }
 
 a { color: inherit; text-decoration: none; }
