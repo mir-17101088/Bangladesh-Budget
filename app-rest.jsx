@@ -69,8 +69,8 @@ function Treemap() {
     <section className="s s-treemap" data-screen-label="04 Treemap">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">Chapter 03 · Department by department</span>
-          <h2>Every department, every taka.</h2>
+          <span className="eyebrow">Sector by sector</span>
+          <h2>Every area, every taka</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
             FY24's ৳6,11,392 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — debt interest and the Finance Division — already eat a quarter.
           </p>
@@ -182,27 +182,161 @@ function Treemap() {
    DEBT — stacked bars
 ============================================================ */
 function DebtSection() {
-  const W = 1080, H = 420, pad = { l: 70, r: 30, t: 64, b: 44 };
-  // Render only years with data (drops the null FY27 placeholder).
+  const [tooltip, setTooltip] = React.useState(null);
+  const chartContainerRef = React.useRef(null);
+  const tooltipRef = React.useRef(null);
+  const touchStartRef = React.useRef(null);
+
+  const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 640);
+  React.useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 640);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const [measuredW, setMeasuredW] = React.useState(0);
+  React.useLayoutEffect(() => {
+    const el = chartContainerRef.current;
+    if (!el) return;
+    const read = () => setMeasuredW(el.clientWidth);
+    read();
+    if (typeof ResizeObserver !== "undefined") {
+      const ro = new ResizeObserver(read);
+      ro.observe(el);
+      return () => ro.disconnect();
+    }
+    window.addEventListener("resize", read);
+    return () => window.removeEventListener("resize", read);
+  }, [isMobile]);
+
+  const handleBarEnter = (e, barData, barIndex) => {
+    const container = chartContainerRef.current;
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const touch = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]);
+    const clientX = touch ? touch.clientX : e.clientX;
+    const clientY = touch ? touch.clientY : e.clientY;
+    const currentIsMobile = window.innerWidth <= 640;
+
+    setTooltip({
+      x: clientX - rect.left,
+      y: clientY - rect.top,
+      bar: barData,
+      isMobile: currentIsMobile,
+    });
+  };
+
+  const handleBarLeave = () => {
+    if (window.innerWidth > 640) {
+      setTooltip(null);
+    }
+  };
+
+  const TAP_SLOP = 12;
+  const handleBarTouchStart = (e) => {
+    const t = e.touches && e.touches[0];
+    touchStartRef.current = t ? { x: t.clientX, y: t.clientY } : null;
+  };
+  const handleBarTouchEnd = (e, barData, barIndex) => {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start) return;
+    const t = e.changedTouches && e.changedTouches[0];
+    if (!t) return;
+    if (Math.abs(t.clientX - start.x) <= TAP_SLOP && Math.abs(t.clientY - start.y) <= TAP_SLOP) {
+      e.preventDefault();
+      handleBarEnter(e, barData, barIndex);
+    }
+  };
+
+  React.useEffect(() => {
+    const close = (e) => {
+      if (tooltipRef.current && tooltipRef.current.contains(e.target)) return;
+      if (e.target.tagName === 'rect' && e.target.getAttribute('fill') === 'transparent') return;
+      setTooltip(null);
+    };
+    document.addEventListener("touchstart", close, { passive: true });
+    document.addEventListener("mousedown", close);
+    return () => {
+      document.removeEventListener("touchstart", close);
+      document.removeEventListener("mousedown", close);
+    };
+  }, []);
+
   const DEBT = INTEREST_DATA.filter(d => typeof d.d === "number" && typeof d.f === "number");
+  const n = DEBT.length;
   const totals = DEBT.map(d => d.d + d.f);
   const maxV = Math.ceil(Math.max(...totals) * 1.18 / 10000) * 10000;
+
+  const fallbackW = isMobile
+    ? Math.max(260, window.innerWidth - 64)
+    : Math.min(1180, Math.max(360, window.innerWidth - 96));
+  const W = measuredW > 0 ? measuredW : fallbackW;
+
+  const H = isMobile
+    ? n * 34 + 22 + 30
+    : Math.round(Math.min(470, Math.max(380, W * 0.36)));
+
+  const pad = isMobile
+    ? { l: 46, r: 80, t: 22, b: 30 }
+    : { l: 76, r: 30, t: 64, b: 40 };
+
   const innerW = W - pad.l - pad.r;
   const innerH = H - pad.t - pad.b;
-  const bw = innerW / DEBT.length * 0.62;
-  const step = innerW / DEBT.length;
+  const step = isMobile ? innerH / n : innerW / n;
+  const bw = isMobile ? Math.min(step * 0.66, 26) : Math.min(step * 0.64, 46);
+
+  const dataMax = Math.max(...totals);
+  const dispMax = maxV;
+  const tallestTopY = pad.t + innerH - (dataMax / dispMax) * innerH;
+
+  const labelEvery = isMobile ? 1 : Math.max(1, Math.ceil(36 / step));
+  const showYearLabel = (i, isProposed) => {
+    if (isMobile || i === n - 1 || isProposed) return true;
+    if (i % labelEvery !== 0) return false;
+    return labelEvery === 1 || i <= n - 1 - labelEvery;
+  };
+
+  const tooltipEl = tooltip ? (
+    <div className="see-tooltip"
+      ref={tooltipRef}
+      style={tooltip.isMobile ? {} : {
+        left: Math.min(tooltip.x, (chartContainerRef.current?.offsetWidth || 400) - 240),
+        top: Math.max(0, tooltip.y - 20),
+      }}>
+      {tooltip.isMobile && (
+        <button className="see-tooltip-close" onClick={() => setTooltip(null)}>
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      )}
+      <div className="see-tooltip-fy">{tooltip.bar.fy}</div>
+      <div className="see-tooltip-row">
+        <span className="see-tooltip-sw" style={{ background: "#7a0001" }}></span>
+        <span className="see-tooltip-name">Domestic</span>
+        <span className="see-tooltip-val">৳{tooltip.bar.d.toLocaleString("en-IN")} Cr</span>
+      </div>
+      <div className="see-tooltip-row">
+        <span className="see-tooltip-sw" style={{ background: "#ff5757" }}></span>
+        <span className="see-tooltip-name">Foreign</span>
+        <span className="see-tooltip-val">৳{tooltip.bar.f.toLocaleString("en-IN")} Cr</span>
+      </div>
+      <div className="see-tooltip-total">
+        Total: ৳{(tooltip.bar.d + tooltip.bar.f).toLocaleString("en-IN")} Cr
+      </div>
+    </div>
+  ) : null;
 
   return (
     <section className="s s-debt" data-screen-label="05 Debt">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow" style={{ color: "#ff5757" }}>Chapter 04 · The debt story</span>
-          <h2>The Interest Bill.</h2>
+          <span className="eyebrow" style={{ color: "#ff5757" }}>The debt story</span>
+          <h2>The Interest Bill</h2>
         </div>
 
         <div className="debt-callout">
           <span className="big"><CountUp value={TAKA_SECTORS.find(s => s.key === "interest").proposed} decimals={1} prefix="৳" duration={1600} /></span>
-          <span className="txt">of every ৳100 in the {BUDGET.proposed} budget goes to paying interest. In FY09, it was less than ৳11.</span>
+          <span className="txt">of every ৳100 in the {BUDGET.proposed} budget goes to paying interest</span>
         </div>
 
         <div className="debt-chart-wrap glass">
@@ -217,8 +351,8 @@ function DebtSection() {
             </div>
           </div>
 
-          <div className="chart-scroll">
-            <svg viewBox={"0 0 " + W + " " + H} className="debt-svg" preserveAspectRatio="none">
+          <div className="debt-chart-inner" ref={chartContainerRef} style={{ position: "relative", minHeight: isMobile ? H : 'auto' }}>
+            <svg className="see-chart" width={W} height={H} viewBox={"0 0 " + W + " " + H} style={{ width: W + "px", height: H + "px", display: "block", overflow: "visible" }}>
               <defs>
                 <linearGradient id="domGrad" x1="0" x2="0" y1="0" y2="1">
                   <stop offset="0%" stopColor="#a00103" />
@@ -228,70 +362,184 @@ function DebtSection() {
                   <stop offset="0%" stopColor="#ff7676" />
                   <stop offset="100%" stopColor="#c63131" />
                 </linearGradient>
+                <linearGradient id="domGradH" x1="1" x2="0" y1="0" y2="0">
+                  <stop offset="0%" stopColor="#a00103" />
+                  <stop offset="100%" stopColor="#4a0002" />
+                </linearGradient>
+                <linearGradient id="forGradH" x1="1" x2="0" y1="0" y2="0">
+                  <stop offset="0%" stopColor="#ff7676" />
+                  <stop offset="100%" stopColor="#c63131" />
+                </linearGradient>
               </defs>
 
-              {/* y gridlines */}
+              {/* gridlines */}
               {[0, 0.25, 0.5, 0.75, 1.0].map(g => {
                 const v = g * maxV;
-                const y = pad.t + (1 - g) * innerH;
-                return (
-                  <g key={g}>
-                    <line className="tick" x1={pad.l} x2={W - pad.r} y1={y} y2={y} stroke="rgba(255,255,255,0.06)" />
-                    <text className="tick-label" x={pad.l - 10} y={y + 3} textAnchor="end">৳{(v / 1000) | 0}k Cr</text>
-                  </g>
-                );
+                if (isMobile) {
+                  const x = pad.l + g * innerW;
+                  return (
+                    <g key={g}>
+                      <line x1={x} x2={x} y1={pad.t} y2={H - pad.b} stroke="rgba(255,255,255,0.06)" />
+                      {g > 0 && <text x={x} y={H - pad.b + 18} textAnchor="middle" className="tick-label">
+                        {((v / 1000) | 0)}k
+                      </text>}
+                    </g>
+                  );
+                } else {
+                  const y = pad.t + (1 - g) * innerH;
+                  return (
+                    <g key={g}>
+                      <line className="tick" x1={pad.l} x2={W - pad.r} y1={y} y2={y} stroke="rgba(255,255,255,0.06)" />
+                      <text className="tick-label" x={pad.l - 10} y={y + 3} textAnchor="end">৳{(v / 1000) | 0}k Cr</text>
+                    </g>
+                  );
+                }
               })}
 
               {DEBT.map((d, i) => {
-                const x = pad.l + i * step + (step - bw) / 2;
+                const isProposed = d.fy === BUDGET.proposed;
+                const isActual = d.fy === BUDGET.actual;
                 const total = d.d + d.f;
-                const totalH = (total / maxV) * innerH;
-                const domH = (d.d / maxV) * innerH;
-                const forH = (d.f / maxV) * innerH;
-                const isLast = i === DEBT.length - 1;
+                const delay = i * 40;
                 const stMeta = STATUS_META[BUDGET.statusOf(d.fy)];
                 const isPeak = total === Math.max(...totals);
-                const delay = i * 60;
-                return (
-                  <g key={d.fy}>
-                    <AnimatedRect x={x} y={pad.t + innerH - domH} width={bw} height={domH} fill="url(#domGrad)" rx="2" duration={1100} delay={delay} />
-                    <AnimatedRect x={x} y={pad.t + innerH - totalH} width={bw} height={forH} fill="url(#forGrad)" rx="2" duration={1100} delay={delay + 80} />
-                    <text x={x + bw / 2} y={H - 20} textAnchor="middle" className="tick-label">{d.fy}</text>
-                    {isLast && (
-                      <g>
-                        <text x={x + bw / 2} y={pad.t + innerH - totalH - 14} textAnchor="middle"
-                          style={{ fontFamily: "var(--serif)", fontSize: 18, fill: "#fff" }}>৳{(total / 1000).toFixed(1)}k Cr</text>
-                        <text x={x + bw / 2} y={pad.t + innerH - totalH - 34} textAnchor="middle"
-                          className={"fy-tag-text " + (stMeta ? stMeta.cls : "")}
-                          style={{ fontFamily: "var(--ui)", fontSize: 10, letterSpacing: "0.16em", fill: stMeta && stMeta.cls === "fy-proposed" ? undefined : "#ff7676" }}>{d.fy} · {stMeta ? stMeta.word.toUpperCase() : ""}</text>
-                      </g>
-                    )}
-                    {!isLast && BUDGET.statusOf(d.fy) === "revised" && (
-                      <text x={x + bw / 2} y={pad.t + innerH - totalH - 12} textAnchor="middle"
-                        className="fy-tag-text fy-revised"
-                        style={{ fontFamily: "var(--ui)", fontSize: 9, letterSpacing: "0.14em" }}>REVISED</text>
-                    )}
-                    {isPeak && !isLast && (
-                      <text x={x + bw / 2} y={pad.t + innerH - totalH - 10} textAnchor="middle"
-                        style={{ fontFamily: "var(--ui)", fontSize: 10, fill: "rgba(255,118,118,0.7)", letterSpacing: "0.12em" }}>৳{(total / 1000).toFixed(0)}k</text>
-                    )}
-                  </g>
-                );
+
+                if (isMobile) {
+                  const y = pad.t + i * step + (step - bw) / 2;
+                  const domW = (d.d / maxV) * innerW;
+                  const forW = (d.f / maxV) * innerW;
+                  const totalW = domW + forW;
+
+                  return (
+                    <g key={d.fy}>
+                      {isActual && <rect x={pad.l} y={y - 2} width={innerW + pad.r} height={bw + 4} fill="#ff5757" opacity="0.06" rx="3" />}
+                      <text x={pad.l - 8} y={y + bw / 2 + 4} textAnchor="end" className="tick-label"
+                        style={{ fill: isProposed ? "#ff5757" : undefined, opacity: isProposed ? 0.9 : 1, fontSize: 10 }}>{d.fy}</text>
+
+                      <AnimatedRect axis="x" x={pad.l} y={y} width={domW} height={bw} fill="url(#domGradH)" duration={900} delay={delay} />
+                      <AnimatedRect axis="x" x={pad.l + domW} y={y} width={forW} height={bw} fill="url(#forGradH)" rx="2" duration={900} delay={delay + 50} />
+
+                      <rect x={0} y={y - 2} width={W} height={bw + 4}
+                        fill="transparent" style={{ cursor: "pointer" }}
+                        onMouseEnter={(e) => handleBarEnter(e, d, i)}
+                        onMouseMove={(e) => handleBarEnter(e, d, i)}
+                        onMouseLeave={handleBarLeave}
+                        onTouchStart={handleBarTouchStart}
+                        onTouchEnd={(e) => handleBarTouchEnd(e, d, i)} />
+
+                      {isProposed && (
+                        <text x={pad.l + totalW + 6} y={y + bw / 2 + 4} textAnchor="start"
+                          style={{ fontFamily: "var(--serif)", fontSize: 13, fill: "#fff" }}>
+                          ৳{(total / 1000).toFixed(1)}k
+                        </text>
+                      )}
+                    </g>
+                  );
+                } else {
+                  const x = pad.l + i * step + (step - bw) / 2;
+                  const domH = (d.d / maxV) * innerH;
+                  const forH = (d.f / maxV) * innerH;
+                  const totalH = domH + forH;
+                  const isLast = i === DEBT.length - 1;
+
+                  return (
+                    <g key={d.fy}>
+                      {isActual && (
+                        <rect x={x - 3} y={pad.t} width={bw + 6} height={innerH} fill="#ff5757" opacity="0.06" rx="3" />
+                      )}
+
+                      <AnimatedRect x={x} y={pad.t + innerH - domH} width={bw} height={domH} fill="url(#domGrad)" duration={900} delay={delay} />
+                      <AnimatedRect x={x} y={pad.t + innerH - totalH} width={bw} height={forH} fill="url(#forGrad)" rx="2" duration={900} delay={delay + 50} />
+
+                      <rect x={x - 2} y={pad.t} width={bw + 4} height={innerH + pad.b}
+                        fill="transparent" style={{ cursor: "pointer" }}
+                        onMouseEnter={(e) => handleBarEnter(e, d, i)}
+                        onMouseMove={(e) => handleBarEnter(e, d, i)}
+                        onMouseLeave={handleBarLeave}
+                        onTouchStart={handleBarTouchStart}
+                        onTouchEnd={(e) => handleBarTouchEnd(e, d, i)} />
+
+                      {showYearLabel(i, isProposed) && (
+                        <text x={x + bw / 2} y={H - 20} textAnchor="middle" className="tick-label"
+                          style={{ fill: isProposed ? "#ff5757" : undefined, opacity: isProposed ? 0.9 : 1 }}>{d.fy}</text>
+                      )}
+
+                      {isLast && (
+                        <g>
+                          <text x={x + bw / 2} y={tallestTopY - 24} textAnchor="middle"
+                            style={{ fontFamily: "var(--serif)", fontSize: 18, fill: "#fff" }}>
+                            ৳{(total / 1000).toFixed(1)}k Cr
+                          </text>
+                        </g>
+                      )}
+                      {stMeta && (stMeta.word === "Proposed" || stMeta.word === "Revised") && (
+                        <text x={x + bw / 2} y={tallestTopY - 8} textAnchor="middle"
+                          className={"fy-tag-text " + stMeta.cls}
+                          style={{ fontFamily: "var(--ui)", fontSize: 8, letterSpacing: "0.12em", fill: stMeta.cls === "fy-proposed" ? undefined : "#ff7676" }}>
+                          {stMeta.word.toUpperCase()}
+                        </text>
+                      )}
+                      {isPeak && !isLast && (
+                        <text x={x + bw / 2} y={pad.t + innerH - totalH - 10} textAnchor="middle"
+                          style={{ fontFamily: "var(--ui)", fontSize: 8, fill: "rgba(255,118,118,0.7)", letterSpacing: "0.12em" }}>৳{(total / 1000).toFixed(0)}k</text>
+                      )}
+                    </g>
+                  );
+                }
               })}
 
-              {/* arrow callout FY18 spike */}
-              <g>
-                <line x1={pad.l + 9 * step + step / 2} y1={pad.t + 110} x2={pad.l + 9 * step + step / 2} y2={pad.t + 150} stroke="#ff7676" strokeDasharray="3 3" strokeWidth="1" />
-                <text x={pad.l + 9 * step + step / 2} y={pad.t + 102} textAnchor="middle"
-                  style={{ fontFamily: "var(--ui)", fontSize: 10, fill: "#ff7676", letterSpacing: "0.12em" }}>FOREIGN DEBT 2x</text>
-              </g>
+              {/* arrow callouts for foreign debt spikes */}
+              {[{ fy: "FY18", text: "FOREIGN DEBT 2x" }, { fy: "FY23", text: "FOREIGN DEBT 2x" }].map(c => {
+                const idx = DEBT.findIndex(d => d.fy === c.fy);
+                if (idx === -1) return null;
+                const d = DEBT[idx];
+                const total = d.d + d.f;
+                if (isMobile) {
+                  const cy = pad.t + idx * step + step / 2;
+                  const totalW = (total / maxV) * innerW;
+                  const tx = pad.l + totalW;
+                  return (
+                    <g pointerEvents="none" key={c.fy}>
+                      <line x1={tx + 8} y1={cy} x2={tx + 20} y2={cy} stroke="#ff7676" strokeDasharray="2 2" strokeWidth="1" />
+                      <text x={tx + 24} y={cy + 3} textAnchor="start"
+                        style={{ fontFamily: "var(--ui)", fontSize: 8, fill: "#ff7676", letterSpacing: "0.1em" }}>{c.text}</text>
+                    </g>
+                  );
+                } else {
+                  const cx = pad.l + idx * step + step / 2;
+                  const totalH = (total / maxV) * innerH;
+                  const barTop = pad.t + innerH - totalH;
+                  
+                  // Dynamically find the height of the next bar to ensure the text clears it
+                  const nextD = DEBT[idx + 1];
+                  const nextTotal = nextD ? nextD.d + nextD.f : total;
+                  const nextTotalH = (nextTotal / maxV) * innerH;
+                  const nextBarTop = pad.t + innerH - nextTotalH;
+                  
+                  const targetTop = Math.min(barTop, nextBarTop);
+
+                  return (
+                    <g pointerEvents="none" key={c.fy}>
+                      <line x1={cx} y1={targetTop - 22} x2={cx} y2={barTop - 8} stroke="#ff7676" strokeDasharray="3 3" strokeWidth="1" />
+                      <text x={cx} y={targetTop - 28} textAnchor="middle"
+                        style={{ fontFamily: "var(--ui)", fontSize: 9, fill: "#ff7676", letterSpacing: "0.12em" }}>{c.text}</text>
+                    </g>
+                  );
+                }
+              })}
             </svg>
+
+            {/* HTML TOOLTIP PORTAL */}
+            {tooltip && tooltip.isMobile && window.ReactDOM
+              ? window.ReactDOM.createPortal(tooltipEl, document.body)
+              : tooltipEl
+            }
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginTop: 32, paddingTop: 28, borderTop: "1px solid rgba(198,0,1,0.18)" }}>
-            <Stat label={"Domestic, FY09 → " + BUDGET.proposed} big="10.0×" sub="৳13.8k → ৳138k Cr" />
-            <Stat label={"Foreign, FY09 → " + BUDGET.proposed} big="14.2×" sub="৳1.3k → ৳19k Cr" />
-            <Stat label={BUDGET.proposed + " share of every ৳100"} big={"৳" + TAKA_SECTORS.find(s => s.key === "interest").proposed} sub="up from ৳11.4 in FY22" />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20, marginTop: 32, paddingTop: 28, borderTop: "1px solid rgba(198,0,1,0.18)" }}>
+            <Stat label={"Domestic, FY09 → " + BUDGET.proposed} big="7.0×" sub="৳13.8k → ৳100k Cr" />
+            <Stat label={"Foreign, FY09 → " + BUDGET.proposed} big="16.0×" sub="৳1.3k → ৳22k Cr" />
+            <Stat label={BUDGET.proposed + " share of every ৳100"} big={"৳" + TAKA_SECTORS.find(s => s.key === "interest").proposed} sub="up from ৳12.2 in FY11" />
           </div>
         </div>
 
@@ -374,29 +622,21 @@ function Footer() {
         <div className="foot-top">
           <div className="foot-brand">
             <img src="assets/logo.svg" alt="The Daily Star" />
-            <p>Budget at a Glance is an editorial visualization project from the Digital team — making fiscal policy legible, year on year.</p>
+            <p>Budget at a Glance is an editorial visualization project from The Daily Star — making fiscal policy legible, year on year.</p>
           </div>
           <div className="foot">
             <h4>Pages</h4>
-            <ul><li>Home</li><li>Price Impact</li><li>Sector Deep Dive</li><li>Methodology</li></ul>
+            <ul><li>Home</li><li>Price Impact</li><li>Sector Deep Dive</li></ul>
           </div>
           <div className="foot">
             <h4>Sources</h4>
             <ul><li>Ministry of Finance</li><li>Bangladesh Bureau of Statistics</li><li>Bangladesh Bank</li><li>Full budget document (PDF)</li></ul>
           </div>
-          <div className="foot">
-            <h4>Previous editions</h4>
-            <ul>
-              {[1, 2, 3].map(n => (
-                <li key={n}>Budget FY{String(fyToYear(BUDGET.proposed) - n).slice(-2)}</li>
-              ))}
-              <li>Archive 2009 — 2022</li>
-            </ul>
-          </div>
+
         </div>
         <div className="foot-bottom">
           <span>© 2026 The Daily Star · Data via Ministry of Finance, Bangladesh</span>
-          <span>Designed & engineered by The Daily Star Digital Team</span>
+          <span>Designed & engineered by The Daily Star</span>
         </div>
       </div>
     </footer>
