@@ -376,17 +376,14 @@ function PreLaunchHero() {
       </div>
 
       <div className="pl-veil" aria-hidden="true"></div>
-      <div className="pl-watermark" aria-hidden="true">৳</div>
+
 
       <div className="hero-content pl-content">
-        <p className="pl-eyebrow">Bangladesh National Budget</p>
 
-        <h1 id="pl-headline" className="pl-headline">Throughout History</h1>
 
-        <p className="pl-lede">
-          <span className="pl-lede-pre">53 budgets since FY1972-73, but </span>
-          <span className="pl-hook">where did taxpayers’ money actually go?</span>
-        </p>
+        <h1 id="pl-headline" className="pl-headline">Bangladesh National Budget</h1>
+
+
         <p className="pl-support">
           Take a look at <strong>The Daily Star’s</strong> breakdown of the country’s last 18 budgets.
         </p>
