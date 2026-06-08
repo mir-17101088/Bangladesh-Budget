@@ -47,7 +47,6 @@ function SectorApp() {
       <SectorGridSection active={active} setActive={handleSetActive}/>
       <div ref={expandRef}><ExpandedSection active={active}/></div>
       <HeatmapSection/>
-      <RankingsSection/>
       <Footer/>
 
       <TweaksPanel title="Tweaks">
