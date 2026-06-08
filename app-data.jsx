@@ -390,7 +390,7 @@ function Hero({ tweaks }) {
 // Target anchored to a fixed timezone (UTC+6, Dhaka) so the countdown is
 // correct for every visitor regardless of their local clock. Edit if the
 // presentation time changes.
-const BUDGET_DATETIME = new Date("2026-06-11T18:00:00+06:00"); // 6:00 PM Dhaka
+const BUDGET_DATETIME = new Date("2026-06-11T23:00:00+06:00"); // 11:00 PM Dhaka
 
 function PreLaunchHero() {
   // ── live 1-second tick, single interval, cleaned up on unmount ──
@@ -403,12 +403,10 @@ function PreLaunchHero() {
   const diff = BUDGET_DATETIME.getTime() - now;
   const passed = diff <= 0;
   const total = Math.max(0, Math.floor(diff / 1000));
-  const days = Math.floor(total / 86400);
-  const hours = Math.floor((total % 86400) / 3600);
+  const hours = Math.floor(total / 3600);
   const mins = Math.floor((total % 3600) / 60);
   const secs = total % 60;
   const units = [
-    { v: days, one: "Day", many: "Days" },
     { v: hours, one: "Hour", many: "Hours" },
     { v: mins, one: "Minute", many: "Minutes" },
     { v: secs, one: "Second", many: "Seconds" },
@@ -456,8 +454,8 @@ function PreLaunchHero() {
 
         <ul className="pl-legend" aria-label="What each year’s figures represent">
           <li className="pl-chip"><span className="pl-chip-fy">FY24</span><span className="pl-chip-lab">Actual expenditure</span></li>
-          <li className="pl-chip"><span className="pl-chip-fy">FY25</span><span className="pl-chip-lab">Revised allocation</span></li>
-          <li className="pl-chip"><span className="pl-chip-fy">FY26</span><span className="pl-chip-lab">Proposed</span></li>
+          <li className="pl-chip"><span className="pl-chip-fy">FY25</span><span className="pl-chip-lab">Revised</span></li>
+          <li className="pl-chip"><span className="pl-chip-fy">FY26</span><span className="pl-chip-lab">Allocation</span></li>
         </ul>
 
         <div
