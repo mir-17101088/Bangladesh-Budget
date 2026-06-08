@@ -729,9 +729,9 @@ const IMPL = [
   { fy: "FY12", v: 92.4 }, { fy: "FY13", v: 90.8 }, { fy: "FY14", v: 84.6 },
   { fy: "FY15", v: 81.6 }, { fy: "FY16", v: 80.8 }, { fy: "FY17", v: 79.1 },
   { fy: "FY18", v: 80.4 }, { fy: "FY19", v: 84.1 }, { fy: "FY20", v: 80.3 },
-  { fy: "FY21", v: 81.0 }, { fy: "FY22", v: 85.8 }, { fy: "FY23", v: 97.4 },
+  { fy: "FY21", v: 81.0 }, { fy: "FY22", v: 85.8 }, { fy: "FY23", v: 85.4 },
   // ── projected / mock ──
-  { fy: "FY24", v: 88.0 }, { fy: "FY25", v: 86.5 }, { fy: "FY26", v: 89.0 },
+  { fy: "FY24", v: 80.0 }, { fy: "FY25", v: 79.0 }, { fy: "FY26", v: null },
   { fy: "FY27", v: null }, // ⟶ GO-LIVE FY27: implementation %
 ];
 

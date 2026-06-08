@@ -198,7 +198,7 @@ function GaugesSection() {
           <span className="eyebrow">Promise vs delivery</span>
           <h2>The implementation gap</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            For each fiscal year, the share of the proposed budget that was actually spent. Implementation hovered in the low 80s through the late 2010s; FY11 and FY23 stand out.
+            For each fiscal year, the share of the proposed budget that was actually spent. Implementation hovered in the low 80s through the late 2010s; FY11 and FY13 stand out.
           </p>
         </div>
 
@@ -259,10 +259,10 @@ function SectorHero({ setActive }) {
           Sector by sector — totals, sub-sector stacks, GDP-share moves, and how much of each fiscal promise was actually delivered.
         </p>
         <div className="page-hero-stats">
-          <div className="phs-cell" onClick={() => document.querySelector('.s-sector-grid')?.scrollIntoView({behavior: 'smooth'})}><div className="l">Sectors tracked</div><div className="n"><CountUp value={SECTORS.length} duration={1000} /></div><div className="s">FY09 — {BUDGET.proposed} · {SECTOR_YEARS.length}-year panel</div></div>
+          <div className="phs-cell" onClick={() => document.querySelector('.s-sector-grid')?.scrollIntoView({ behavior: 'smooth' })}><div className="l">Sectors tracked</div><div className="n"><CountUp value={SECTORS.length} duration={1000} /></div><div className="s">FY09 — {BUDGET.proposed} · {SECTOR_YEARS.length}-year panel</div></div>
           <div className="phs-cell" onClick={() => setActive && setActive(top.k)}><div className="l">Top sector {BUDGET.proposed}</div><div className="n">{top.name}</div><div className="s">৳<CountUp value={top.proposed / 1000} decimals={1} />k Cr</div></div>
           <div className="phs-cell green" onClick={() => setActive && setActive(fastest.k)}><div className="l">Fastest grower</div><div className="n"><CountUp value={parseFloat(fastest.growth)} decimals={1} suffix="×" /></div><div className="s">{fastest.name} · since FY09</div></div>
-          <div className="phs-cell" onClick={() => document.querySelector('.s-gauges')?.scrollIntoView({behavior: 'smooth'})}><div className="l">Avg implementation</div><div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%" /></div><div className="s">FY09 — {BUDGET.proposed} average</div></div>
+          <div className="phs-cell" onClick={() => document.querySelector('.s-gauges')?.scrollIntoView({ behavior: 'smooth' })}><div className="l">Avg implementation</div><div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%" /></div><div className="s">FY09 — FY25 average</div></div>
         </div>
       </div>
     </section>

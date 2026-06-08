@@ -52,11 +52,11 @@ const RELEVANT_NEWS = {
       image: "news-images/budget_planning.jpg",
     },
     {
-      url: "https://www.thedailystar.net/business/column/news/good-budget-bad-times-4149321",
-      title: "Good budget in bad times",
-      kicker: "Column",
+      url: "https://www.thedailystar.net/business/bangladesh-budget-2026-27/news/bangladeshs-budget-really-too-big-4189171",
+      title: "Is Bangladesh’s budget really too big?",
+      kicker: "BANGLADESH BUDGET 2026-27",
       source: "The Daily Star",
-      date: "Apr 12, 2026",
+      date: "Jun 3, 2026",
       image: "news-images/good_budget.jpg",
     },
   ],
@@ -113,7 +113,17 @@ const RELEVANT_NEWS = {
   ],
   sector_heatmap: [],
   sector_rankings: [],
-  sector_gauges: [],
+  sector_gauges: [
+    {
+      url: "https://www.thedailystar.net/business/bangladesh-budget-2026-27/news/who-pays-the-price-chronic-budget-underspending-4190896",
+      title: "Who pays the price for chronic budget underspending?",
+      kicker: "Bangladesh Budget 2026-27",
+      source: "The Daily Star",
+      date: "Jun 5, 2026",
+      image: "news-images/implementation.jpg",
+      // image: "structural-reform.jpg",   // ← drop the file in news-images/ and uncomment
+    },
+  ],
 };
 
 /* ── helpers ─────────────────────────────────────────────── */
