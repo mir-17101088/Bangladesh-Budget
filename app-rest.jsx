@@ -74,7 +74,7 @@ function Treemap() {
           <span className="eyebrow">Sector by sector</span>
           <h2>Every area, every taka</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            FY24's actual ৳6,11,392 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — debt interest and the Finance Division — already eat a quarter.
+            FY26's allocated ৳7,80,826 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — debt interest and the Finance Division — already eat a quarter.
           </p>
         </div>
 

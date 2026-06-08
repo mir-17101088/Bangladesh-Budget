@@ -82,90 +82,90 @@ const GDP_DATA = [
 
 // (department, % of total, parent sector color)
 const TREEMAP = [
-  { name: "Domestic Interest", pct: 16.29, c: "#C60001", parent: "Interest" },
-  { name: "Finance Division", pct: 12.97, c: "#997B50", parent: "Public Services" },
-  { name: "Local Government Division", pct: 6.87, c: "#96CEB4", parent: "Local Govt" },
-  { name: "Defence Ministry", pct: 5.41, c: "#7D0066", parent: "Defence" },
+  { name: "Domestic Interest", pct: 16.36, c: "#C60001", parent: "Interest" },
+  { name: "Finance Division", pct: 25.13, c: "#997B50", parent: "Public Services" },
+  { name: "Local Government Division", pct: 6.94, c: "#96CEB4", parent: "Local Govt" },
+  { name: "Defence Ministry", pct: 6.33, c: "#7D0066", parent: "Defence" },
 
 
-  { name: "Secondary & Higher Education Division", pct: 5.28, c: "#0185C6", parent: "Education" },
-  { name: "Agriculture Ministry", pct: 5.23, c: "#019933", parent: "Agriculture" },
+  { name: "Secondary & Higher Education Division", pct: 7.78, c: "#0185C6", parent: "Education" },
+  { name: "Agriculture Ministry", pct: 4.45, c: "#019933", parent: "Agriculture" },
 
-  { name: "Power Division", pct: 4.44, c: "#FF6B35", parent: "Energy" },
-  { name: "Primary & Mass Education Ministry", pct: 4.29, c: "#0185C6", parent: "Education" },
-  { name: "Road Transport & Highways Division", pct: 3.96, c: "#B0832B", parent: "Transport" },
-  { name: "Public Security Division", pct: 3.85, c: "#FFEAA7", parent: "Public Order" },
-  { name: "Health Services Division", pct: 3.10, c: "#4ECDC4", parent: "Health" },
-  { name: "Foreign Interest", pct: 2.45, c: "#C60001", parent: "Interest" },
-  { name: "Railway Ministry", pct: 2.33, c: "#4ECDC4", parent: "Transport" },
+  { name: "Power Division", pct: 3.33, c: "#FF6B35", parent: "Energy" },
+  { name: "Primary & Mass Education Ministry", pct: 5.79, c: "#0185C6", parent: "Education" },
+  { name: "Road Transport & Highways Division", pct: 6.30, c: "#B0832B", parent: "Transport" },
+  { name: "Public Security Division", pct: 4.42, c: "#FFEAA7", parent: "Public Order" },
+  { name: "Health Services Division", pct: 5.07, c: "#4ECDC4", parent: "Health" },
+  { name: "Foreign Interest", pct: 3.60, c: "#C60001", parent: "Interest" },
+  { name: "Railway Ministry", pct: 1.95, c: "#4ECDC4", parent: "Transport" },
 
-  { name: "Water Resources Ministry", pct: 2.31, c: "#019933", parent: "Agriculture" },
-  { name: "Science & Technology Ministry", pct: 1.83, c: "#0185C6", parent: "Education" },
+  { name: "Water Resources Ministry", pct: 1.83, c: "#019933", parent: "Agriculture" },
+  { name: "Science & Technology Ministry", pct: 2.10, c: "#0185C6", parent: "Education" },
   { name: "Social Welfare Ministry", pct: 1.81, c: "#45B7D1", parent: "Social Security" },
-  { name: "Disaster Management & Relief Ministry", pct: 1.61, c: "#45B7D1", parent: "Social Security" },
-  { name: "Technical & Madrasa Education Division", pct: 1.36, c: "#0185C6", parent: "Education" },
+  { name: "Disaster Management & Relief Ministry", pct: 1.69, c: "#45B7D1", parent: "Social Security" },
+  { name: "Technical & Madrasa Education Division", pct: 2.07, c: "#0185C6", parent: "Education" },
 
-  { name: "Bridges Division", pct: 1.23, c: "#B0832B", parent: "Transport" },
-  { name: "Liberation War Affairs Ministry", pct: 1.14, c: "#45B7D1", parent: "Social Security" },
-  { name: "Housing & Public Works Ministry", pct: 1.07, c: "#A8E6CF", parent: "Housing" },
-  { name: "Food Ministry", pct: 1.05, c: "#997B50", parent: "Social Security" },
-
-
-
-  { name: "Shipping Ministry", pct: 0.95, c: "#C60001", parent: "Transport" },
-  { name: "Women & Children's Affairs Ministry", pct: 0.80, c: "#997B50", parent: "Social Security" },
-  { name: "Civil Aviation & Tourism Ministry", pct: 0.78, c: "#96CEB4", parent: "Transport" },
-  { name: "Medical Education & Family Welfare Division", pct: 0.78, c: "#7D0066", parent: "Health" },
+  { name: "Bridges Division", pct: 0.98, c: "#B0832B", parent: "Transport" },
+  { name: "Liberation War Affairs Ministry", pct: 1.20, c: "#45B7D1", parent: "Social Security" },
+  { name: "Housing & Public Works Ministry", pct: 0.84, c: "#A8E6CF", parent: "Housing" },
+  { name: "Food Ministry", pct: 1.36, c: "#997B50", parent: "Social Security" },
 
 
-  { name: "EC Secretariat", pct: 0.69, c: "#0185C6", parent: "Public Services" },
-  { name: "Public Administration Ministry", pct: 0.65, c: "#019933", parent: "Public Services" },
 
-  { name: "Fisheries & Livestock Ministry", pct: 0.59, c: "#FF6B35", parent: "Agriculture" },
-  { name: "Security Services Division", pct: 0.56, c: "#0185C6", parent: "Public Order" },
-  { name: "Financial Institutions Division", pct: 0.48, c: "#B0832B", parent: "Public Services" },
-  { name: "PMO", pct: 0.47, c: "#FFEAA7", parent: "Public Services" },
-  { name: "Posts & Telecommunication Division", pct: 0.43, c: "#4ECDC4", parent: "Transport" },
-  { name: "Religious Affairs Ministry", pct: 0.42, c: "#C60001", parent: "Culture" },
-  { name: "Industries Ministry", pct: 0.41, c: "#4ECDC4", parent: "Industry" },
-
-  { name: "Information & Communication Technology Division", pct: 0.38, c: "#019933", parent: "Education" },
-  { name: "Environment, Forest & Climate Change Ministry", pct: 0.30, c: "#0185C6", parent: "Agriculture" },
-  { name: "Other Services (Defence)", pct: 0.29, c: "#45B7D1", parent: "Defence" },
-  { name: "Land Ministry", pct: 0.26, c: "#45B7D1", parent: "Agriculture" },
-  { name: "IRD", pct: 0.26, c: "#0185C6", parent: "Public Services" },
-
-  { name: "ERD", pct: 0.22, c: "#B0832B", parent: "Public Services" },
-  { name: "Law & Justice Division", pct: 0.22, c: "#45B7D1", parent: "Public Order" },
-  { name: "Ctg Hill Tracts Ministry", pct: 0.21, c: "#A8E6CF", parent: "Local Govt" },
-  { name: "Youth & Sports Ministry", pct: 0.20, c: "#997B50", parent: "Culture" },
+  { name: "Shipping Ministry", pct: 1.68, c: "#C60001", parent: "Transport" },
+  { name: "Women & Children's Affairs Ministry", pct: 0.83, c: "#997B50", parent: "Social Security" },
+  { name: "Civil Aviation & Tourism Ministry", pct: 0.40, c: "#96CEB4", parent: "Transport" },
+  { name: "Medical Education & Family Welfare Division", pct: 1.78, c: "#7D0066", parent: "Health" },
 
 
-  { name: "Energy & Mineral Resources Division", pct: 0.20, c: "#C60001", parent: "Energy" },
-  { name: "Rural development & Cooperative Division", pct: 0.19, c: "#997B50", parent: "Local Govt" },
-  { name: "Foreign Affairs Ministry", pct: 0.19, c: "#96CEB4", parent: "Public Services" },
-  { name: "Information & Broadcasting Ministry", pct: 0.15, c: "#7D0066", parent: "Culture" },
+  { name: "EC Secretariat", pct: 0.48, c: "#0185C6", parent: "Public Services" },
+  { name: "Public Administration Ministry", pct: 0.80, c: "#019933", parent: "Public Services" },
+
+  { name: "Fisheries & Livestock Ministry", pct: 0.55, c: "#FF6B35", parent: "Agriculture" },
+  { name: "Security Services Division", pct: 0.66, c: "#0185C6", parent: "Public Order" },
+  { name: "Financial Institutions Division", pct: 0.58, c: "#B0832B", parent: "Public Services" },
+  { name: "PMO", pct: 0.58, c: "#FFEAA7", parent: "Public Services" },
+  { name: "Posts & Telecommunication Division", pct: 0.35, c: "#4ECDC4", parent: "Transport" },
+  { name: "Religious Affairs Ministry", pct: 0.36, c: "#C60001", parent: "Culture" },
+  { name: "Industries Ministry", pct: 0.31, c: "#4ECDC4", parent: "Industry" },
+
+  { name: "Information & Communication Technology Division", pct: 0.35, c: "#019933", parent: "Education" },
+  { name: "Environment, Forest & Climate Change Ministry", pct: 0.35, c: "#0185C6", parent: "Agriculture" },
+  { name: "Other Services (Defence)", pct: 0.31, c: "#45B7D1", parent: "Defence" },
+  { name: "Land Ministry", pct: 0.38, c: "#45B7D1", parent: "Agriculture" },
+  { name: "IRD", pct: 0.51, c: "#0185C6", parent: "Public Services" },
+
+  { name: "ERD", pct: 0.10, c: "#B0832B", parent: "Public Services" },
+  { name: "Law & Justice Division", pct: 0.33, c: "#45B7D1", parent: "Public Order" },
+  { name: "Ctg Hill Tracts Ministry", pct: 0.22, c: "#A8E6CF", parent: "Local Govt" },
+  { name: "Youth & Sports Ministry", pct: 0.40, c: "#997B50", parent: "Culture" },
 
 
-  { name: "Cultural Affairs Ministry", pct: 0.12, c: "#0185C6", parent: "Culture" },
-  { name: "Expatriates' Welfare & Overseas Employment Ministry", pct: 0.086, c: "#019933", parent: "Industry" },
+  { name: "Energy & Mineral Resources Division", pct: 0.36, c: "#C60001", parent: "Energy" },
+  { name: "Rural development & Cooperative Division", pct: 0.18, c: "#997B50", parent: "Local Govt" },
+  { name: "Foreign Affairs Ministry", pct: 0.28, c: "#96CEB4", parent: "Public Services" },
+  { name: "Information & Broadcasting Ministry", pct: 0.18, c: "#7D0066", parent: "Culture" },
 
-  { name: "Statistics", pct: 0.079, c: "#FF6B35", parent: "Public Services" },
-  { name: "Textiles & Jute Ministry", pct: 0.073, c: "#0185C6", parent: "Industry" },
-  { name: "Commerce Ministry", pct: 0.057, c: "#B0832B", parent: "Industry" },
-  { name: "Bangladesh Parliament", pct: 0.042, c: "#FFEAA7", parent: "Public Services" },
-  { name: "Labour & Employment Ministry", pct: 0.040, c: "#4ECDC4", parent: "Industry" },
-  { name: "Supreme Court", pct: 0.038, c: "#C60001", parent: "Public Order" },
-  { name: "Implementation Monitoring & Evaluation Division", pct: 0.034, c: "#4ECDC4", parent: "Public Services" },
 
-  { name: "ACC", pct: 0.021, c: "#019933", parent: "Public Order" },
-  { name: "Planning Division", pct: 0.019, c: "#0185C6", parent: "Public Services" },
-  { name: "PSC", pct: 0.017, c: "#45B7D1", parent: "Public Services" },
-  { name: "Cabinet Division", pct: 0.011, c: "#45B7D1", parent: "Public Services" },
-  { name: "Legislative and Parliamentary Affairs Division", pct: 0.006, c: "#0185C6", parent: "Public Order" },
+  { name: "Cultural Affairs Ministry", pct: 0.13, c: "#0185C6", parent: "Culture" },
+  { name: "Expatriates' Welfare & Overseas Employment Ministry", pct: 0.12, c: "#019933", parent: "Industry" },
 
-  { name: "Armed Forces Division", pct: 0.006, c: "#B0832B", parent: "Defence" },
-  { name: "President's Office", pct: 0.004, c: "#45B7D1", parent: "Public Services" },
+  { name: "Statistics", pct: 0.08, c: "#FF6B35", parent: "Public Services" },
+  { name: "Textiles & Jute Ministry", pct: 0.08, c: "#0185C6", parent: "Industry" },
+  { name: "Commerce Ministry", pct: 0.10, c: "#B0832B", parent: "Industry" },
+  { name: "Bangladesh Parliament", pct: 0.04, c: "#FFEAA7", parent: "Public Services" },
+  { name: "Labour & Employment Ministry", pct: 0.07, c: "#4ECDC4", parent: "Industry" },
+  { name: "Supreme Court", pct: 0.04, c: "#C60001", parent: "Public Order" },
+  { name: "Implementation Monitoring & Evaluation Division", pct: 0.03, c: "#4ECDC4", parent: "Public Services" },
+
+  { name: "ACC", pct: 0.03, c: "#019933", parent: "Public Order" },
+  { name: "Planning Division", pct: 1.78, c: "#0185C6", parent: "Public Services" },
+  { name: "PSC", pct: 0.02, c: "#45B7D1", parent: "Public Services" },
+  { name: "Cabinet Division", pct: 0.02, c: "#45B7D1", parent: "Public Services" },
+  { name: "Legislative and Parliamentary Affairs Division", pct: 0.01, c: "#0185C6", parent: "Public Order" },
+
+  { name: "Armed Forces Division", pct: 0.01, c: "#B0832B", parent: "Defence" },
+  { name: "President's Office", pct: 0.01, c: "#45B7D1", parent: "Public Services" },
 
 ];
 
