@@ -124,7 +124,7 @@ function Treemap() {
                     pointerEvents="none">
                     <div className={"tm-fo " + (big ? "big" : med ? "med" : "sm")} style={{ fontFamily: "var(--ui)" }}>
                       <div className="tm-fo-name" style={{ fontSize: nameSize, fontFamily: "var(--ui)" }}>{c.name}</div>
-                      <div className="tm-fo-pct" style={{ fontSize: nameSize * 0.95, opacity: 0.85, fontFamily: "var(--ui)" }}>{c.pct.toFixed(big ? 2 : 1)}%</div>
+                      <div className="tm-fo-pct" style={{ fontSize: nameSize * 0.8, opacity: 0.85, fontFamily: "var(--ui)" }}>{c.pct.toFixed(big ? 2 : 1)}%</div>
                     </div>
                   </foreignObject>
                 </g>
