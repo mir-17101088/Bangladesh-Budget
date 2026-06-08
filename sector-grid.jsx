@@ -340,7 +340,7 @@ function ExpandedSection({ active }) {
           <div className="sg-expand-head">
             <div className="sg-expand-title">
               <span className="eyebrow" style={{ color: s.color }}>Sector deep-dive · {s.name}</span>
-              <h3>{s.name} — {SECTOR_YEARS.length} years{mode === "abs" && subCount > 1 ? `, ${subCount} sub-sectors` : ""}.</h3>
+              <h3>{s.name} — {SECTOR_YEARS.length} years{mode === "abs" && subCount > 1 ? `, ${subCount} sub-sectors` : ""}</h3>
             </div>
             <div className="see-toggle" style={{ "--accent": s.color }}>
               <button className={mode === "abs" ? "active" : ""} style={{ background: mode === "abs" ? s.color : "transparent" }} onClick={() => setMode("abs")}>{isMobile ? "Absolute" : "Absolute · ৳ Cr"}</button>
