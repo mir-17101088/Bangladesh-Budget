@@ -444,28 +444,47 @@ function PreLaunchHero() {
       <div className="pl-veil" aria-hidden="true"></div>
 
 
-      <div className="hero-content pl-content">
+      <div className="hero-content pl-content" style={{ alignItems: "center", textAlign: "center" }}>
 
 
-        <h1 id="pl-headline" className="pl-headline">Bangladesh National Budget</h1>
+        <h1 id="pl-headline" className="pl-headline" style={{ fontSize: "clamp(36px, 11vw, 80px)", marginBottom: "20px", textWrap: "balance", textAlign: "center", overflowWrap: "break-word", hyphens: "auto" }}>
+          Bangladesh's National Budget<br />
+          <span style={{ fontStyle: "italic", fontWeight: 400, color: "rgba(255,255,255,0.6)" }}>Then and Now</span>
+        </h1>
 
+        <div className="pl-lede" style={{ maxWidth: "62ch", margin: "0 auto 32px auto", fontSize: "clamp(15px, 2vh, 18px)", color: "rgba(255,255,255,0.85)", lineHeight: 1.5, textShadow: "0 2px 14px rgba(2,6,31,0.8)", textAlign: "center" }}>
+          <p style={{ margin: "0 0 16px 0" }}>
+            Over 53 budgets, state expenditure has grown 1,000-fold. Yet at just over 12% of GDP, its true footprint relative to the economy remains constrained.
+          </p>
+          <p style={{ margin: 0, fontStyle: "italic", color: "rgba(255,255,255,0.95)" }}>
+            <strong style={{ fontWeight: 600, color: "#fff", fontStyle: "normal" }}>The Daily Star</strong> analysed spending patterns to see where public money was spent the most and which sectors lagged behind.
+          </p>
+        </div>
 
-        <p className="pl-support">
-          Take a look at <strong>The Daily Star’s</strong> breakdown of the country’s last 18 budgets.
-        </p>
-
-        <ul className="pl-legend" aria-label="What each year’s figures represent">
-          <li className="pl-chip"><span className="pl-chip-fy">FY24</span><span className="pl-chip-lab">Actual expenditure</span></li>
-          <li className="pl-chip"><span className="pl-chip-fy">FY25</span><span className="pl-chip-lab">Revised</span></li>
-          <li className="pl-chip"><span className="pl-chip-fy">FY26</span><span className="pl-chip-lab">Allocation</span></li>
-        </ul>
+        <div className="pl-stats" style={{ width: "fit-content", margin: "0 auto clamp(32px, 5vh, 56px)" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center", textAlign: "center" }}>
+            <span style={{ fontFamily: "var(--ui)", fontSize: "clamp(6.5px, 2.2vw, 10px)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--eyebrow)" }}>First Budget (FY73)</span>
+            <span style={{ fontFamily: "var(--serif)", fontSize: "clamp(14px, 4.5vw, 32px)", color: "#fff", lineHeight: 1 }}>৳786<span style={{ fontSize: "clamp(9px, 2.5vw, 14px)", color: "rgba(255,255,255,0.5)", marginLeft: "4px" }}>cr</span></span>
+          </div>
+          <div className="pl-stat-div" style={{ margin: "0 auto" }}></div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center", textAlign: "center" }}>
+            <span style={{ fontFamily: "var(--ui)", fontSize: "clamp(6.5px, 2.2vw, 10px)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--eyebrow)" }}>FY26</span>
+            <span style={{ fontFamily: "var(--serif)", fontSize: "clamp(14px, 4.5vw, 32px)", color: "#6fc7ee", lineHeight: 1 }}>৳7.9<span style={{ fontSize: "clamp(9px, 2.5vw, 14px)", color: "rgba(111,199,238,0.7)", marginLeft: "4px" }}>trillion</span></span>
+          </div>
+          <div className="pl-stat-div" style={{ margin: "0 auto" }}></div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center", textAlign: "center" }}>
+            <span style={{ fontFamily: "var(--ui)", fontSize: "clamp(6.5px, 2.2vw, 10px)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--eyebrow)" }}>Share of GDP</span>
+            <span style={{ fontFamily: "var(--serif)", fontSize: "clamp(14px, 4.5vw, 32px)", color: "#5fe093", lineHeight: 1 }}>~12<span style={{ fontSize: "clamp(10px, 3vw, 20px)" }}>%</span></span>
+          </div>
+        </div>
 
         <div
           className="pl-count"
           role="group"
           aria-label={`Live countdown to the ${span} National Budget, presented in Parliament on 11 June 2026`}
+          style={{ alignItems: "center", textAlign: "center" }}
         >
-          <div className="pl-count-head">
+          <div className="pl-count-head" style={{ justifyContent: "center" }}>
             <span className="pl-live"><span className="pl-live-dot" aria-hidden="true"></span>Live</span>
             <span className="pl-count-ctx">
               {span} budget · Parliament · <strong>11 June 2026</strong>
@@ -473,11 +492,11 @@ function PreLaunchHero() {
           </div>
 
           {passed ? (
-            <div className="pl-passed" role="status">
+            <div className="pl-passed" role="status" style={{ textAlign: "center" }}>
               Budget presented — figures coming soon.
             </div>
           ) : (
-            <div className="pl-timer" aria-hidden="true">
+            <div className="pl-timer" aria-hidden="true" style={{ justifyContent: "center" }}>
               {units.map((u, i) => (
                 <React.Fragment key={u.one}>
                   {i > 0 && <span className="pl-colon" aria-hidden="true">:</span>}

@@ -1760,8 +1760,10 @@ footer {
 
 /* ---- Editorial column: left-aligned within a centred measure ---- */
 .pl-content {
-  align-items: flex-start;
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   max-width: 1180px;
   width: 100%;
   margin: 0 auto;
@@ -1842,6 +1844,26 @@ footer {
 .pl-support strong {
   color: #fff;
   font-weight: 600;
+}
+
+.pl-stats {
+  display: flex;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 36px);
+  margin-bottom: clamp(32px, 5vh, 56px);
+  align-items: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(2, 6, 31, 0.35);
+  padding: 16px 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pl-stat-div {
+  height: 32px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* ---- Data-literacy legend: scannable chips, never prose ---- */
@@ -2131,6 +2153,18 @@ footer {
 
   .pl-lede {
     max-width: 100%;
+  }
+
+  .pl-stats {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 12px;
+  }
+
+  .pl-stat-div {
+    width: 1px;
+    height: 24px;
   }
 
   .pl-hook {

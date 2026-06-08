@@ -40,7 +40,7 @@ function TakaSection() {
       <div className="wrap">
         <div className="section-head" style={{ textAlign: "center", margin: "0 auto 56px" }}>
           <span className="eyebrow" style={{ color: "#6fc7ee" }}>The signature view</span>
-          <h2 style={{ marginBottom: 16 }}>Where did your ৳100 go?</h2>
+          <h2 style={{ marginBottom: 16 }}>How was every ৳100 allocated?</h2>
           <p className="lede" style={{ margin: "0 auto", maxWidth: 620 }}>
             Hover or tap a sliver of the note to follow each sector's share of every taka the
             government planned to allocate in {proposedSpan}.
