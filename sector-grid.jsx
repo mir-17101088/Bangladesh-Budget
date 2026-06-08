@@ -202,7 +202,7 @@ function ExpandedSection({ active }) {
   const tallestTopY = pad.t + innerH - (dataMax / dispMax) * innerH;
   // Only show the side-by-side REVISED/PROPOSED tags when columns are wide enough
   // that the two labels can't touch; otherwise the top-margin annotation carries it.
-  const showTags = !isMobile && step >= 46;
+  const showTags = !isMobile && step >= 64;
 
   // Divider between actual and revised/proposed years.
   const firstProjected = Math.max(0, allBars.findIndex(b => b.notYetActual));
@@ -408,21 +408,15 @@ function ExpandedSection({ active }) {
                   entirely inside a clear margin so it never overlaps a bar */}
               {firstProjected > 0 && (
                 isMobile ? (
-                  <>
-                    <line x1={pad.l} x2={W - pad.r} y1={dividerY} y2={dividerY}
-                      stroke={s.color} strokeOpacity="0.5" strokeDasharray="2 4" />
-                    <text transform={"translate(" + (W - 6) + " " + (dividerY - 5) + ") rotate(-90)"} textAnchor="start"
-                      style={{ fontFamily: "var(--ui)", fontSize: 8.5, fill: s.color, letterSpacing: "0.1em" }}>
-                      REVISED / PROPOSED
-                    </text>
-                  </>
+                  <line x1={pad.l} x2={W - pad.r} y1={dividerY} y2={dividerY}
+                    stroke={s.color} strokeOpacity="0.5" strokeDasharray="2 4" />
                 ) : (
                   <>
                     <line x1={dividerX} y1={pad.t} x2={dividerX} y2={pad.t + innerH}
                       stroke={s.color} strokeOpacity="0.5" strokeDasharray="2 4" />
                     <text x={W - pad.r} y={pad.t - 18} textAnchor="end"
                       style={{ fontFamily: "var(--ui)", fontSize: 10, fill: s.color, letterSpacing: "0.14em" }}>
-                      REVISED / PROPOSED →
+                      REVISED / ALLOCATION →
                     </text>
                   </>
                 )
@@ -433,6 +427,7 @@ function ExpandedSection({ active }) {
                 const baseDelay = i * 45;
                 const isProposed = b.fy === BUDGET.proposed;
                 const isActual = b.fy === BUDGET.actual;
+                const tag = BUDGET.tagFor(b.fy);
 
                 let cum = 0;
                 const segments = b.subVals.map((val, si) => {
@@ -451,6 +446,13 @@ function ExpandedSection({ active }) {
                       {isActual && <rect x={pad.l} y={y - 2} width={innerW + pad.r} height={bw + 4} fill={s.color} opacity="0.06" rx="3" />}
                       <text x={pad.l - 8} y={y + bw / 2 + 4} textAnchor="end" className="tick-label"
                         style={{ fill: b.notYetActual ? s.color : undefined, opacity: b.notYetActual ? 0.9 : 1, fontSize: 10 }}>{b.fy}</text>
+                      {tag && (
+                        <text x={0} y={y + bw / 2 + 16} textAnchor="start"
+                          className={"fy-tag-text " + tag.cls}
+                          style={{ fontFamily: "var(--ui)", fontSize: 7, letterSpacing: "0.08em" }}>
+                          {tag.label.toUpperCase()}
+                        </text>
+                      )}
 
                       {segments.map((seg, si) => (
                         <AnimatedRect key={si} axis="x"
@@ -515,13 +517,15 @@ function ExpandedSection({ active }) {
                         <text x={x + bw / 2} y={H - 20} textAnchor="middle" className="tick-label"
                           style={{ fill: b.notYetActual ? s.color : undefined, opacity: b.notYetActual ? 0.9 : 1 }}>{b.fy}</text>
                       )}
-                      {showTags && tag && (
-                        <text x={x + bw / 2} y={tallestTopY - 8} textAnchor="middle"
+                      {tag && (
+                        <text x={x + bw / 2} y={tallestTopY - (tag.cls === "fy-proposed" ? 22 : 8)} textAnchor="middle"
                           className={"fy-tag-text " + tag.cls}
-                          style={{ fontFamily: "var(--ui)", fontSize: 9, letterSpacing: "0.12em" }}>{tag.label.toUpperCase()}</text>
+                          style={{ fontFamily: "var(--ui)", fontSize: 9, letterSpacing: "0.12em" }}>
+                          {tag.label.toUpperCase()}
+                        </text>
                       )}
                       {isProposed && (
-                        <text x={x + bw / 2} y={tallestTopY - (showTags ? 24 : 9)} textAnchor="middle"
+                        <text x={x + bw / 2} y={tallestTopY - 38} textAnchor="middle"
                           style={{ fontFamily: "var(--serif)", fontSize: 15, fill: "#fff" }}>
                           ৳{(b.total / 1000).toFixed(1)}k
                         </text>
@@ -536,6 +540,7 @@ function ExpandedSection({ active }) {
                 const baseDelay = i * 45;
                 const isProposed = b.fy === BUDGET.proposed;
                 const barSize = (b.pct / dispMax) * (isMobile ? innerW : innerH);
+                const tag = BUDGET.tagFor(b.fy);
 
                 if (isMobile) {
                   const y = pad.t + i * step + (step - bw) / 2;
@@ -550,6 +555,13 @@ function ExpandedSection({ active }) {
                         duration={900} delay={baseDelay} />
                       <text x={pad.l - 8} y={y + bw / 2 + 4} textAnchor="end" className="tick-label"
                         style={{ fill: b.notYetActual ? s.color : undefined, opacity: b.notYetActual ? 0.9 : 1, fontSize: 10 }}>{b.fy}</text>
+                      {tag && (
+                        <text x={0} y={y + bw / 2 + 16} textAnchor="start"
+                          className={"fy-tag-text " + tag.cls}
+                          style={{ fontFamily: "var(--ui)", fontSize: 7, letterSpacing: "0.08em" }}>
+                          {tag.label.toUpperCase()}
+                        </text>
+                      )}
                       <rect x={0} y={y - 2} width={W} height={bw + 4}
                         fill="transparent" style={{ cursor: "pointer" }}
                         onMouseEnter={(e) => handleBarEnter(e, b, i)}
@@ -569,7 +581,6 @@ function ExpandedSection({ active }) {
                   // Desktop Vertical
                   const x = pad.l + i * step + (step - bw) / 2;
                   const barY = pad.t + innerH - barSize;
-                  const tag = BUDGET.tagFor(b.fy);
                   return (
                     <g key={b.fy}>
                       <AnimatedRect x={x} y={barY} width={bw} height={barSize}
@@ -591,13 +602,15 @@ function ExpandedSection({ active }) {
                         <text x={x + bw / 2} y={H - 20} textAnchor="middle" className="tick-label"
                           style={{ fill: b.notYetActual ? s.color : undefined, opacity: b.notYetActual ? 0.9 : 1 }}>{b.fy}</text>
                       )}
-                      {showTags && tag && (
-                        <text x={x + bw / 2} y={tallestTopY - 8} textAnchor="middle"
+                      {tag && (
+                        <text x={x + bw / 2} y={tallestTopY - (tag.cls === "fy-proposed" ? 22 : 8)} textAnchor="middle"
                           className={"fy-tag-text " + tag.cls}
-                          style={{ fontFamily: "var(--ui)", fontSize: 9, letterSpacing: "0.12em" }}>{tag.label.toUpperCase()}</text>
+                          style={{ fontFamily: "var(--ui)", fontSize: 9, letterSpacing: "0.12em" }}>
+                          {tag.label.toUpperCase()}
+                        </text>
                       )}
                       {isProposed && (
-                        <text x={x + bw / 2} y={tallestTopY - (showTags ? 24 : 9)} textAnchor="middle"
+                        <text x={x + bw / 2} y={tallestTopY - 38} textAnchor="middle"
                           style={{ fontFamily: "var(--serif)", fontSize: 15, fill: "#fff" }}>
                           {b.pct.toFixed(2)}%
                         </text>

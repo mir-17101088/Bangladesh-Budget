@@ -327,7 +327,7 @@ function SubsidySection() {
                 <span style={{ width: 14, height: 10, background: "linear-gradient(180deg, #B0832B, #6d501a)", borderRadius: 2 }}></span>Actual / historical
               </span>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 14, height: 10, background: "repeating-linear-gradient(135deg, rgba(176,131,43,0.4) 0 4px, rgba(176,131,43,0.1) 4px 8px)", borderRadius: 2, border: "1px dashed rgba(176,131,43,0.6)" }}></span>Revised / Proposed
+                <span style={{ width: 14, height: 10, background: "repeating-linear-gradient(135deg, rgba(176,131,43,0.4) 0 4px, rgba(176,131,43,0.1) 4px 8px)", borderRadius: 2, border: "1px dashed rgba(176,131,43,0.6)" }}></span>Revised / Allocation
               </span>
             </div>
           </div>
