@@ -107,8 +107,9 @@ function Treemap() {
                   <rect x={c.x + 1.5} y={c.y + 1.5} width={c.w - 3} height={c.h - 3}
                     fill={c.c} rx="4"
                     style={{
+                      opacity: isHover ? 0.85 : 0.6,
                       filter: isHover ? "brightness(1.25)" : "brightness(1)",
-                      transition: "filter .2s"
+                      transition: "filter .2s, opacity .2s"
                     }} />
                   {/* gloss */}
                   <rect x={c.x + 1.5} y={c.y + 1.5} width={c.w - 3} height={c.h - 3}
