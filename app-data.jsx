@@ -256,8 +256,8 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 function Nav({ active }) {
   const links = [
     { name: "Home", href: "Budget at a Glance.html" },
-    { name: "Price Impact", href: "Price Impact.html" },
     { name: "Sector Deep Dive", href: "Sector Deep Dive.html" },
+    { name: "Price Impact", href: "Price Impact.html" },
   ];
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
