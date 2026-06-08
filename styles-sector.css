@@ -131,10 +131,10 @@
    safe in greyscale/monochromacy), so direction never relies on colour alone. */
 .heat-wrap {
   padding: 32px 36px; border-radius: 22px;
-  --rose: #3CC3DE;                    /* GDP share rose — electric teal-cyan */
-  --fell: #CB5A30;                    /* GDP share fell — vivid terracotta */
-  --seam: rgba(255,255,255,0.05);     /* faint year rule WITHIN the ribbon */
-  --cap: 5px;                         /* soft pill end-cap radius */
+  --rose: #50C878;                    /* GDP share rose — Emerald Green */
+  --fell: #C94B4B;                    /* GDP share fell — some unnamed shade of red */
+  --seam: rgba(255,255,255,5);     /* faint year rule WITHIN the ribbon */
+  --cap: 10px;                         /* soft pill end-cap radius */
 }
 /* border-spacing: 0 (horizontal) fuses each row into one continuous band so it
    reads as printed data, not tiles; the vertical value keeps sectors apart.
