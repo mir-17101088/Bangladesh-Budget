@@ -26,7 +26,7 @@ const TAKA_SECTORS_RAW = [
   { key: "education", name: "Education & Technology", color: "#0185C6", series: [15.7, 14.7, 14.7, 14.0, 14.0, null] },
   { key: "transport", name: "Transport & Communication", color: "#B0832B", series: [11.7, 11.8, 11.8, 10.0, 9.0, null] },
   { key: "agri", name: "Agriculture", color: "#019933", series: [3.6, 3.8, 3.8, 4.0, 5.9, null] },
-  { key: "localgov", name: "Local Govt & Rural Dev", color: "#96CEB4", series: [7.0, 6.6, 6.6, 6.0, 5.7, null] },
+  { key: "localgov", name: "Local Government & Rural Development", color: "#96CEB4", series: [7.0, 6.6, 6.6, 6.0, 5.7, null] },
   { key: "social", name: "Social Security & Welfare", color: "#45B7D1", series: [5.0, 4.9, 4.9, 5.0, 5.7, null] },
   { key: "health", name: "Health", color: "#4ECDC4", series: [5.4, 5.4, 5.4, 5.0, 5.3, null] },
   { key: "defence", name: "Defence", color: "#7D0066", series: [5.5, 5.0, 5.0, 4.0, 5.2, null] },
@@ -154,7 +154,7 @@ const TREEMAP = [
   { name: "Bangladesh Parliament", pct: 0.042, c: "#FFEAA7", parent: "Public Services" },
   { name: "Labour & Employment Ministry", pct: 0.040, c: "#4ECDC4", parent: "Industry" },
   { name: "Supreme Court", pct: 0.038, c: "#C60001", parent: "Public Order" },
-  { name: "IMED", pct: 0.034, c: "#4ECDC4", parent: "Public Services" },
+  { name: "Implementation Monitoring & Evaluation Division", pct: 0.034, c: "#4ECDC4", parent: "Public Services" },
 
   { name: "ACC", pct: 0.021, c: "#019933", parent: "Public Order" },
   { name: "Planning Division", pct: 0.019, c: "#0185C6", parent: "Public Services" },

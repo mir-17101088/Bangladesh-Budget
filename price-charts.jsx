@@ -216,9 +216,9 @@ function TaxSection() {
             <div className="donut-center" aria-hidden="true">
               <div className="e">{center.eyebrow}</div>
               <div className="n">
-                <CountUp value={center.value / 100000} decimals={2} prefix="৳" suffix="L" duration={900} />
+                <CountUp value={center.value / 100000} decimals={2} prefix="৳" suffix=" lakh" duration={900} />
               </div>
-              <div className="u">Crore</div>
+              <div className="u">crore</div>
               <div className="s">{center.sub}</div>
             </div>
           </div>

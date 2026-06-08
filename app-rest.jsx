@@ -74,7 +74,7 @@ function Treemap() {
           <span className="eyebrow">Sector by sector</span>
           <h2>Every area, every taka</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            FY24's ৳6,11,392 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — debt interest and the Finance Division — already eat a quarter.
+            FY24's actual ৳6,11,392 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — debt interest and the Finance Division — already eat a quarter.
           </p>
         </div>
 
@@ -91,7 +91,7 @@ function Treemap() {
               const med = c.w * c.h > 6000;
               const pad = big ? 14 : (med ? 10 : 6);
               const innerW = Math.max(0, c.w - pad * 2);
-              
+
               // Robustly scale down font size based on the longest word to prevent mid-word letter breaks.
               const words = c.name.split(/[\s&\-]+/).filter(Boolean);
               const maxWordLen = words.length > 0 ? Math.max(...words.map(w => w.length)) : 10;
@@ -331,15 +331,15 @@ function DebtSection() {
       <div className="see-tooltip-row">
         <span className="see-tooltip-sw" style={{ background: "#4c1d95" }}></span>
         <span className="see-tooltip-name">Domestic</span>
-        <span className="see-tooltip-val">৳{tooltip.bar.d.toLocaleString("en-IN")} Cr</span>
+        <span className="see-tooltip-val">৳{tooltip.bar.d.toLocaleString("en-IN")} cr</span>
       </div>
       <div className="see-tooltip-row">
         <span className="see-tooltip-sw" style={{ background: "#c084fc" }}></span>
         <span className="see-tooltip-name">Foreign</span>
-        <span className="see-tooltip-val">৳{tooltip.bar.f.toLocaleString("en-IN")} Cr</span>
+        <span className="see-tooltip-val">৳{tooltip.bar.f.toLocaleString("en-IN")} cr</span>
       </div>
       <div className="see-tooltip-total">
-        Total: ৳{(tooltip.bar.d + tooltip.bar.f).toLocaleString("en-IN")} Cr
+        Total: ৳{(tooltip.bar.d + tooltip.bar.f).toLocaleString("en-IN")} cr
       </div>
     </div>
   ) : null;
@@ -361,7 +361,7 @@ function DebtSection() {
           <div className="debt-chart-head">
             <div>
               <span className="eyebrow" style={{ color: "#c084fc", display: "block" }}>Government interest payments · FY09 — {BUDGET.proposed}</span>
-              <span className="cap" style={{ marginTop: 6, display: "block" }}>In Crore Taka</span>
+              <span className="cap" style={{ marginTop: 6, display: "block" }}>In crore Taka</span>
             </div>
             <div className="debt-legend">
               <span className="ll"><span className="sw" style={{ background: "#4c1d95" }}></span>Domestic</span>
@@ -408,7 +408,7 @@ function DebtSection() {
                   return (
                     <g key={g}>
                       <line className="tick" x1={pad.l} x2={W - pad.r} y1={y} y2={y} stroke="rgba(255,255,255,0.06)" />
-                      <text className="tick-label" x={pad.l - 10} y={y + 3} textAnchor="end">৳{(v / 1000) | 0}k Cr</text>
+                      <text className="tick-label" x={pad.l - 10} y={y + 3} textAnchor="end">৳{(v / 1000) | 0}k cr</text>
                     </g>
                   );
                 }
@@ -486,7 +486,7 @@ function DebtSection() {
                         <g>
                           <text x={x + bw / 2} y={tallestTopY - 24} textAnchor="middle"
                             style={{ fontFamily: "var(--ui)", fontSize: 18, fill: "#fff", fontWeight: 600 }}>
-                            Tk {(total / 1000).toFixed(1)}k Cr
+                            Tk {(total / 1000).toFixed(1)}k cr
                           </text>
                         </g>
                       )}
@@ -555,8 +555,8 @@ function DebtSection() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20, marginTop: 32, paddingTop: 28, borderTop: "1px solid rgba(147,51,234,0.18)" }}>
-            <Stat label={"Domestic, FY09 → " + BUDGET.proposed} big={d_mult + "×"} sub={`৳${(fy09.d / 1000).toFixed(1)}k → ৳${(proposedInterest.d / 1000).toFixed(0)}k Cr`} />
-            <Stat label={"Foreign, FY09 → " + BUDGET.proposed} big={f_mult + "×"} sub={`৳${(fy09.f / 1000).toFixed(1)}k → ৳${(proposedInterest.f / 1000).toFixed(0)}k Cr`} />
+            <Stat label={"Domestic, FY09 → " + BUDGET.proposed} big={d_mult + "×"} sub={`৳${(fy09.d / 1000).toFixed(1)}k → ৳${(proposedInterest.d / 1000).toFixed(0)}k cr`} />
+            <Stat label={"Foreign, FY09 → " + BUDGET.proposed} big={f_mult + "×"} sub={`৳${(fy09.f / 1000).toFixed(1)}k → ৳${(proposedInterest.f / 1000).toFixed(0)}k cr`} />
             <Stat label={BUDGET.proposed + " share of every ৳100"} big={"৳" + calculatedInterestPct.toFixed(1)} sub={`up from ৳${pct11} in FY11`} />
           </div>
         </div>
@@ -698,13 +698,13 @@ function BackToTop() {
           .b2t { bottom: 24px; right: 24px; width: 44px; height: 44px; }
         }
       `}</style>
-      <button 
-        onClick={scrollToTop} 
+      <button
+        onClick={scrollToTop}
         className={`b2t ${visible ? 'vis' : ''}`}
         aria-label="Back to top"
       >
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 19V5M5 12l7-7 7 7"/>
+          <path d="M12 19V5M5 12l7-7 7 7" />
         </svg>
       </button>
     </>

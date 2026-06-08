@@ -878,7 +878,7 @@ section.s {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
-  max-width: 920px;
+  max-width: 100%;
   margin: 40px auto 0;
 }
 
@@ -934,7 +934,7 @@ section.s {
 /* expanded bar chart */
 .taka-expand {
   margin: 56px auto 0;
-  max-width: 920px;
+  max-width: 100%;
   padding: 36px 44px 32px;
   border-radius: 20px;
 }
@@ -2830,7 +2830,7 @@ footer {
 
   .taka-legend,
   .taka-expand {
-    max-width: 1100px;
+    max-width: 100%;
   }
 
   .taka-bars {

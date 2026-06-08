@@ -170,8 +170,8 @@ const RESOURCE_DRILLDOWNS = {
 // ── Number formatting (Bangladeshi/Indian grouping) ──────────
 // fmtCr(499280)  → "৳4,99,280 Cr"   (exact, published amount)
 // fmtLakhCr(499280) → "৳4.99L Cr"   (compact lakh-crore, for the hero number)
-const fmtCr = (n) => "৳" + Math.round(n).toLocaleString("en-IN") + " Cr";
-const fmtLakhCr = (n) => "৳" + (n / 100000).toFixed(2) + "L Cr";
+const fmtCr = (n) => "৳" + Math.round(n).toLocaleString("en-IN") + " cr";
+const fmtLakhCr = (n) => "৳" + (n / 100000).toFixed(2) + "lakh cr";
 
 // ⟶ GO-LIVE FY27 (price): add the FY27 subsidy share (per ৳100). Status/styling
 // is derived from BUDGET — no `future` flag needed.
@@ -230,7 +230,7 @@ function PriceHero() {
           </div>
           <div className="phs-cell" onClick={() => document.querySelector('.s-tax')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Tax revenue target</div>
-            <div className="n">৳<CountUp value={4.99} decimals={2} />L Cr</div>
+            <div className="n">৳<CountUp value={4.99} decimals={2} /> lakh cr</div>
             <div className="s">NBR + non-NBR · 65.6% of budget</div>
           </div>
           <div className="phs-cell" onClick={() => document.querySelector('.s-subsidy')?.scrollIntoView({ behavior: 'smooth' })}>

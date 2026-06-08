@@ -249,7 +249,7 @@ function GDPSection() {
       <div className="wrap">
         <div className="section-head">
           <span className="eyebrow">The economy view</span>
-          <h2>A growing slice of the economy</h2>
+          <h2>Total Budget as Part of GDP</h2>
           <p className="lede" style={{ marginTop: 18 }}>
             From {fy09.pct}% of GDP in {fy09.fy} to {peak.pct}% in {peak.fy} — the government's footprint has steadily widened.
           </p>

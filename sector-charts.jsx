@@ -105,7 +105,7 @@ function RankingsSection() {
                   </div>
                   <div className="rk-meta">
                     <div className="rk-pct"><CountUp value={d.pct} decimals={2} suffix="%" duration={1300} /></div>
-                    <div className="rk-amt">৳<CountUp value={d.amt} duration={1300} /> Cr</div>
+                    <div className="rk-amt">৳<CountUp value={d.amt} duration={1300} /> cr</div>
                   </div>
                 </div>
               );
@@ -260,7 +260,7 @@ function SectorHero({ setActive }) {
         </p>
         <div className="page-hero-stats">
           <div className="phs-cell" onClick={() => document.querySelector('.s-sector-grid')?.scrollIntoView({ behavior: 'smooth' })}><div className="l">Sectors tracked</div><div className="n"><CountUp value={SECTORS.length} duration={1000} /></div><div className="s">FY09 — {BUDGET.proposed} · {SECTOR_YEARS.length}-year panel</div></div>
-          <div className="phs-cell" onClick={() => setActive && setActive(top.k)}><div className="l">Top sector {BUDGET.proposed}</div><div className="n">{top.name}</div><div className="s">৳<CountUp value={top.proposed / 1000} decimals={1} />k Cr</div></div>
+          <div className="phs-cell" onClick={() => setActive && setActive(top.k)}><div className="l">Top sector {BUDGET.proposed}</div><div className="n">{top.name}</div><div className="s">৳<CountUp value={top.proposed / 1000} decimals={1} />k cr</div></div>
           <div className="phs-cell green" onClick={() => setActive && setActive(fastest.k)}><div className="l">Fastest grower</div><div className="n"><CountUp value={parseFloat(fastest.growth)} decimals={1} suffix="×" /></div><div className="s">{fastest.name} · since FY09</div></div>
           <div className="phs-cell" onClick={() => document.querySelector('.s-gauges')?.scrollIntoView({ behavior: 'smooth' })}><div className="l">Avg implementation</div><div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%" /></div><div className="s">FY09 — FY25 average</div></div>
         </div>

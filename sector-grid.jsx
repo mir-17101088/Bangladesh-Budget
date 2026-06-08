@@ -55,7 +55,7 @@ function SectorGridSection({ active, setActive }) {
               </div>
               <div className="sg-name">{s.name}</div>
               <div className="sg-stats">
-                <div className="sg-total">৳{(s.proposed / 1000).toFixed(1)}k <span className="unit">Cr · {BUDGET.proposed}</span></div>
+                <div className="sg-total">৳{(s.proposed / 1000).toFixed(1)}k <span className="unit">cr · {BUDGET.proposed}</span></div>
                 <div className="sg-growth">
                   <div className="v">{s.growth}</div>
                   <div className="l">since FY09</div>
@@ -63,7 +63,7 @@ function SectorGridSection({ active, setActive }) {
               </div>
               <Sparkline series={s.series} color={s.color} />
               <div className="sg-foot">
-                <span className="cap">FY09 ৳{(s.fy09 / 1000).toFixed(1)}k → {BUDGET.proposed} ৳{(s.proposed / 1000).toFixed(1)}k Cr</span>
+                <span className="cap">FY09 ৳{(s.fy09 / 1000).toFixed(1)}k → {BUDGET.proposed} ৳{(s.proposed / 1000).toFixed(1)}k cr</span>
                 <span className="sg-cta">Explore →</span>
               </div>
             </div>
@@ -314,12 +314,12 @@ function ExpandedSection({ active }) {
               <div key={i} className="see-tooltip-row">
                 <span className="see-tooltip-sw" style={{ background: subColors[i] }}></span>
                 <span className="see-tooltip-name">{subNames[i]}</span>
-                <span className="see-tooltip-val">৳{val.toLocaleString("en-IN")} Cr</span>
+                <span className="see-tooltip-val">৳{val.toLocaleString("en-IN")} cr</span>
               </div>
             )
           ))}
           <div className="see-tooltip-total">
-            Total: ৳{tooltip.bar.total.toLocaleString("en-IN")} Cr
+            Total: ৳{tooltip.bar.total.toLocaleString("en-IN")} cr
           </div>
         </>
       )}
@@ -343,7 +343,7 @@ function ExpandedSection({ active }) {
               <h3>{s.name} — {SECTOR_YEARS.length} years{mode === "abs" && subCount > 1 ? `, ${subCount} sub-sectors` : ""}</h3>
             </div>
             <div className="see-toggle" style={{ "--accent": s.color }}>
-              <button className={mode === "abs" ? "active" : ""} style={{ background: mode === "abs" ? s.color : "transparent" }} onClick={() => setMode("abs")}>{isMobile ? "Absolute" : "Absolute · ৳ Cr"}</button>
+              <button className={mode === "abs" ? "active" : ""} style={{ background: mode === "abs" ? s.color : "transparent" }} onClick={() => setMode("abs")}>{isMobile ? "Absolute" : "Absolute · ৳ cr"}</button>
               <button className={mode === "gdp" ? "active" : ""} style={{ background: mode === "gdp" ? s.color : "transparent" }} onClick={() => setMode("gdp")}>% of GDP</button>
               <button className={mode === "bud" ? "active" : ""} style={{ background: mode === "bud" ? s.color : "transparent" }} onClick={() => setMode("bud")}>% of Budget</button>
             </div>
@@ -352,7 +352,7 @@ function ExpandedSection({ active }) {
           <div className="sg-expand-stats" style={{ marginBottom: 28, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
             {mode === "abs" ? (
               <>
-                <div className="see-stat"><div className="l">{BUDGET.proposed} total</div><div className="v">৳<CountUp value={s.proposed} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>Cr</span></div><div className="s">vs FY09: ৳{s.fy09.toLocaleString("en-IN")} Cr</div></div>
+                <div className="see-stat"><div className="l">{BUDGET.proposed} total</div><div className="v">৳<CountUp value={s.proposed} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>cr</span></div><div className="s">vs FY09: ৳{s.fy09.toLocaleString("en-IN")} cr</div></div>
                 <div className="see-stat"><div className="l">Growth multiple</div><div className="v" style={{ color: s.color }}><CountUp value={parseFloat(s.growth)} decimals={1} suffix="×" /></div><div className="s">FY09 → {BUDGET.proposed} · {SECTOR_YEARS.length} fiscal years</div></div>
                 <div className="see-stat"><div className="l">Years of rise</div><div className="v"><CountUp value={s.riseAbs || 0} />{`/${SECTOR_YEARS.length - 1}`}</div><div className="s">YoY increases (absolute)</div></div>
                 <div className="see-stat"><div className="l">Peak year</div><div className="v">{s.peakYearAbs || BUDGET.proposed}</div><div className="s">all-time high in the series</div></div>
@@ -397,7 +397,7 @@ function ExpandedSection({ active }) {
                     <g key={g}>
                       <line x1={pad.l} x2={W - pad.r} y1={y} y2={y} stroke="rgba(255,255,255,0.06)" />
                       <text x={pad.l - 10} y={y + 3} textAnchor="end" className="tick-label">
-                        {mode === "abs" ? ("৳" + ((v / 1000) | 0) + "k Cr") : (v.toFixed(2) + "%")}
+                        {mode === "abs" ? ("৳" + ((v / 1000) | 0) + "k cr") : (v.toFixed(2) + "%")}
                       </text>
                     </g>
                   );
