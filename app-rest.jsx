@@ -448,7 +448,7 @@ function DebtSection() {
                       {isProposed && (
                         <text x={pad.l + totalW + 6} y={y + bw / 2 + 4} textAnchor="start"
                           style={{ fontFamily: "var(--serif)", fontSize: 13, fill: "#fff" }}>
-                          ৳{(total / 1000).toFixed(1)}k
+                          ৳{(total / 1000).toFixed(0)}k
                         </text>
                       )}
                     </g>
@@ -486,7 +486,7 @@ function DebtSection() {
                         <g>
                           <text x={x + bw / 2} y={tallestTopY - 38} textAnchor="middle"
                             style={{ fontFamily: "var(--ui)", fontSize: 18, fill: "#fff", fontWeight: 600 }}>
-                            Tk {(total / 1000).toFixed(1)}k cr
+                            Tk {(total / 1000).toFixed(0)}k cr
                           </text>
                         </g>
                       )}

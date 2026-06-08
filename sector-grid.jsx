@@ -55,7 +55,7 @@ function SectorGridSection({ active, setActive }) {
               </div>
               <div className="sg-name">{s.name}</div>
               <div className="sg-stats">
-                <div className="sg-total">৳{(s.proposed / 1000).toFixed(1)}k <span className="unit">cr · {BUDGET.proposed}</span></div>
+                <div className="sg-total">৳{(s.proposed / 1000).toFixed(0)}k <span className="unit">cr · {BUDGET.proposed}</span></div>
                 <div className="sg-growth">
                   <div className="v">{s.growth}</div>
                   <div className="l">since FY09</div>
@@ -63,7 +63,7 @@ function SectorGridSection({ active, setActive }) {
               </div>
               <Sparkline series={s.series} color={s.color} />
               <div className="sg-foot">
-                <span className="cap">FY09 ৳{(s.fy09 / 1000).toFixed(1)}k → {BUDGET.proposed} ৳{(s.proposed / 1000).toFixed(1)}k cr</span>
+                <span className="cap">FY09 ৳{(s.fy09 / 1000).toFixed(0)}k → {BUDGET.proposed} ৳{(s.proposed / 1000).toFixed(0)}k cr</span>
                 <span className="sg-cta">Explore →</span>
               </div>
             </div>
@@ -478,7 +478,7 @@ function ExpandedSection({ active }) {
                       {isProposed && (
                         <text x={pad.l + totSize + 6} y={y + bw / 2 + 4} textAnchor="start"
                           style={{ fontFamily: "var(--serif)", fontSize: 13, fill: "#fff" }}>
-                          ৳{(b.total / 1000).toFixed(1)}k
+                          ৳{(b.total / 1000).toFixed(0)}k
                         </text>
                       )}
                     </g>
@@ -527,7 +527,7 @@ function ExpandedSection({ active }) {
                       {isProposed && (
                         <text x={x + bw / 2} y={tallestTopY - 38} textAnchor="middle"
                           style={{ fontFamily: "var(--serif)", fontSize: 15, fill: "#fff" }}>
-                          ৳{(b.total / 1000).toFixed(1)}k
+                          ৳{(b.total / 1000).toFixed(0)}k
                         </text>
                       )}
                     </g>
