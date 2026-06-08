@@ -178,9 +178,9 @@ const fmtLakhCr = (n) => "৳" + (n / 100000).toFixed(2) + "lakh cr";
 const SUBSIDY = [
   { fy: "FY22", v: 5.8 },
   { fy: "FY23", v: 8.4, delta: "+45%" },
-  { fy: "FY24", v: 8.4, delta: "flat" },
-  { fy: "FY25", v: 11.0, delta: "+31%" },
-  { fy: "FY26", v: 11.5 },
+  { fy: "FY24", v: 11.1, delta: "+32%" },
+  { fy: "FY25", v: 11.1, delta: "flat" },
+  { fy: "FY26", v: 11.3 },
   { fy: "FY27", v: null },
 ];
 
@@ -235,7 +235,7 @@ function PriceHero() {
           </div>
           <div className="phs-cell" onClick={() => document.querySelector('.s-subsidy')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Subsidy bill</div>
-            <div className="n">৳<CountUp value={11.5} decimals={1} /></div>
+            <div className="n">৳<CountUp value={11.3} decimals={1} /></div>
             <div className="s">per ৳100 spent · 2× since FY22</div>
           </div>
         </div>
