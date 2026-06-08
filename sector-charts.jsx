@@ -12,9 +12,9 @@ function HeatmapSection() {
       <div className="wrap">
         <div className="section-head">
           <span className="eyebrow">The overall view </span>
-          <h2>Which sectors won the decade?</h2>
+          <h2>How each sector's share of GDP moved across 17 years</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            For each of {totalTransitions} year-on-year transitions, did the sector's share of GDP rise or fall? Sorted by total wins, top to bottom.
+            For each of {totalTransitions} year-on-year transitions, did the sector's budget as a % of the GDP rise or fall? Which sectors were prioritised with more rises in allocation and which sectors were deprioritised?
           </p>
         </div>
 
@@ -49,13 +49,16 @@ function HeatmapSection() {
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: 28, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.06)", flexWrap: "wrap", gap: 16 }}>
             <div style={{ display: "flex", gap: 22, fontFamily: "var(--ui)", fontSize: 11, color: "var(--g3)", letterSpacing: "0.04em" }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 14, height: 12, background: "#50C878", borderRadius: 3 }}></span>Share rose
+                <span style={{ width: 14, height: 12, background: "#50C878", borderRadius: 3 }}></span>Share as % of GDP rose
               </span>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 14, height: 12, background: "#C94B4B", borderRadius: 3 }}></span>Share fell
+                <span style={{ width: 14, height: 12, background: "#C94B4B", borderRadius: 3 }}></span>Share as % of GDP fell
               </span>
             </div>
-            <span className="cap">Each cell = one year-on-year transition · {SECTORS.length} sectors × {totalTransitions} transitions</span>
+            <span className="cap">Each cell = one year-on-year transition · {SECTORS.length} sectors × {totalTransitions} transitions
+            <p> *Public Services sector includes the President's Office, Parliament, PMO, Cabinet Division, EC Secretariat, Public Administration Ministry, PSC, Finance Division, IRD, Financial Institutions Division, ERD, Planning Division, IMED, Statistics Division, Foreign Affairs Ministry, and Tax Ombudsman.
+            </p> 
+          </span>
           </div>
         </div>
 
