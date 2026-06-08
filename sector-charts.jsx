@@ -246,6 +246,7 @@ function GaugesSection() {
 function SectorHero({ setActive }) {
   const top = [...SECTORS].sort((a, b) => b.proposed - a.proposed)[0];
   const fastest = [...SECTORS].sort((a, b) => (b.proposed / b.fy09) - (a.proposed / a.fy09))[0];
+  const lowest = [...SECTORS].sort((a, b) => (a.proposed / a.fy09) - (b.proposed / b.fy09))[0];
   const implP = IMPL.filter(g => typeof g.v === "number");
   const avgImpl = (implP.reduce((a, b) => a + b.v, 0) / implP.length).toFixed(0);
   return (
@@ -262,7 +263,7 @@ function SectorHero({ setActive }) {
           <div className="phs-cell" onClick={() => document.querySelector('.s-sector-grid')?.scrollIntoView({ behavior: 'smooth' })}><div className="l">Sectors tracked</div><div className="n"><CountUp value={SECTORS.length} duration={1000} /></div><div className="s">Since FY09</div></div>
           <div className="phs-cell" onClick={() => setActive && setActive(top.k)}><div className="l">Top sector {BUDGET.proposed}</div><div className="n">{top.name}</div><div className="s">৳<CountUp value={top.proposed / 1000} decimals={1} />k cr</div></div>
           <div className="phs-cell green" onClick={() => setActive && setActive(fastest.k)}><div className="l">Fastest grower</div><div className="n"><CountUp value={parseFloat(fastest.growth)} decimals={1} suffix="×" /></div><div className="s">{fastest.name} · since FY09</div></div>
-          <div className="phs-cell" onClick={() => document.querySelector('.s-gauges')?.scrollIntoView({ behavior: 'smooth' })}><div className="l">Avg implementation</div><div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%" /></div><div className="s">FY09 — FY25 average</div></div>
+          <div className="phs-cell red" onClick={() => setActive && setActive(lowest.k)}><div className="l">Lowest growth</div><div className="n"><CountUp value={parseFloat(lowest.growth)} decimals={1} suffix="×" /></div><div className="s">{lowest.name} · since FY09</div></div>
         </div>
       </div>
     </section>

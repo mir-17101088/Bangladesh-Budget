@@ -22,7 +22,7 @@ function App() {
         <TweakSection label="Navigation">
           <TweakRadio label="Active page"
             value={tweaks.activeNav}
-            options={["Home", "Sector Deep Dive", "Price Impact"]}
+            options={["Home", "Sector Deep Dive", "Budget Realities"]}
             onChange={v => setTweak("activeNav", v)}/>
         </TweakSection>
       </TweaksPanel>

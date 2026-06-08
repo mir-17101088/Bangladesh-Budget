@@ -48,7 +48,6 @@ function SectorApp() {
       <div ref={expandRef}><ExpandedSection active={active}/></div>
       <HeatmapSection/>
       <RankingsSection/>
-      <GaugesSection/>
       <Footer/>
 
       <TweaksPanel title="Tweaks">
@@ -61,7 +60,7 @@ function SectorApp() {
         <TweakSection label="Navigation">
           <TweakRadio label="Active page"
             value={tweaks.activeNav}
-            options={["Home", "Price Impact", "Sector Deep Dive"]}
+            options={["Home", "Sector Deep Dive", "Budget Realities"]}
             onChange={v => setTweak("activeNav", v)}/>
         </TweakSection>
       </TweaksPanel>

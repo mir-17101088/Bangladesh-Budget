@@ -731,7 +731,7 @@ function Footer() {
           </div>
           <div className="foot">
             <h4>Pages</h4>
-            <ul><li>Home</li><li>Price Impact</li><li>Sector Deep Dive</li></ul>
+            <ul><li>Home</li><li>Sector Deep Dive</li><li>Budget Realities</li></ul>
           </div>
           <div className="foot">
             <h4>Sources</h4>

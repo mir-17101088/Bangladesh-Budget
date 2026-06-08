@@ -3,11 +3,10 @@ function PriceApp() {
 
   return (
     <>
-      <Nav active="Price Impact"/>
+      <Nav active="Budget Realities"/>
       <PriceHero/>
-      <ItemSection kind="up" items={PRICIER}/>
-      <ItemSection kind="down" items={CHEAPER}/>
       <TaxSection/>
+      <GaugesSection/>
       <SubsidySection/>
       <Footer/>
 
@@ -15,7 +14,7 @@ function PriceApp() {
         <TweakSection label="Navigation">
           <TweakRadio label="Active page"
             value={tweaks.activeNav}
-            options={["Home", "Price Impact", "Sector Deep Dive"]}
+            options={["Home", "Sector Deep Dive", "Budget Realities"]}
             onChange={v => setTweak("activeNav", v)}/>
         </TweakSection>
       </TweaksPanel>

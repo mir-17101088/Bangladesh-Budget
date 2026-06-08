@@ -192,48 +192,52 @@ function PriceHero() {
   const dnN = priceValid(CHEAPER).length;
   const prelaunch = (typeof PRELAUNCH !== "undefined") ? PRELAUNCH : false;
   const nextSpan = (typeof fyToSpan === "function") ? fyToSpan("FY27") : "FY 2026—27";
+
+  const implP = IMPL.filter(g => typeof g.v === "number");
+  const avgImpl = (implP.reduce((a, b) => a + b.v, 0) / implP.length).toFixed(0);
   return (
     <section className="page-hero" data-screen-label="01 Page Hero">
       <div className="wrap">
         <div className="crumb">
           <span>Budget at a Glance</span><span style={{ color: "var(--g7)" }}>·</span>
-          <span style={{ color: "var(--g7)" }}>·</span><span>{PRICE_FY_SPAN}</span>
-        </div>
-        <h1>What got pricier, <em>what got cheaper</em></h1>
-        <p className="dek">
-          Every budget quietly rewrites a household's monthly bill. Here are some of the items the
-          {" "}<strong style={{ color: "#fff", fontStyle: "normal", fontWeight: 600 }}>{PRICE_FY_SPAN}</strong> budget
-          made costlier or cheaper — and who ultimately pays.
-        </p>
 
-        {prelaunch && (
-          <div className="price-context" role="note">
-            <span className="pc-tag">Note</span>
-            <p>
-              These changes are from the current <strong>{PRICE_FY_SPAN}</strong> budget. Bangladesh's
-              {" "}<strong>{nextSpan}</strong> budget will be presented on <strong>11 June 2026</strong> — this
-              page will be updated with the new figures within hours of the announcement.
+        </div>
+        <h1>Budget on paper, <em>vs Budget in practice</em></h1>
+        <div className="dek-intro" style={{ marginBottom: 40 }}>
+          <p className="dek" style={{ marginBottom: 28 }}>
+            Every budget is the government's promise of what it will spend, where the money will come from, and what it will prioritise.
+          </p>
+          <div className="glass" style={{
+            maxWidth: 780,
+            padding: "24px 32px",
+            borderRadius: "16px",
+            borderLeft: "4px solid rgba(255, 255, 255, 0.4)",
+            background: "linear-gradient(to right, rgba(255,255,255,0.04), transparent)"
+          }}>
+            <p style={{ margin: 0, fontSize: "19px", lineHeight: "1.6", color: "var(--g2)", fontFamily: "var(--ui)", fontWeight: 400 }}>
+              These charts trace that promise across Bangladesh's public finances— 
+              <strong style={{ color: "#fff", fontWeight: 600 }}> how the budget is funded</strong>, where costs like 
+              <strong style={{ color: "#f0c060", fontWeight: 600 }}> subsidies</strong> have quietly ballooned, how much of the proposed spending actually 
+              <strong style={{ color: "#45B7D1", fontWeight: 600 }}> reaches the ground</strong>, and how the country's 
+              <strong style={{ color: "#5fe093", fontWeight: 600 }}> fiscal ambitions</strong> compare to the size of its economy.
             </p>
           </div>
-        )}
+        </div>
+
+
 
         <div className="page-hero-stats">
-          <div className="phs-cell red" onClick={() => document.querySelector('.s-pricier')?.scrollIntoView({ behavior: 'smooth' })}>
-            <div className="l">Costlier — selected</div>
-            <div className="n"><CountUp value={upN} /></div>
-            <div className="s">higher VAT, excise &amp; duties — and many more</div>
-          </div>
-          <div className="phs-cell green" onClick={() => document.querySelector('.s-cheaper')?.scrollIntoView({ behavior: 'smooth' })}>
-            <div className="l">Cheaper — selected</div>
-            <div className="n"><CountUp value={dnN} /></div>
-            <div className="s">cuts, exemptions &amp; waivers — and many more</div>
-          </div>
           <div className="phs-cell" onClick={() => document.querySelector('.s-tax')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Tax revenue target</div>
             <div className="n">৳<CountUp value={4.99} decimals={2} /> lakh cr</div>
             <div className="s">NBR + non-NBR · 65.6% of budget</div>
           </div>
-          <div className="phs-cell" onClick={() => document.querySelector('.s-subsidy')?.scrollIntoView({ behavior: 'smooth' })}>
+          <div className="phs-cell" style={{ "--cell-accent": "#45B7D1" }} onClick={() => document.querySelector('.s-gauges')?.scrollIntoView({ behavior: 'smooth' })}>
+            <div className="l">Avg implementation</div>
+            <div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%" /></div>
+            <div className="s">FY09 — FY25 average</div>
+          </div>
+          <div className="phs-cell" style={{ "--cell-accent": "#f0c060" }} onClick={() => document.querySelector('.s-subsidy')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Subsidy bill</div>
             <div className="n">৳<CountUp value={11.3} decimals={1} /></div>
             <div className="s">per ৳100 spent · 2× since FY22</div>
