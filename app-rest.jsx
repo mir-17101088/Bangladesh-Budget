@@ -484,14 +484,14 @@ function DebtSection() {
 
                       {isLast && (
                         <g>
-                          <text x={x + bw / 2} y={tallestTopY - 24} textAnchor="middle"
+                          <text x={x + bw / 2} y={tallestTopY - 38} textAnchor="middle"
                             style={{ fontFamily: "var(--ui)", fontSize: 18, fill: "#fff", fontWeight: 600 }}>
                             Tk {(total / 1000).toFixed(1)}k cr
                           </text>
                         </g>
                       )}
-                      {stMeta && (stMeta.word === "Proposed" || stMeta.word === "Revised") && (
-                        <text x={x + bw / 2} y={tallestTopY - 8} textAnchor="middle"
+                      {stMeta && (stMeta.word === "Allocation" || stMeta.word === "Revised") && (
+                        <text x={x + bw / 2} y={tallestTopY - (stMeta.cls === "fy-proposed" ? 22 : 8)} textAnchor="middle"
                           className={"fy-tag-text " + stMeta.cls}
                           style={{ fontFamily: "var(--ui)", fontSize: 8, letterSpacing: "0.12em", fill: stMeta.cls === "fy-proposed" ? undefined : "#d8b4fe" }}>
                           {stMeta.word.toUpperCase()}
