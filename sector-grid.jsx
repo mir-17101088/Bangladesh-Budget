@@ -26,6 +26,23 @@ function Sparkline({ series, color }) {
   );
 }
 
+const SUBTITLE_TEMPLATES = {
+  interest: "Interest Payments surge {g}",
+  publicsvc: "Public Services expenditure jumps {g}",
+  education: "Education and Technology spending rises {g}",
+  transport: "Transport and Communication spending soars {g}",
+  agri: "Agriculture records only {g} growth in spending",
+  localgov: "Local Government and Rural Development expenditure rises {g}",
+  social: "Social Security spending increases {g}",
+  defence: "Defence Services expenditure grows {g}",
+  energy: "Energy and Power spending grows {g}",
+  order: "Public Order and Safety expenditure increases {g}",
+  health: "Health Sector expenditure grows {g}",
+  housing: "Housing sees only {g} growth in spending",
+  rec: "Recreation, Culture and Religious Affairs expenditure spikes {g}",
+  industry: "Industrial and Economic Services expenditure grows {g}"
+};
+
 function SectorGridSection({ active, setActive }) {
   return (
     <section className="s s-sector-grid" data-screen-label="02 Sector Grid">
@@ -340,7 +357,7 @@ function ExpandedSection({ active }) {
           <div className="sg-expand-head">
             <div className="sg-expand-title">
               <span className="eyebrow" style={{ color: s.color }}>Sector deep-dive · {s.name}</span>
-              <h3>{s.name} — {SECTOR_YEARS.length} years{mode === "abs" && subCount > 1 ? `, ${subCount} sub-sectors` : ""}</h3>
+              <h3>{SUBTITLE_TEMPLATES[s.k]?.replace('{g}', s.growth.replace(/\.0×$/, '×'))}</h3>
             </div>
             <div className="see-toggle" style={{ "--accent": s.color }}>
               <button className={mode === "abs" ? "active" : ""} style={{ background: mode === "abs" ? s.color : "transparent" }} onClick={() => setMode("abs")}>{isMobile ? "Absolute" : "Absolute · ৳ cr"}</button>
@@ -353,7 +370,7 @@ function ExpandedSection({ active }) {
             {mode === "abs" ? (
               <>
                 <div className="see-stat"><div className="l">{BUDGET.proposed} total</div><div className="v">৳<CountUp value={s.proposed} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>cr</span></div><div className="s">vs FY09: ৳{s.fy09.toLocaleString("en-IN")} cr</div></div>
-                <div className="see-stat"><div className="l">Growth multiple</div><div className="v" style={{ color: s.color }}><CountUp value={parseFloat(s.growth)} decimals={1} suffix="×" /></div><div className="s">FY09 → {BUDGET.proposed} · {SECTOR_YEARS.length} fiscal years</div></div>
+                <div className="see-stat"><div className="l">Growth multiple</div><div className="v" style={{ color: s.color }}><CountUp value={parseFloat(s.growth)} decimals={1} suffix="×" /></div><div className="s">FY09 → {BUDGET.proposed}</div></div>
                 <div className="see-stat"><div className="l">Years of rise</div><div className="v"><CountUp value={s.riseAbs || 0} />{`/${SECTOR_YEARS.length - 1}`}</div><div className="s">YoY increases (absolute)</div></div>
                 <div className="see-stat"><div className="l">Peak year</div><div className="v">{s.peakYearAbs || BUDGET.proposed}</div><div className="s">all-time high in the series</div></div>
               </>

@@ -12,9 +12,9 @@ function HeatmapSection() {
       <div className="wrap">
         <div className="section-head">
           <span className="eyebrow">The overall view </span>
-          <h2>Which sectors won the decade?</h2>
+          <h2>Share of spending as % of GDP</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            For each of {totalTransitions} year-on-year transitions, did the sector's share of GDP rise or fall? Sorted by total wins, top to bottom.
+            The chart shows spending for public services as % GDP rose in 11yrs out of 17. By contrast, ratio of social security, industrial and economic services fell.
           </p>
         </div>
 
