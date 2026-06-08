@@ -366,8 +366,13 @@ function GDPSection() {
                 return (
                   <text x={xs(GDP.length - 1)} y={ys(last.pct) + 20} textAnchor="end"
                     className={"fy-tag-text " + meta.cls}
-                    style={{ fontFamily: "var(--ui)", fontSize: 10, letterSpacing: "0.12em" }}>
-                    {meta.tag.toUpperCase()}
+                    style={{ fontFamily: "var(--ui)" }}>
+                    <tspan x={xs(GDP.length - 1)} dy="0" style={{ fontSize: 10, letterSpacing: "0.12em" }}>
+                      {meta.tag.toUpperCase()}
+                    </tspan>
+                    <tspan x={xs(GDP.length - 1)} dy="14" style={{ fontSize: 9, letterSpacing: "0.1em", opacity: 0.85 }}>
+                      ({last.fy})
+                    </tspan>
                   </text>
                 );
               })()}
