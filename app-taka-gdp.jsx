@@ -122,7 +122,7 @@ function TakaSection() {
               <h3>{sector.name} — out of every ৳100</h3>
             </div>
             <div style={{ textAlign: "right" }}>
-              <div className="cap">Allocation {BUDGET.proposed}</div>
+              <div className="cap"></div>
               <div style={{ fontFamily: "var(--serif)", fontSize: 40, color: sector.color, lineHeight: 1, marginTop: 4 }}>
                 <CountUp value={sector.proposed} decimals={1} prefix="৳" duration={1400} />
               </div>
@@ -141,7 +141,7 @@ function TakaSection() {
                 const isProposed = fy === BUDGET.proposed;
                 return (
                   <div key={fy} className={"taka-bar " + (isProposed ? "active " : "") + status}>
-                    {tag && <span className={"fy-tag " + tag.cls}>{tag.label}</span>}
+
                     <div style={{ flex: 1, width: "100%", display: "flex", alignItems: "flex-end" }}>
                       <div className="col grow-bar" style={{ "--target-h": h + "%", animationDelay: (i * 90) + "ms" }}>
                         <span className="val"><CountUp value={v} decimals={1} prefix="৳" duration={1100} /></span>
@@ -155,7 +155,7 @@ function TakaSection() {
           </div>
 
           <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-            <span className="cap">Y-axis: Taka per ৳100 allocated · {BUDGET.years[0]} → {BUDGET.proposed} · Source: Ministry of Finance</span>
+
             <span className="cap" style={{ color: sector.color }}>● Selected: {sector.name}</span>
           </div>
         </div>

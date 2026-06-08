@@ -315,40 +315,30 @@ function SubsidySection() {
           <span className="eyebrow" style={{ color: "#f0c060" }}>The subsidy trend</span>
           <h2>The subsidy bill nearly doubled <em style={{ fontStyle: "italic", color: "#f0c060" }}>in three years</em></h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            Power, fertiliser, and food subsidies are the three big drivers. From ৳5.8 of every ৳100 in FY22, the share climbed to ৳11.0 in FY25 — and is projected higher still.
+            Power, fertiliser, and food subsidies are the three big drivers. From ৳5.8 of every ৳100 in FY22, the share climbed to ৳11.1 in FY25 — and is projected higher still.
           </p>
         </div>
 
         <div className="sub-chart-wrap glass">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 36, flexWrap: "wrap", gap: 12 }}>
             <span className="cap">Subsidies & incentives · Taka per ৳100 of expenditure</span>
-            <div style={{ display: "flex", gap: 18, fontFamily: "var(--ui)", fontSize: 11, color: "var(--g3)", letterSpacing: "0.04em" }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 14, height: 10, background: "linear-gradient(180deg, #B0832B, #6d501a)", borderRadius: 2 }}></span>Actual / historical
-              </span>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 14, height: 10, background: "repeating-linear-gradient(135deg, rgba(176,131,43,0.4) 0 4px, rgba(176,131,43,0.1) 4px 8px)", borderRadius: 2, border: "1px dashed rgba(176,131,43,0.6)" }}></span>Revised / Allocation
-              </span>
-            </div>
+
           </div>
 
           <div className="sub-bars">
             {SUB.map((s, i) => {
               const h = (s.v / max) * 100;
               const status = BUDGET.statusOf(s.fy);
-              const notYetActual = status === "revised" || status === "proposed";
-              const tag = BUDGET.tagFor(s.fy);
-              const isActual = s.fy === BUDGET.actual;
+              const isProposed = s.fy === BUDGET.proposed;
               return (
-                <div key={i} className={"sub-bar " + (notYetActual ? "future " : "") + (isActual ? "active " : "") + status}>
-                  {tag && <span className={"fy-tag " + tag.cls}>{tag.label}</span>}
+                <div key={i} className={"sub-bar " + (isProposed ? "active " : "") + status}>
                   <div className="colw">
                     <div className="col grow-bar" style={{ "--target-h": h + "%", animationDelay: (i * 110) + "ms" }}>
-                      <span className="v">{notYetActual ? "~৳" : "৳"}<CountUp value={s.v} decimals={1} duration={1200} /></span>
+                      <span className="v">৳<CountUp value={s.v} decimals={1} duration={1200} /></span>
                       {s.delta && <span className="delta">{s.delta}</span>}
                     </div>
                   </div>
-                  <div className="yr">{s.fy}{notYetActual ? " · " + status : ""}</div>
+                  <div className="yr">{s.fy}</div>
                 </div>
               );
             })}
