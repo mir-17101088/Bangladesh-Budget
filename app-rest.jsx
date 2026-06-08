@@ -97,7 +97,7 @@ function Treemap() {
               const maxWordLen = words.length > 0 ? Math.max(...words.map(w => w.length)) : 10;
               // Assuming ~0.62em average character width for the UI font.
               const maxFitSize = Math.max(9, innerW / (maxWordLen * 0.62));
-              const nameSize = big ? Math.min(18, maxFitSize) : med ? Math.min(12, maxFitSize) : Math.min(10, maxFitSize);
+              const nameSize = big ? Math.min(16, maxFitSize) : med ? Math.min(12, maxFitSize) : Math.min(10, maxFitSize);
 
               return (
                 <g key={i}
