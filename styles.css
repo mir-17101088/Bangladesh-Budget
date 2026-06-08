@@ -781,7 +781,7 @@ section.s {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 14px;
+  padding-bottom: 100px;
   mix-blend-mode: multiply;
   opacity: 0.55;
 }
@@ -829,9 +829,15 @@ section.s {
   font-size: clamp(9px, 1.6vw, 16px);
   font-weight: 800;
   color: #fff;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000,
+     0px  1px 4px rgba(0, 0, 0, 0.8);
   letter-spacing: 0.04em;
   mix-blend-mode: normal;
+  filter: brightness(2.5) contrast(1.2);
 }
 
 .taka-tooltip {
