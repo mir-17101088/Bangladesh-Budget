@@ -232,6 +232,11 @@ function PriceHero() {
             <div className="n">৳<CountUp value={4.99} decimals={2} /> lakh cr</div>
             <div className="s">NBR + non-NBR · 65.6% of budget</div>
           </div>
+          <div className="phs-cell" style={{ "--cell-accent": "#FF6B35" }} onClick={() => document.querySelector('.s-gdp-ratio')?.scrollIntoView({ behavior: 'smooth' })}>
+            <div className="l">Regional Comparison</div>
+            <div className="n"><CountUp value={12.03} decimals={2} />%</div>
+            <div className="s">Budget-GDP ratio</div>
+          </div>
           <div className="phs-cell" style={{ "--cell-accent": "#45B7D1" }} onClick={() => document.querySelector('.s-gauges')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Avg implementation</div>
             <div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%" /></div>

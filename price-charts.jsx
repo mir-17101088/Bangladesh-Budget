@@ -321,7 +321,7 @@ function SubsidySection() {
 
         <div className="sub-chart-wrap glass">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 36, flexWrap: "wrap", gap: 12 }}>
-            <span className="cap">Subsidies & incentives · Taka per ৳100 of expenditure</span>
+            <span className="cap">Subsidies & incentives · per ৳100 of expenditure</span>
 
           </div>
 
@@ -356,4 +356,85 @@ function SubsidySection() {
   );
 }
 
-Object.assign(window, { ResourceDonut, LegendRow, TaxSection, SubsidySection });
+/* ============================================================
+   BUDGET-GDP RATIO SECTION
+============================================================ */
+const GDP_RATIO_DATA = [
+  { country: "Bangladesh", pct: 12.03, color: "#FF6B35", isBd: true },
+  { country: "Indonesia", pct: 16.84, color: "rgba(255,255,255,0.4)" },
+  { country: "Cambodia", pct: 17.26, color: "rgba(255,255,255,0.4)" },
+  { country: "Sri Lanka", pct: 19.32, color: "rgba(255,255,255,0.4)" },
+  { country: "Pakistan", pct: 19.47, color: "rgba(255,255,255,0.4)" },
+  { country: "Hong Kong", pct: 23.00, color: "rgba(255,255,255,0.4)" },
+  { country: "Bhutan", pct: 27.13, color: "rgba(255,255,255,0.4)" },
+  { country: "India", pct: 28.38, color: "rgba(255,255,255,0.4)" }
+];
+
+function BudgetGdpRatioSection() {
+  const max = 30; // Max percentage to scale the bars against
+
+  return (
+    <section className="s s-gdp-ratio" data-screen-label="04b Regional Ratio">
+      <div className="wrap">
+        <div className="split2" style={{ alignItems: "center" }}>
+          <div className="section-head" style={{ marginBottom: 0 }}>
+            <span className="eyebrow" style={{ color: "#FF6B35" }}>Regional comparison</span>
+            <h2>Budget-GDP ratio among lowest in South Asia</h2>
+            <p className="lede" style={{ marginTop: 18, maxWidth: "100%" }}>
+              For more than a decade, the unveiling of the national budget has triggered a familiar chorus of reactions: “big budget”, a “massive budget” or a “debt-driven budget”. As if its size alone determines its significance. Yet a comparison with neighbouring countries tells a different story.
+            </p>
+          </div>
+
+          <div className="gdp-chart-wrap glass" style={{ padding: "32px" }}>
+            <div className="cap" style={{ marginBottom: 24 }}>Government Expenditure (% of GDP, 2024)</div>
+            <div className="gdp-bars" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              {GDP_RATIO_DATA.map((d, i) => {
+                const w = (d.pct / max) * 100;
+                return (
+                  <div key={d.country} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                    <div style={{ width: "90px", textAlign: "right", fontFamily: "var(--ui)", fontSize: "14px", fontWeight: d.isBd ? 700 : 400, color: d.isBd ? "#fff" : "rgba(255,255,255,0.8)" }}>
+                      {d.country}
+                    </div>
+                    <div style={{ flex: 1, height: "24px", background: "rgba(255,255,255,0.05)", borderRadius: "12px", overflow: "hidden", position: "relative" }}>
+                      <div style={{
+                        position: "absolute", left: 0, top: 0, bottom: 0, width: w + "%",
+                        background: d.color, borderRadius: "12px",
+                        animation: "growBarH 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards",
+                        animationDelay: (i * 100) + "ms",
+                        transformOrigin: "left",
+                        transform: "scaleX(0)"
+                      }}></div>
+                    </div>
+                    <div style={{ width: "64px", fontFamily: "var(--serif)", fontSize: d.isBd ? "22px" : "15px", fontWeight: d.isBd ? 700 : 400, color: d.isBd ? d.color : "#fff" }}>
+                      <CountUp value={d.pct} decimals={2} duration={1200} />%
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ fontFamily: "var(--ui)", fontSize: "12px", color: "rgba(255,255,255,0.4)", textAlign: "right", marginTop: "24px" }}>Source: IMF</div>
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @keyframes growBarH {
+          0% { transform: scaleX(0); }
+          100% { transform: scaleX(1); }
+        }
+        @media (max-width: 640px) {
+          .s-gdp-ratio .split2 {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+          }
+          .s-gdp-ratio .gdp-chart-wrap {
+            padding: 24px !important;
+            width: 100%;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+Object.assign(window, { ResourceDonut, LegendRow, TaxSection, SubsidySection, BudgetGdpRatioSection });

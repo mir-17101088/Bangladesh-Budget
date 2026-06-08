@@ -356,8 +356,55 @@ function ExpandedSection({ active }) {
         <div className="sg-expand glass" style={{ "--accent": s.color, borderColor: s.color + "33" }}>
           <div className="sg-expand-head">
             <div className="sg-expand-title">
-              <span className="eyebrow" style={{ color: s.color }}>Sector deep-dive · {s.name}</span>
-              <h3>{SUBTITLE_TEMPLATES[s.k]?.replace('{g}', s.growth.replace(/\.0×$/, '×'))}</h3>
+              <span className="eyebrow" style={{ background: s.color, color: "#fff", padding: "8px 18px", borderRadius: "8px", display: "inline-block", marginBottom: "16px", fontWeight: 700, fontSize: "15px", letterSpacing: "0.08em", textShadow: "0 1px 3px rgba(0,0,0,0.3)", boxShadow: "0 2px 8px rgba(0,0,0,0.15)", lineHeight: 1 }}>{s.name}</span>
+              <h3>
+                {(() => {
+                  if (mode === "abs") return SUBTITLE_TEMPLATES[s.k]?.replace('{g}', s.growth.replace(/\.0×$/, '×'));
+                  
+                  if (mode === "gdp") {
+                    const pts = parseFloat(s.gdpGrowth);
+                    const absPts = Math.abs(pts).toFixed(2) + " pts";
+                    const TEMPLATES = {
+                      publicsvc: "Public Services expands its economic footprint, up {g}",
+                      transport: "Transport infrastructure outpaces GDP growth, rising {g}",
+                      interest: "Interest payments shrink relative to the economy, down {g}",
+                      defence: "Defence spending halves as a share of GDP, down {g}",
+                      education: "Education fails to keep pace with economic growth, dropping {g}",
+                      social: "Social Security footprint shrinks significantly, down {g}",
+                      industry: "Industry's share of the economy halves, dropping {g}",
+                      health: "Health spending falls behind economic expansion, down {g}",
+                      agri: "Agriculture's economic footprint declines by {g}",
+                      energy: "Energy spending remains relatively flat, " + (pts >= 0 ? "up" : "down") + " {g}",
+                      localgov: "Local Government's share of GDP falls by {g}",
+                      order: "Public Order shrinks relative to the economy, down {g}",
+                      housing: "Housing expenditure drops as a share of GDP, down {g}",
+                      rec: "Recreation & Culture's economic footprint shrinks, down {g}",
+                    };
+                    return (TEMPLATES[s.k] || "Share of GDP changes by {g}").replace('{g}', absPts);
+                  }
+
+                  // mode === "bud"
+                  const budPts = parseFloat(s.budGrowth);
+                  const absBudPts = Math.abs(budPts).toFixed(2) + " pts";
+                  const BUD_TEMPLATES = {
+                    interest: "Interest consumes " + (budPts > 0 ? "more" : "less") + " of the budget, " + (budPts > 0 ? "up" : "down") + " {g}",
+                    publicsvc: "Public Services takes a massive leap in budget priority, up {g}",
+                    transport: "Transport secures a larger slice of the national budget, up {g}",
+                    education: "Education loses priority in the budget allocation, down {g}",
+                    agri: "Agriculture's share of the national budget drops by {g}",
+                    social: "Social Security's budget priority falls by {g}",
+                    health: "Health sector sees its budget share shrink by {g}",
+                    defence: "Defence is deprioritized in the national budget, down {g}",
+                    energy: "Energy maintains its budget allocation, " + (budPts >= 0 ? "up" : "down") + " {g}",
+                    localgov: "Local Government loses budget share, down {g}",
+                    order: "Public Order's slice of the budget decreases by {g}",
+                    housing: "Housing's budget priority drops by {g}",
+                    industry: "Industry loses half its budget share, down {g}",
+                    rec: "Recreation & Culture's budget slice shrinks by {g}",
+                  };
+                  return (BUD_TEMPLATES[s.k] || "Budget priority changes by {g}").replace('{g}', absBudPts);
+                })()}
+              </h3>
             </div>
             <div className="see-toggle" style={{ "--accent": s.color }}>
               <button className={mode === "abs" ? "active" : ""} style={{ background: mode === "abs" ? s.color : "transparent" }} onClick={() => setMode("abs")}>{isMobile ? "Absolute" : "Absolute · ৳ cr"}</button>
@@ -366,29 +413,46 @@ function ExpandedSection({ active }) {
             </div>
           </div>
 
-          <div className="sg-expand-stats" style={{ marginBottom: 28, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
-            {mode === "abs" ? (
-              <>
-                <div className="see-stat"><div className="l">{BUDGET.proposed} total</div><div className="v">৳<CountUp value={s.proposed} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>cr</span></div><div className="s">vs FY09: ৳{s.fy09.toLocaleString("en-IN")} cr</div></div>
-                <div className="see-stat"><div className="l">Growth multiple</div><div className="v" style={{ color: s.color }}><CountUp value={parseFloat(s.growth)} decimals={1} suffix="×" /></div><div className="s">FY09 → {BUDGET.proposed}</div></div>
-                <div className="see-stat"><div className="l">Years of rise</div><div className="v"><CountUp value={s.riseAbs || 0} />{`/${SECTOR_YEARS.length - 1}`}</div><div className="s">YoY increases (absolute)</div></div>
-                <div className="see-stat"><div className="l">Peak year</div><div className="v">{s.peakYearAbs || BUDGET.proposed}</div><div className="s">all-time high in the series</div></div>
-              </>
-            ) : mode === "gdp" ? (
-              <>
-                <div className="see-stat"><div className="l">{BUDGET.proposed} share</div><div className="v"><CountUp value={parseFloat(s.gdpProposed) || 0} decimals={2} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>%</span></div><div className="s">vs FY09: {(s.gdp09 || 0).toFixed(2)}%</div></div>
-                <div className="see-stat"><div className="l">Change since FY09</div><div className="v" style={{ color: s.color }}><CountUp value={parseFloat(s.gdpGrowth) || 0} decimals={2} prefix={parseFloat(s.gdpGrowth) > 0 ? "+" : ""} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>pts</span></div><div className="s">FY09 → {BUDGET.proposed}</div></div>
-                <div className="see-stat"><div className="l">Years of rise</div><div className="v"><CountUp value={s.riseGdp || 0} />{`/${SECTOR_YEARS.length - 1}`}</div><div className="s">YoY increases (% share)</div></div>
-                <div className="see-stat"><div className="l">Peak year</div><div className="v">{s.peakYearGdp || BUDGET.proposed}</div><div className="s">highest GDP share</div></div>
-              </>
-            ) : (
-              <>
-                <div className="see-stat"><div className="l">{BUDGET.proposed} share</div><div className="v"><CountUp value={parseFloat(s.budProposed) || 0} decimals={2} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>%</span></div><div className="s">vs FY09: {(s.bud09 || 0).toFixed(2)}%</div></div>
-                <div className="see-stat"><div className="l">Change since FY09</div><div className="v" style={{ color: s.color }}><CountUp value={parseFloat(s.budGrowth) || 0} decimals={2} prefix={parseFloat(s.budGrowth) > 0 ? "+" : ""} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>pts</span></div><div className="s">FY09 → {BUDGET.proposed}</div></div>
-                <div className="see-stat"><div className="l">Years of rise</div><div className="v"><CountUp value={s.riseBud || 0} />{`/${SECTOR_YEARS.length - 1}`}</div><div className="s">YoY increases (% of budget)</div></div>
-                <div className="see-stat"><div className="l">Peak year</div><div className="v">{s.peakYearBud || BUDGET.proposed}</div><div className="s">highest budget share</div></div>
-              </>
-            )}
+          <div className="sg-expand-stats" style={{ marginBottom: 28, display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: isMobile ? 12 : 20 }}>
+            {(() => {
+              const statCardStyle = { background: "rgba(255,255,255,0.03)", padding: isMobile ? "14px 16px" : "18px 20px", borderRadius: "12px", borderTop: "3px solid " + s.color, boxShadow: "0 4px 12px rgba(0,0,0,0.1)" };
+              const lStyle = { color: "rgba(255,255,255,0.55)", fontWeight: 600, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "8px", fontFamily: "var(--ui)" };
+              const vStyle = { color: "#fff", fontSize: isMobile ? "22px" : "26px", fontWeight: 700, fontFamily: "var(--serif)", lineHeight: 1 };
+              const sStyle = { color: "var(--g4)", fontSize: "12px", marginTop: "8px", fontWeight: 400 };
+
+              const renderCard = (label, valObj, sub) => (
+                <div className="see-stat" style={statCardStyle}>
+                  <div className="l" style={lStyle}>{label}</div>
+                  <div className="v" style={vStyle}>{valObj}</div>
+                  <div className="s" style={sStyle}>{sub}</div>
+                </div>
+              );
+
+              if (mode === "abs") return (
+                <>
+                  {renderCard(`${BUDGET.proposed} total`, <>৳<CountUp value={s.proposed} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>cr</span></>, `vs FY09: ৳${s.fy09.toLocaleString("en-IN")} cr`)}
+                  {renderCard("Growth multiple", <><CountUp value={parseFloat(s.growth)} decimals={1} suffix="×" /></>, `FY09 → ${BUDGET.proposed}`)}
+                  {renderCard("Years of rise", <><CountUp value={s.riseAbs || 0} />{`/${SECTOR_YEARS.length - 1}`}</>, "YoY increases (absolute)")}
+                  {renderCard("Peak year", s.peakYearAbs || BUDGET.proposed, "all-time high in the series")}
+                </>
+              );
+              if (mode === "gdp") return (
+                <>
+                  {renderCard(`${BUDGET.proposed} share`, <><CountUp value={parseFloat(s.gdpProposed) || 0} decimals={2} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>%</span></>, `vs FY09: ${(s.gdp09 || 0).toFixed(2)}%`)}
+                  {renderCard("Change since FY09", <><CountUp value={parseFloat(s.gdpGrowth) || 0} decimals={2} prefix={parseFloat(s.gdpGrowth) > 0 ? "+" : ""} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>pts</span></>, `FY09 → ${BUDGET.proposed}`)}
+                  {renderCard("Years of rise", <><CountUp value={s.riseGdp || 0} />{`/${SECTOR_YEARS.length - 1}`}</>, "YoY increases (% share)")}
+                  {renderCard("Peak year", s.peakYearGdp || BUDGET.proposed, "highest GDP share")}
+                </>
+              );
+              return (
+                <>
+                  {renderCard(`${BUDGET.proposed} share`, <><CountUp value={parseFloat(s.budProposed) || 0} decimals={2} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>%</span></>, `vs FY09: ${(s.bud09 || 0).toFixed(2)}%`)}
+                  {renderCard("Change since FY09", <><CountUp value={parseFloat(s.budGrowth) || 0} decimals={2} prefix={parseFloat(s.budGrowth) > 0 ? "+" : ""} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>pts</span></>, `FY09 → ${BUDGET.proposed}`)}
+                  {renderCard("Years of rise", <><CountUp value={s.riseBud || 0} />{`/${SECTOR_YEARS.length - 1}`}</>, "YoY increases (% of budget)")}
+                  {renderCard("Peak year", s.peakYearBud || BUDGET.proposed, "highest budget share")}
+                </>
+              );
+            })()}
           </div>
 
           <div className="chart-scroll" ref={chartContainerRef} style={{ position: "relative", minHeight: isMobile ? H : 'auto' }}>
@@ -432,7 +496,7 @@ function ExpandedSection({ active }) {
                     <line x1={dividerX} y1={pad.t} x2={dividerX} y2={pad.t + innerH}
                       stroke={s.color} strokeOpacity="0.5" strokeDasharray="2 4" />
                     <text x={W - pad.r} y={pad.t - 18} textAnchor="end"
-                      style={{ fontFamily: "var(--ui)", fontSize: 10, fill: s.color, letterSpacing: "0.14em" }}>
+                      style={{ fontFamily: "var(--ui)", fontSize: 10, fill: "#fff", fontWeight: 600, letterSpacing: "0.14em" }}>
                       REVISED / ALLOCATION →
                     </text>
                   </>
@@ -462,11 +526,11 @@ function ExpandedSection({ active }) {
                     <g key={b.fy}>
                       {isActual && <rect x={pad.l} y={y - 2} width={innerW + pad.r} height={bw + 4} fill={s.color} opacity="0.06" rx="3" />}
                       <text x={pad.l - 8} y={y + bw / 2 + 4} textAnchor="end" className="tick-label"
-                        style={{ fill: b.notYetActual ? s.color : undefined, opacity: b.notYetActual ? 0.9 : 1, fontSize: 10 }}>{b.fy}</text>
+                        style={{ fill: b.notYetActual ? "#fff" : undefined, fontWeight: b.notYetActual ? 700 : 400, opacity: 1, fontSize: 10 }}>{b.fy}</text>
                       {tag && (
-                        <text x={0} y={y + bw / 2 + 16} textAnchor="start"
+                        <text x={pad.l + totSize + (isProposed ? 58 : 8)} y={y + bw / 2 + 3} textAnchor="start"
                           className={"fy-tag-text " + tag.cls}
-                          style={{ fontFamily: "var(--ui)", fontSize: 7, letterSpacing: "0.08em" }}>
+                          style={{ fontFamily: "var(--ui)", fontSize: 8, letterSpacing: "0.08em" }}>
                           {tag.label.toUpperCase()}
                         </text>
                       )}
@@ -532,7 +596,7 @@ function ExpandedSection({ active }) {
                         onTouchEnd={(e) => handleBarTouchEnd(e, b, i)} />
                       {showYearLabel(i, isProposed) && (
                         <text x={x + bw / 2} y={H - 20} textAnchor="middle" className="tick-label"
-                          style={{ fill: b.notYetActual ? s.color : undefined, opacity: b.notYetActual ? 0.9 : 1 }}>{b.fy}</text>
+                          style={{ fill: b.notYetActual ? "#fff" : undefined, fontWeight: b.notYetActual ? 700 : 400, opacity: 1 }}>{b.fy}</text>
                       )}
                       {tag && (
                         <text x={x + bw / 2} y={tallestTopY - (tag.cls === "fy-proposed" ? 22 : 8)} textAnchor="middle"
@@ -571,11 +635,11 @@ function ExpandedSection({ active }) {
                         strokeDasharray={b.notYetActual ? "3 3" : ""}
                         duration={900} delay={baseDelay} />
                       <text x={pad.l - 8} y={y + bw / 2 + 4} textAnchor="end" className="tick-label"
-                        style={{ fill: b.notYetActual ? s.color : undefined, opacity: b.notYetActual ? 0.9 : 1, fontSize: 10 }}>{b.fy}</text>
+                        style={{ fill: b.notYetActual ? "#fff" : undefined, fontWeight: b.notYetActual ? 700 : 400, opacity: 1, fontSize: 10 }}>{b.fy}</text>
                       {tag && (
-                        <text x={0} y={y + bw / 2 + 16} textAnchor="start"
+                        <text x={pad.l + barSize + (isProposed ? 54 : 8)} y={y + bw / 2 + 3} textAnchor="start"
                           className={"fy-tag-text " + tag.cls}
-                          style={{ fontFamily: "var(--ui)", fontSize: 7, letterSpacing: "0.08em" }}>
+                          style={{ fontFamily: "var(--ui)", fontSize: 8, letterSpacing: "0.08em" }}>
                           {tag.label.toUpperCase()}
                         </text>
                       )}
@@ -617,7 +681,7 @@ function ExpandedSection({ active }) {
                         onTouchEnd={(e) => handleBarTouchEnd(e, b, i)} />
                       {showYearLabel(i, isProposed) && (
                         <text x={x + bw / 2} y={H - 20} textAnchor="middle" className="tick-label"
-                          style={{ fill: b.notYetActual ? s.color : undefined, opacity: b.notYetActual ? 0.9 : 1 }}>{b.fy}</text>
+                          style={{ fill: b.notYetActual ? "#fff" : undefined, fontWeight: b.notYetActual ? 700 : 400, opacity: 1 }}>{b.fy}</text>
                       )}
                       {tag && (
                         <text x={x + bw / 2} y={tallestTopY - (tag.cls === "fy-proposed" ? 22 : 8)} textAnchor="middle"
