@@ -21,19 +21,21 @@ const { useState, useEffect, useMemo, useRef } = React;
 const TAKA_FY = ["FY22", "FY23", "FY24", "FY25", "FY26", "FY27"];
 const TAKA_SECTORS_RAW = [
   //                                                                  [FY22, FY23, FY24, FY25, FY26, FY27]
-  { key: "publicadmin", name: "Public Administration", color: "#997B50", series: [7.6, 7.3, 7.3, 7.0, 23.5, null] },
-  { key: "interest", name: "Interest Payments", color: "#C60001", series: [11.4, 11.9, 11.9, 14.0, 15.4, null] },
-  { key: "education", name: "Education & Technology", color: "#0185C6", series: [15.7, 14.7, 14.7, 14.0, 14.0, null] },
-  { key: "transport", name: "Transport & Communication", color: "#B0832B", series: [11.7, 11.8, 11.8, 10.0, 9.0, null] },
-  { key: "agri", name: "Agriculture", color: "#019933", series: [3.6, 3.8, 3.8, 4.0, 5.9, null] },
-  { key: "localgov", name: "Local Government & Rural Development", color: "#96CEB4", series: [7.0, 6.6, 6.6, 6.0, 5.7, null] },
-  { key: "social", name: "Social Security & Welfare", color: "#45B7D1", series: [5.0, 4.9, 4.9, 5.0, 5.7, null] },
-  { key: "health", name: "Health", color: "#4ECDC4", series: [5.4, 5.4, 5.4, 5.0, 5.3, null] },
-  { key: "defence", name: "Defence", color: "#7D0066", series: [5.5, 5.0, 5.0, 4.0, 5.2, null] },
-  { key: "publicorder", name: "Public Order & Safety", color: "#FFEAA7", series: [4.7, 4.4, 4.4, 4.0, 4.3, null] },
-  { key: "others", name: "Subsidies + Pension + Others", color: "#b63495ff", series: [17.8, 20.3, 20.3, 23.0, 3.1, null] },
+  { key: "publicadmin", name: "Public Administration", color: "#997B50", series: [7.6, 7.3, 7.3, 7.3, 9.1, null] },
+  { key: "interest", name: "Interest Payments", color: "#C60001", series: [11.4, 11.9, 12.4, 14.2, 15.5, null] },
+  { key: "education", name: "Education & Technology", color: "#0185C6", series: [15.7, 14.7, 13.7, 13.9, 14.0, null] },
+  { key: "transport", name: "Transport & Communication", color: "#B0832B", series: [11.7, 11.8, 11.3, 10.2, 8.8, null] },
+  { key: "agri", name: "Agriculture", color: "#019933", series: [3.6, 3.8, 3.5, 3.9, 3.7, null] },
+  { key: "localgov", name: "Local Government & Rural Development", color: "#96CEB4", series: [7.0, 6.6, 6.5, 6.0, 5.7, null] },
+  { key: "social", name: "Social Security & Welfare", color: "#45B7D1", series: [5.0, 4.9, 4.6, 4.8, 4.7, null] },
+  { key: "health", name: "Health", color: "#4ECDC4", series: [5.4, 5.4, 5.0, 5.2, 5.3, null] },
+  { key: "defence", name: "Defence", color: "#7D0066", series: [5.5, 5.0, 4.6, 4.3, 4.3, null] },
+  { key: "publicorder", name: "Public Order & Safety", color: "#FFEAA7", series: [4.7, 4.4, 4.1, 4.0, 4.1, null] },
+  { key: "others", name: "Others", color: "#b63495ff", series: [7.3, 7.3, 7.0, 6.7, 6.1, null] },
 
-  { key: "energy", name: "Energy & Power", color: "#FF6B35", series: [4.6, 3.9, 3.9, 4.0, 2.9, null] },
+  { key: "energy", name: "Energy & Power", color: "#ffda35ff", series: [4.6, 3.9, 4.6, 3.8, 2.9, null] },
+  { key: "subsidies", name: "Subsidies & Incentives", color: "#86ff35ff", series: [5.8, 8.4, 11.1, 11.1, 11.3, null] },
+  { key: "pension", name: "Pension", color: "#FF6B35", series: [4.7, 4.6, 4.3, 4.6, 4.5, null] },
 ];
 
 // Years that have data across EVERY sector — the trailing null FY27 placeholder
