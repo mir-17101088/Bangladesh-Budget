@@ -696,6 +696,13 @@ function BackToTop() {
         }
         @media (max-width: 640px) {
           .b2t { bottom: 24px; right: 24px; width: 44px; height: 44px; }
+          body:has(.see-tooltip) .b2t,
+          body:has(.taka-tooltip) .b2t,
+          body:has(.gdp-tip) .b2t {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transform: translateY(20px) scale(0.9) !important;
+          }
         }
       `}</style>
       <button
