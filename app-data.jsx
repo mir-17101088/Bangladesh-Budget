@@ -52,7 +52,7 @@ const TAKA_SECTORS = TAKA_SECTORS_RAW.map(s => {
     revised: valueAt(BUDGET.revised),
     proposed: valueAt(BUDGET.proposed),
   };
-}).sort((a, b) => b.actual - a.actual);
+}).sort((a, b) => b.proposed - a.proposed);
 
 // ────────────────────────────────────────────────────────────
 // 2. Total budget and Budget as % of GDP — full panel, FY09 → FY26

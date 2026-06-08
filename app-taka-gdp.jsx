@@ -7,9 +7,9 @@ function TakaSection() {
   const [active, setActive] = useState2("education");
   const [hover, setHover] = useState2(null);
   const expandRef = useRef2(null);
-  const total = TAKA_SECTORS.reduce((a, s) => a + (s.actual || 0), 0); // ~100, Actual year
+  const total = TAKA_SECTORS.reduce((a, s) => a + (s.proposed || 0), 0); // ~100, Proposed year
   const sector = TAKA_SECTORS.find(s => s.key === active);
-  const actualSpan = fyToSpan(BUDGET.actual); // e.g. "FY 2023—24"
+  const proposedSpan = fyToSpan(BUDGET.proposed); // e.g. "FY 2025—26"
 
   const selectSector = (key, scroll) => {
     setActive(key);
@@ -43,7 +43,7 @@ function TakaSection() {
           <h2 style={{ marginBottom: 16 }}>Where did your ৳100 go?</h2>
           <p className="lede" style={{ margin: "0 auto", maxWidth: 620 }}>
             Hover or tap a sliver of the note to follow each sector's share of every taka the
-            government actually spent in {actualSpan} — the most recent audited year.
+            government planned to allocate in {proposedSpan}.
           </p>
         </div>
 
@@ -51,7 +51,7 @@ function TakaSection() {
           <img className="taka-img" src="assets/100_taka_note.jpg" alt="Bangladesh 100 Taka note" />
           <div className="taka-overlay">
             {TAKA_SECTORS.map((s, idx) => {
-              const w = (s.actual / total) * 100;
+              const w = (s.proposed / total) * 100;
               const isActive = active === s.key;
               const isHover = hover === s.key;
               return (
@@ -61,7 +61,7 @@ function TakaSection() {
                   style={{ width: w + "%", background: s.color }}
                   role="button"
                   tabIndex={0}
-                  aria-label={s.name + ": ৳" + s.actual + " of every ৳100 spent, " + BUDGET.actual}
+                  aria-label={s.name + ": ৳" + s.proposed + " of every ৳100 allocated, " + BUDGET.proposed}
                   aria-pressed={isActive}
                   onMouseEnter={() => setHover(s.key)}
                   onMouseLeave={() => setHover(null)}
@@ -80,13 +80,13 @@ function TakaSection() {
                   }}
                 >
                   {(w > 4 || isHover || isActive) && (
-                    <span className="seg-num">৳{s.actual}</span>
+                    <span className="seg-num">৳{s.proposed}</span>
                   )}
                   {isHover && (
                     <div className="taka-tooltip">
                       <b>{s.name}</b>
-                      <span className="t-amt" style={{ color: s.color }}>৳{s.actual}</span>
-                      <span style={{ color: "#8B939F", fontSize: 11 }}>per ৳100 spent · {BUDGET.actual}</span>
+                      <span className="t-amt" style={{ color: s.color }}>৳{s.proposed}</span>
+                      <span style={{ color: "#8B939F", fontSize: 11 }}>per ৳100 allocated · {BUDGET.proposed}</span>
                     </div>
                   )}
                 </div>
@@ -110,7 +110,7 @@ function TakaSection() {
             >
               <span className="sw" style={{ background: s.color }}></span>
               {s.name}
-              <span className="chip-val">৳{s.actual}</span>
+              <span className="chip-val">৳{s.proposed}</span>
             </button>
           ))}
         </div>
@@ -122,9 +122,9 @@ function TakaSection() {
               <h3>{sector.name} — out of every ৳100</h3>
             </div>
             <div style={{ textAlign: "right" }}>
-              <div className="cap">Actual {BUDGET.actual}</div>
+              <div className="cap">Allocation {BUDGET.proposed}</div>
               <div style={{ fontFamily: "var(--serif)", fontSize: 40, color: sector.color, lineHeight: 1, marginTop: 4 }}>
-                <CountUp value={sector.actual} decimals={1} prefix="৳" duration={1400} />
+                <CountUp value={sector.proposed} decimals={1} prefix="৳" duration={1400} />
               </div>
             </div>
           </div>
@@ -138,11 +138,10 @@ function TakaSection() {
                 const h = (v / max) * 100;
                 const status = BUDGET.statusOf(fy);   // actual | revised | proposed | historical
                 const tag = BUDGET.tagFor(fy);         // {label, cls} | null
-                const isActual = fy === BUDGET.actual;
+                const isProposed = fy === BUDGET.proposed;
                 return (
-                  <div key={fy} className={"taka-bar " + (isActual ? "active " : "") + status}>
+                  <div key={fy} className={"taka-bar " + (isProposed ? "active " : "") + status}>
                     {tag && <span className={"fy-tag " + tag.cls}>{tag.label}</span>}
-                    {isActual && <span className="fy-actual-caption">Actual</span>}
                     <div style={{ flex: 1, width: "100%", display: "flex", alignItems: "flex-end" }}>
                       <div className="col grow-bar" style={{ "--target-h": h + "%", animationDelay: (i * 90) + "ms" }}>
                         <span className="val"><CountUp value={v} decimals={1} prefix="৳" duration={1100} /></span>
@@ -156,7 +155,7 @@ function TakaSection() {
           </div>
 
           <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-            <span className="cap">Y-axis: Taka per ৳100 spent · {BUDGET.years[0]} → {BUDGET.proposed} · Source: Ministry of Finance</span>
+            <span className="cap">Y-axis: Taka per ৳100 allocated · {BUDGET.years[0]} → {BUDGET.proposed} · Source: Ministry of Finance</span>
             <span className="cap" style={{ color: sector.color }}>● Selected: {sector.name}</span>
           </div>
         </div>
