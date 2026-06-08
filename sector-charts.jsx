@@ -49,10 +49,10 @@ function HeatmapSection() {
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: 28, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.06)", flexWrap: "wrap", gap: 16 }}>
             <div style={{ display: "flex", gap: 22, fontFamily: "var(--ui)", fontSize: 11, color: "var(--g3)", letterSpacing: "0.04em" }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 14, height: 12, background: "#3CC3DE", borderRadius: 3 }}></span>Share rose
+                <span style={{ width: 14, height: 12, background: "#50C878", borderRadius: 3 }}></span>Share rose
               </span>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 14, height: 12, background: "#CB5A30", borderRadius: 3 }}></span>Share fell
+                <span style={{ width: 14, height: 12, background: "#C94B4B", borderRadius: 3 }}></span>Share fell
               </span>
             </div>
             <span className="cap">Each cell = one year-on-year transition · {SECTORS.length} sectors × {totalTransitions} transitions</span>
