@@ -167,7 +167,7 @@
 .heat-table .h-cell.cap-l { border-top-left-radius: var(--cap); border-bottom-left-radius: var(--cap); }
 .heat-table .h-cell.cap-r { border-top-right-radius: var(--cap); border-bottom-right-radius: var(--cap); border-right: none; }
 .heat-table .sum-h {
-  font-family: var(--serif); font-size: 16px; color: #fff;
+  font-family: var(--serif); font-size: 24px; color: #fff;
   padding-left: 18px; text-align: left;
 }
 .heat-table .sum-h .of { color: var(--ink-3); font-family: var(--ui); font-size: 11px; }
