@@ -32,9 +32,9 @@ function SectorGridSection({ active, setActive }) {
       <div className="wrap">
         <div className="section-head">
           <span className="eyebrow">The fourteen sectors</span>
-          <h2>Every sector, every taka</h2>
+          <h2>Which Sectors Got Priority?</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            {BUDGET.proposed} totals and their FY09→{BUDGET.proposed} trajectories. Tap a card to open the stacked sub-sector view.
+            The cards below show how public spending across sectors has grown since FY09, the earliest year for which actual expenditure data is available.
           </p>
         </div>
 
