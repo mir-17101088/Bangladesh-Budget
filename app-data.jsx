@@ -31,7 +31,7 @@ const TAKA_SECTORS_RAW = [
   { key: "health", name: "Health", color: "#4ECDC4", series: [5.4, 5.4, 5.4, 5.0, 5.3, null] },
   { key: "defence", name: "Defence", color: "#7D0066", series: [5.5, 5.0, 5.0, 4.0, 5.2, null] },
   { key: "publicorder", name: "Public Order & Safety", color: "#FFEAA7", series: [4.7, 4.4, 4.4, 4.0, 4.3, null] },
-  { key: "others", name: "Subsidies + Pension + Others", color: "#8B939F", series: [17.8, 20.3, 20.3, 23.0, 3.1, null] },
+  { key: "others", name: "Subsidies + Pension + Others", color: "#b63495ff", series: [17.8, 20.3, 20.3, 23.0, 3.1, null] },
 
   { key: "energy", name: "Energy & Power", color: "#FF6B35", series: [4.6, 3.9, 3.9, 4.0, 2.9, null] },
 ];
