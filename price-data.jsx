@@ -199,7 +199,7 @@ function PriceHero() {
           <span>Budget at a Glance</span><span style={{ color: "var(--g7)" }}>·</span>
           <span style={{ color: "var(--g7)" }}>·</span><span>{PRICE_FY_SPAN}</span>
         </div>
-        <h1>What got pricier, <em>what got cheaper</em>.</h1>
+        <h1>What got pricier, <em>what got cheaper</em></h1>
         <p className="dek">
           Every budget quietly rewrites a household's monthly bill. Here are some of the items the
           {" "}<strong style={{ color: "#fff", fontStyle: "normal", fontWeight: 600 }}>{PRICE_FY_SPAN}</strong> budget
@@ -218,22 +218,22 @@ function PriceHero() {
         )}
 
         <div className="page-hero-stats">
-          <div className="phs-cell red" onClick={() => document.querySelector('.s-pricier')?.scrollIntoView({behavior: 'smooth'})}>
+          <div className="phs-cell red" onClick={() => document.querySelector('.s-pricier')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Costlier — selected</div>
             <div className="n"><CountUp value={upN} /></div>
             <div className="s">higher VAT, excise &amp; duties — and many more</div>
           </div>
-          <div className="phs-cell green" onClick={() => document.querySelector('.s-cheaper')?.scrollIntoView({behavior: 'smooth'})}>
+          <div className="phs-cell green" onClick={() => document.querySelector('.s-cheaper')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Cheaper — selected</div>
             <div className="n"><CountUp value={dnN} /></div>
             <div className="s">cuts, exemptions &amp; waivers — and many more</div>
           </div>
-          <div className="phs-cell" onClick={() => document.querySelector('.s-tax')?.scrollIntoView({behavior: 'smooth'})}>
+          <div className="phs-cell" onClick={() => document.querySelector('.s-tax')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Tax revenue target</div>
             <div className="n">৳<CountUp value={4.99} decimals={2} />L Cr</div>
             <div className="s">NBR + non-NBR · 65.6% of budget</div>
           </div>
-          <div className="phs-cell" onClick={() => document.querySelector('.s-subsidy')?.scrollIntoView({behavior: 'smooth'})}>
+          <div className="phs-cell" onClick={() => document.querySelector('.s-subsidy')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Subsidy bill</div>
             <div className="n">৳<CountUp value={11.5} decimals={1} /></div>
             <div className="s">per ৳100 spent · 2× since FY22</div>
@@ -302,7 +302,7 @@ function ItemSection({ kind, items }) {
               {up ? "Up the slope" : "Down the slope"}
             </span>
             <h2>
-              What got {up ? <span className="acc-red">pricier</span> : <span className="acc-grn">cheaper</span>}.
+              What got {up ? <span className="acc-red">pricier</span> : <span className="acc-grn">cheaper</span>}
             </h2>
             <p className="dek">
               {up
