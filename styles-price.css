@@ -718,7 +718,7 @@
 }
 @media (max-width: 640px) {
   .gap-tooltip, .gap-tooltip.edge-right {
-    position: fixed;
+    position: absolute;
     top: auto !important;
     left: 0 !important;
     bottom: 0 !important;
@@ -726,31 +726,30 @@
     width: 100%;
     max-width: 100%;
     min-width: 100%;
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px 20px 20px 20px;
     padding: 24px 24px 36px;
     pointer-events: auto;
     z-index: 1000;
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
+    border: 1px solid rgba(255,255,255,0.1);
     animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
     box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.1) inset;
   }
   @keyframes slideUp {
-    from { transform: translateY(100%) !important; }
-    to { transform: translateY(0) !important; }
+    from { transform: translateY(100%) !important; opacity: 0; }
+    to { transform: translateY(0) !important; opacity: 1; }
   }
   .gap-tooltip::before, .gap-tooltip.edge-right::before {
     content: '';
-    position: fixed;
-    bottom: 100%;
+    position: absolute;
+    bottom: 0;
     left: 0;
     right: 0;
-    height: 200vh;
+    top: -400px;
     background: rgba(0, 0, 0, 0.5);
     z-index: -1;
     pointer-events: none;
     animation: toolFadeIn 0.3s ease;
+    border-radius: 20px;
   }
   .gap-tooltip::after, .gap-tooltip.edge-right::after {
     display: none !important; /* Hide the arrow pointer on mobile bottom sheet */
