@@ -437,7 +437,7 @@ function GDPSection() {
             </div>
             <div style={{ paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)", marginTop: 24 }}>
               <span className="body" style={{ fontStyle: "italic" }}>
-                Tk 14 out of every Tk 100 produced in the country now goes to national budgets, up from Tk 11 spent 18 years ago.
+                Tk 12 out of every Tk 100 produced in the country now goes to national budget.
               </span>
             </div>
           </div>
