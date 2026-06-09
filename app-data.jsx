@@ -235,36 +235,34 @@ const NEWS = [
   },
 ];
 
+/* ============================================================
+   NEWS FEED — Load from API and replace static fallback
+============================================================ */
 const NEWS_FEED_API_URL = "/api/news";
-const NEWS_FEED_PALETTE = [
-  { tagColor: "#0185C6", c1: "#0d2847", c2: "#0185C6" },
-  { tagColor: "#B0832B", c1: "#3a2a15", c2: "#B0832B" },
-  { tagColor: "#019933", c1: "#0a2818", c2: "#019933" },
-  { tagColor: "#7D0066", c1: "#2a0a22", c2: "#7D0066" },
-  { tagColor: "#C60001", c1: "#2a0508", c2: "#C60001" },
-  { tagColor: "#45B7D1", c1: "#0d2847", c2: "#45B7D1" },
-];
 
-function feedFormatDate(d) {
-  if (!d) return null;
-  const t = Date.parse(d);
-  if (isNaN(t)) return d;
-  return new Date(t).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-}
-
-function mapFeedItem(n, i) {
-  const style = NEWS_FEED_PALETTE[i % NEWS_FEED_PALETTE.length];
-  const tag = ((n.subcategory || n.provider || "News") + "").toUpperCase();
+function mapFeedItem(n, index) {
+  const colors = ["#0185C6", "#B0832B", "#019933", "#7D0066", "#C60001", "#45B7D1"];
+  const [c1, c2] = (() => {
+    const pairs = [
+      ["#0d2847", "#0185C6"],
+      ["#3a2a15", "#B0832B"],
+      ["#0a2818", "#019933"],
+      ["#2a0a22", "#7D0066"],
+      ["#2a0508", "#C60001"],
+      ["#0d3f47", "#45B7D1"],
+    ];
+    return pairs[index % pairs.length];
+  })();
   return {
-    tag,
-    tagColor: style.tagColor,
-    c1: style.c1,
-    c2: style.c2,
-    headline: n.title || "Untitled",
-    dek: n.subtitle || "",
-    date: feedFormatDate(n.created) || "",
-    author: n.provider || "The Daily Star",
-    read: "Read more",
+    tag: n.category || "NEWS",
+    tagColor: colors[index % colors.length],
+    c1,
+    c2,
+    headline: n.title || "",
+    dek: n.excerpt || n.description || "",
+    date: n.created || "",
+    author: n.author || "The Daily Star",
+    read: "Read article →",
     url: n.link_url || "",
   };
 }
@@ -528,7 +526,7 @@ function PreLaunchHero() {
           <div className="pl-stat-div" style={{ margin: "0 auto" }}></div>
           <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center", textAlign: "center" }}>
             <span style={{ fontFamily: "var(--ui)", fontSize: "clamp(6.5px, 2.2vw, 10px)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--eyebrow)" }}>FY26</span>
-            <span style={{ fontFamily: "var(--serif)", fontSize: "clamp(14px, 4.5vw, 32px)", color: "#6fc7ee", lineHeight: 1 }}>৳7.9<span style={{ fontSize: "clamp(9px, 2.5vw, 14px)", color: "rgba(111,199,238,0.7)", marginLeft: "4px" }}>trillion</span></span>
+            <span style={{ fontFamily: "var(--serif)", fontSize: "clamp(14px, 4.5vw, 32px)", color: "#6fc7ee", lineHeight: 1 }}>৳790,000<span style={{ fontSize: "clamp(9px, 2.5vw, 14px)", color: "rgba(111,199,238,0.7)", marginLeft: "4px" }}>cr</span></span>
           </div>
           <div className="pl-stat-div" style={{ margin: "0 auto" }}></div>
           <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center", textAlign: "center" }}>

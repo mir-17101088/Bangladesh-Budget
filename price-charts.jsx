@@ -192,8 +192,10 @@ function TaxSection() {
           <h2>Funding the ৳7,90,000 crore budget</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 760 }}>
             Most of the {PRICE_FY_SPAN} budget is self-financed: the state earns roughly seven taka of every ten
-            it spends — tax revenue alone is <strong style={{ color: "#fff", fontWeight: 600 }}>63.2%</strong>.
-            The rest is borrowed. Tap <em style={{ fontStyle: "italic", color: "#3FD3B8" }}>Tax Revenue (NBR)</em> to see how the taxman raises his share.
+            it spends.
+            <strong style={{ color: "#fff", fontWeight: 600 }}> But how fair is our tax system?</strong>
+            <p>Bangladesh's tax system leans heavily on indirect taxes — VAT, supplementary duty, and customs duty — which everyone pays regardless of income. 
+            That hits lower-income households hardest. While taxation is meant to promote equity, direct taxes account for only a third of Bangladesh’s total revenue.</p>Tap <em style={{ fontStyle: "italic", color: "#3FD3B8" }}>Tax Revenue (NBR)</em> to see how regressive taxes fund the country.
           </p>
         </div>
 
@@ -437,4 +439,256 @@ function BudgetGdpRatioSection() {
   );
 }
 
-Object.assign(window, { ResourceDonut, LegendRow, TaxSection, SubsidySection, BudgetGdpRatioSection });
+function DevOpGapSection() {
+  const [hoverIdx, setHoverIdx] = useStatePC(null);
+
+  // We use DEV_OP_GAP_DATA from price-data.jsx
+  const data = window.DEV_OP_GAP_DATA || [];
+
+  if (data.length === 0) return null;
+
+  // SVG Chart dimensions
+  const w = 800;
+  const h = 400;
+  const padX = 40;
+  const padY = 60;
+  const innerW = w - padX * 2;
+  const innerH = h - padY * 2;
+
+  // Min/Max for Y axis to give some breathing room
+  const minV = Math.min(...data.map(d => Math.min(d.dev, d.op))) - 5;
+  const maxV = Math.max(...data.map(d => Math.max(d.dev, d.op))) + 5;
+  const range = maxV - minV;
+
+  // Scale functions
+  const getX = (index) => padX + (index / (data.length - 1)) * innerW;
+  const getY = (val) => h - padY - ((val - minV) / range) * innerH;
+
+  // Generate SVG path strings
+  const devPath = data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${getX(i)} ${getY(d.dev)}`).join(' ');
+  const opPath = data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${getX(i)} ${getY(d.op)}`).join(' ');
+
+  // Gap Area (combine opPath forward, then devPath backward)
+  const areaPath = opPath + ' ' + [...data].reverse().map((d, i) => `L ${getX(data.length - 1 - i)} ${getY(d.dev)}`).join(' ') + ' Z';
+
+  return (
+    <section className="s s-dev-op" data-screen-label="04 Dev vs Op Gap">
+      <div className="wrap">
+        <div className="split2" style={{ alignItems: "center" }}>
+          <div className="section-head" style={{ marginBottom: 0 }}>
+            <span className="eyebrow" style={{ color: "#c084fc" }}>Development vs Operating Expenditure</span>
+            <h2>Development spending collapses as operating costs surge</h2>
+            <p className="lede" style={{ marginTop: 18, maxWidth: "100%" }}>
+              Since FY2019, the gap between development and operating expenditure has steadily grown. But in FY2025, development implementation fell to a record low of 53.92% of allocation — even as operating spending hit 93.52%, its highest in the period.
+            </p>
+          </div>
+
+          <div className="gap-chart-wrap glass">
+            {hoverIdx !== null && (
+              <div
+                className={`gap-tooltip ${hoverIdx === data.length - 1 ? 'edge-right' : ''}`}
+                style={{ left: `${(getX(hoverIdx) / w) * 100}%` }}
+              >
+                <button className="gap-tooltip-close" onClick={() => setHoverIdx(null)}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <div className="gt-title">{data[hoverIdx].fy} Gap</div>
+                <div className="gt-val">{Math.abs(data[hoverIdx].op - data[hoverIdx].dev).toFixed(2)}%</div>
+                <div className="gt-sub">Difference between operating<br />and development spending</div>
+              </div>
+            )}
+
+            <div className="gap-legend">
+              <div className="gap-lg-item">
+                <div className="gap-lg-dot" style={{ background: "#ff7676", boxShadow: "0 0 10px #ff7676" }}></div>
+                Operating Expenditure
+              </div>
+              <div className="gap-lg-item">
+                <div className="gap-lg-dot" style={{ background: "#45B7D1", boxShadow: "0 0 10px #45B7D1" }}></div>
+                Development Expenditure
+              </div>
+            </div>
+
+            <svg viewBox={`0 0 ${w} ${h}`} className="gap-chart-svg" onMouseLeave={() => setHoverIdx(null)}>
+              <defs>
+                <linearGradient id="gapGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="rgba(255, 118, 118, 0.4)" />
+                  <stop offset="100%" stopColor="rgba(69, 183, 209, 0.4)" />
+                </linearGradient>
+              </defs>
+
+              {/* Grid lines */}
+              {[0, 0.25, 0.5, 0.75, 1].map(pct => {
+                const y = h - padY - pct * innerH;
+                return (
+                  <line key={pct} x1={padX} y1={y} x2={w - padX} y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+                );
+              })}
+
+              {/* Gap Area */}
+              <path d={areaPath} fill="url(#gapGrad)" className="gap-area" />
+
+              {/* Hover Line */}
+              {hoverIdx !== null && (
+                <line
+                  x1={getX(hoverIdx)} y1={padY}
+                  x2={getX(hoverIdx)} y2={h - padY}
+                  stroke="rgba(255,255,255,0.3)" strokeWidth="1" strokeDasharray="4 4"
+                  pointerEvents="none"
+                />
+              )}
+
+              {/* Lines */}
+              <path d={opPath} stroke="#ff7676" className="gap-line" />
+              <path d={devPath} stroke="#45B7D1" className="gap-line" />
+
+              {/* Data Points & Labels */}
+              {data.map((d, i) => {
+                const x = getX(i);
+                const opY = getY(d.op);
+                const devY = getY(d.dev);
+                const isLast = i === data.length - 1;
+                return (
+                  <g key={d.fy} className="gap-pt" style={{ animationDelay: `${0.8 + (i * 0.1)}s` }}>
+                    {/* X Axis Label */}
+                    <text x={x} y={h - 15} className="gap-label-fy">{d.fy}</text>
+
+                    {/* Operating Point */}
+                    <circle cx={x} cy={opY} r="5" fill="#181d24" stroke="#ff7676" strokeWidth="2" />
+                    <text x={x} y={opY - 14} className="gap-label" fill="#ff7676" style={{ fontWeight: isLast ? 700 : 400 }}>
+                      {d.op}%
+                    </text>
+
+                    {/* Development Point */}
+                    <circle cx={x} cy={devY} r="5" fill="#181d24" stroke="#45B7D1" strokeWidth="2" />
+                    <text x={x} y={devY + 22} className="gap-label" fill="#45B7D1" style={{ fontWeight: isLast ? 700 : 400 }}>
+                      {d.dev}%
+                    </text>
+                  </g>
+                );
+              })}
+
+              {/* Invisible Hitboxes for Hover/Touch */}
+              {data.map((d, i) => {
+                const x = getX(i);
+                const rectWidth = innerW / Math.max(1, data.length - 1);
+                return (
+                  <rect
+                    key={"hit-" + i}
+                    x={x - rectWidth / 2}
+                    y={0}
+                    width={rectWidth}
+                    height={h}
+                    fill="transparent"
+                    onMouseEnter={() => setHoverIdx(i)}
+                    onTouchStart={() => setHoverIdx(i)}
+                    style={{ cursor: 'pointer', outline: 'none', WebkitTapHighlightColor: 'transparent' }}
+                  />
+                );
+              })}
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   TAX REVENUE RATIO SECTION
+============================================================ */
+const TAX_REVENUE_RATIO_DATA = [
+  //{ country: "Solomon Islands", pct: 32.72, color: "rgba(255,255,255,0.4)" },
+  { country: "Bhutan", pct: 26.97, color: "rgba(255,255,255,0.4)" },
+  { country: "Philippines", pct: 21.16, color: "rgba(255,255,255,0.4)" },
+  { country: "India", pct: 20.48, color: "rgba(255,255,255,0.4)" },
+  { country: "Senegal", pct: 20.13, color: "rgba(255,255,255,0.4)" },
+  { country: "Cambodia", pct: 14.58, color: "rgba(255,255,255,0.4)" },
+  { country: "Indonesia", pct: 14.55, color: "rgba(255,255,255,0.4)" },
+  { country: "Sri Lanka", pct: 13.68, color: "rgba(255,255,255,0.4)" },
+  { country: "Pakistan", pct: 12.67, color: "rgba(255,255,255,0.4)" },
+  { country: "Bangladesh", pct: 8.34, color: "#FF6B35", isBd: true }
+];
+
+function TaxRevenueRatioSection() {
+  // Use the data and max value (Bhutan is highest at ~27, so max 30 is good)
+  const data = TAX_REVENUE_RATIO_DATA;
+  const max = 30; 
+  const bdColor = "#00E5FF";
+
+  return (
+    <section className="s s-tax-ratio" data-screen-label="04c Tax Revenue Ratio" style={{ position: "relative" }}>
+      {/* Subtle background glow effect behind the section */}
+      <div style={{ position: "absolute", top: "50%", right: "10%", width: "40vw", height: "40vw", background: "radial-gradient(circle, rgba(0,229,255,0.05) 0%, rgba(0,0,0,0) 70%)", transform: "translateY(-50%)", pointerEvents: "none", zIndex: 0 }}></div>
+
+      <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
+        <div className="split2" style={{ alignItems: "center" }}>
+          <div className="section-head" style={{ marginBottom: 0 }}>
+            <span className="eyebrow" style={{ color: bdColor }}>Revenue Generation</span>
+            <h2>Bangladesh collects far less than its peers</h2>
+            <p className="lede" style={{ marginTop: 18, maxWidth: "100%" }}>
+              Government budgets are meant to be funded by tax revenue — but at 8.34% of GDP, Bangladesh collects far less than its peers. The average among comparable countries is nearly double, leaving the budget chronically dependent on borrowing from domestic and external creditors.
+            </p>
+          </div>
+
+          <div className="tax-chart-wrap" style={{ padding: "40px 24px", background: "linear-gradient(145deg, rgba(20,25,30,0.8) 0%, rgba(10,15,20,0.95) 100%)", border: "1px solid rgba(0,229,255,0.1)", borderRadius: "24px", boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)" }}>
+            <div className="cap" style={{ marginBottom: 40, textAlign: "center", color: "rgba(255,255,255,0.7)" }}>Govt. Revenue to GDP Ratio (%)</div>
+            
+            <div className="tax-dom-chart" style={{ position: "relative", height: "240px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", margin: "0 10px" }}>
+              
+              {/* Grid lines */}
+              {[0, 0.25, 0.5, 0.75, 1].map(pct => (
+                <div key={pct} style={{ position: "absolute", left: "-10px", right: "-10px", bottom: `${pct * 100}%`, borderBottom: "1px dashed rgba(255,255,255,0.1)", zIndex: 0 }}></div>
+              ))}
+
+              {/* Columns */}
+              {data.map((d, i) => {
+                if (!d) return null; // Safe guard
+                const isBd = d.country === "Bangladesh";
+                const barH = (d.pct / max) * 100;
+                
+                return (
+                  <div key={d.country} style={{ display: "flex", flexDirection: "column", alignItems: "center", zIndex: 1, flex: 1, position: "relative", height: "100%", justifyContent: "flex-end", animation: "colGrowDom 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards", animationDelay: `${i * 80}ms`, opacity: 0 }}>
+                    
+                    <div style={{ fontFamily: "var(--serif)", fontSize: isBd ? "16px" : "13px", fontWeight: isBd ? 700 : 500, color: isBd ? bdColor : "#fff", marginBottom: "8px", textAlign: "center", whiteSpace: "nowrap" }}>
+                      <CountUp value={d.pct} decimals={2} duration={1200} />%
+                    </div>
+                    
+                    <div style={{ width: "min(100%, 32px)", height: `${barH}%`, background: isBd ? `linear-gradient(to top, rgba(0,229,255,0.1), ${bdColor})` : "linear-gradient(to top, rgba(255,255,255,0.05), rgba(255,255,255,0.3))", borderRadius: "4px 4px 0 0", boxShadow: isBd ? "0 0 10px rgba(0,229,255,0.3)" : "none" }}></div>
+                    
+                    <div style={{ position: "absolute", top: "100%", right: "50%", marginTop: "12px", transform: "rotate(-45deg)", transformOrigin: "top right", whiteSpace: "nowrap", fontFamily: "var(--ui)", fontSize: "12px", color: isBd ? "#fff" : "rgba(255,255,255,0.6)", fontWeight: isBd ? 700 : 400 }}>
+                      {d.country}
+                    </div>
+                    
+                  </div>
+                );
+              })}
+            </div>
+            {/* Spacer for the rotated labels below the chart */}
+            <div style={{ height: "90px" }}></div>
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @keyframes colGrowDom {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 640px) {
+          .s-tax-ratio .split2 {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+          }
+          .s-tax-ratio .tax-chart-wrap {
+            padding: 32px 16px !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+Object.assign(window, { ResourceDonut, LegendRow, TaxSection, SubsidySection, BudgetGdpRatioSection, DevOpGapSection, TaxRevenueRatioSection });

@@ -196,7 +196,7 @@ function GaugesSection() {
       <div className="wrap">
         <div className="section-head">
           <span className="eyebrow">Promise vs delivery</span>
-          <h2>The implementation gap</h2>
+          <h2>Gap between budget promises & delivery</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
             For each fiscal year, the share of the proposed budget that was actually spent. Implementation hovered in the low 80s through the late 2010s; FY11 and FY13 stand out.
           </p>

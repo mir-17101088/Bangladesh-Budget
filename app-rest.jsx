@@ -74,7 +74,7 @@ function Treemap() {
           <span className="eyebrow">Sector by sector</span>
           <h2>Every area, every taka</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            FY26's allocated ৳7,80,826 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — debt interest and the Finance Division — already eat a quarter.
+            FY26's allocated ৳7,90,000 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — debt interest and the Finance Division — already eat a quarter.
           </p>
         </div>
 
@@ -350,7 +350,7 @@ function DebtSection() {
       <div className="wrap">
         <div className="section-head">
           <span className="eyebrow" style={{ color: "#c084fc" }}>The debt story</span>
-          <h2>The Interest Bill</h2>
+          <h2>Interest bill eating up a growing share of budget</h2>
         </div>
 
         <div className="debt-callout">
@@ -612,29 +612,45 @@ function NewsSection() {
         </div>
 
         <div className="news-grid">
-          {NEWS.map((n, i) => (
-            <article key={(n.url || "") + i} className="news-card glass">
-              <div className="news-thumb" style={{ "--c1": n.c1, "--c2": n.c2 }}>
-                <div className="news-thumb-shape"></div>
-                <div className="news-thumb-shape two"></div>
-                <span style={{ fontFamily: "var(--serif)", fontSize: 72, color: "rgba(255,255,255,0.18)", fontStyle: "italic", position: "relative" }}>{i + 1}</span>
-              </div>
-              <div className="news-body">
-                <div className="news-meta">
-                  <span className="news-tag" style={{ "--tag": n.tagColor }}>{n.tag}</span>
-                  <span className="news-date">{n.date}</span>
+          {NEWS.map((n, i) => {
+            const cardContent = (
+              <>
+                <div className="news-thumb" style={{ "--c1": n.c1, "--c2": n.c2 }}>
+                  <div className="news-thumb-shape"></div>
+                  <div className="news-thumb-shape two"></div>
+                  <span style={{ fontFamily: "var(--serif)", fontSize: 72, color: "rgba(255,255,255,0.18)", fontStyle: "italic", position: "relative" }}>{i + 1}</span>
                 </div>
-                {n.url
-                  ? <a href={n.url} target="_blank" rel="noopener noreferrer" className="news-headline">{n.headline}</a>
-                  : <div className="news-headline">{n.headline}</div>}
-                <div className="news-dek">{n.dek}</div>
-                <div className="news-author">
-                  <span>By {n.author}</span>
-                  <span>{n.read}</span>
+                <div className="news-body">
+                  <div className="news-meta">
+                    <span className="news-tag" style={{ "--tag": n.tagColor }}>{n.tag}</span>
+                    <span className="news-date">{n.date}</span>
+                  </div>
+                  <div className="news-headline">{n.headline}</div>
+                  <div className="news-dek">{n.dek}</div>
+                  <div className="news-author">
+                    <span>By {n.author}</span>
+                    <span>{n.read}</span>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </>
+            );
+            return n.url ? (
+              <a
+                key={i}
+                href={n.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none", color: "inherit", display: "block" }}
+                className="news-card glass"
+              >
+                {cardContent}
+              </a>
+            ) : (
+              <article key={i} className="news-card glass">
+                {cardContent}
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -366,7 +366,18 @@ function ItemSection({ kind, items }) {
   );
 }
 
+const DEV_OP_GAP_DATA = [
+  { fy: "FY19", dev: 84.07, op: 84.31 },
+  { fy: "FY20", dev: 76.43, op: 82.15 },
+  { fy: "FY21", dev: 78.82, op: 82.09 },
+  { fy: "FY22", dev: 82.32, op: 90.09 },
+  { fy: "FY23", dev: 79.02, op: 89.93 },
+  { fy: "FY24", dev: 75.33, op: 86.72 },
+  { fy: "FY25", dev: 53.92, op: 93.52 },
+];
+
 Object.assign(window, {
   PRICIER, CHEAPER, SUBSIDY, PriceHero, ItemSection, ItemIcon,
   RESOURCES, RESOURCES_TOTAL_CR, RESOURCE_GROUPS, RESOURCE_DRILLDOWNS, fmtCr, fmtLakhCr,
+  DEV_OP_GAP_DATA
 });
