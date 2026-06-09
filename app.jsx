@@ -8,7 +8,7 @@ function App() {
       <TakaSection/>
       <GDPSection/>
       <Treemap/>
-      <DebtSection/>
+      <TaxSection/>
       <NewsSection/>
       <Footer/>
 

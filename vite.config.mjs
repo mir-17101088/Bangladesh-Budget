@@ -26,7 +26,8 @@ const PAGES = {
   home: [
     "tweaks-panel.jsx", "anim-hooks.jsx", "fiscal-state.jsx",
     "app-data.jsx", "app-taka-gdp.jsx", "app-rest.jsx",
-    "relevant-news.jsx", "calc.jsx", "app.jsx",
+    "relevant-news.jsx", "calc.jsx",
+    "price-data.jsx", "price-charts.jsx", "app.jsx",
   ],
   sector: [
     "tweaks-panel.jsx", "anim-hooks.jsx", "fiscal-state.jsx",

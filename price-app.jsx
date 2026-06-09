@@ -5,9 +5,9 @@ function PriceApp() {
     <>
       <Nav active="Budget Realities"/>
       <PriceHero/>
-      <TaxSection/>
       <BudgetGdpRatioSection/>
       <GaugesSection/>
+      <DebtSection/>
       <SubsidySection/>
       <Footer/>
 
