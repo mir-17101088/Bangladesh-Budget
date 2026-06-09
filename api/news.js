@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   const target = "https://www.thedailystar.net/json/dynamic-news/1624211";
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 7000);
