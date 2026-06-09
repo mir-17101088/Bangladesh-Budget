@@ -70,13 +70,13 @@ const TOTAL_BUDGET_BY_YEAR = {
 window.TOTAL_BUDGET_BY_YEAR = TOTAL_BUDGET_BY_YEAR;
 
 const GDP_DATA = [
-  { fy: "FY09", pct: 11.2 }, { fy: "FY10", pct: 11.3 }, { fy: "FY11", pct: 12.3 },
-  { fy: "FY12", pct: 12.6 }, { fy: "FY13", pct: 12.5 }, { fy: "FY14", pct: 12.0 },
-  { fy: "FY15", pct: 11.3 }, { fy: "FY16", pct: 11.5 }, { fy: "FY17", pct: 11.6 },
-  { fy: "FY18", pct: 12.2 }, { fy: "FY19", pct: 13.3 }, { fy: "FY20", pct: 13.3 },
-  { fy: "FY21", pct: 13.0 }, { fy: "FY22", pct: 13.0 }, { fy: "FY23", pct: 14.9 },
+  { fy: "FY09", pct: 14.3 }, { fy: "FY10", pct: 14.7 }, { fy: "FY11", pct: 16.3 },
+  { fy: "FY12", pct: 16.7 }, { fy: "FY13", pct: 16.8 }, { fy: "FY14", pct: 15.9 },
+  { fy: "FY15", pct: 13.5 }, { fy: "FY16", pct: 13.8 }, { fy: "FY17", pct: 13.8 },
+  { fy: "FY18", pct: 14.4 }, { fy: "FY19", pct: 15.4 }, { fy: "FY20", pct: 15.0 },
+  { fy: "FY21", pct: 14.5 }, { fy: "FY22", pct: 13.1 }, { fy: "FY23", pct: 12.9 },
   // ── edit / extend below ─────────────────────────────────
-  { fy: "FY24", pct: 14.6 }, { fy: "FY25", pct: 14.4 }, { fy: "FY26", pct: 14.2 },
+  { fy: "FY24", pct: 12.2 }, { fy: "FY25", pct: 13.4 }, { fy: "FY26", pct: 12.7 },
   { fy: "FY27", pct: null }, // ⟶ GO-LIVE FY27: budget as % of GDP
 ];
 

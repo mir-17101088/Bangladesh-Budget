@@ -254,7 +254,7 @@ function GDPSection() {
           <span className="eyebrow">The economy view</span>
           <h2>Total Budget as Part of GDP</h2>
           <p className="lede" style={{ marginTop: 18 }}>
-            From {fy09.pct}% of GDP in {fy09.fy} to {peak.pct}% in {peak.fy} — the government's footprint has steadily widened. After FY23, it fell.
+            Despite rising in nominal terms, Bangladesh's total budget has steadily shrunk as a share of GDP, falling from a peak of 16.8% in FY13 to 12.7% in FY26, suggesting the state is spending less relative to the size of the economy it governs. A shrinking budget ratio means less room for public investment in health, education, and infrastructure, even as the economy grows.
           </p>
         </div>
 
