@@ -8,21 +8,9 @@ function SectorApp() {
   const scrollToChart = React.useCallback(() => {
     requestAnimationFrame(() => requestAnimationFrame(() => {
       if (!expandRef.current) return;
-      const chart  = expandRef.current.querySelector(".see-chart");
-      const legend = expandRef.current.querySelector(".see-legend");
-      if (!chart) return;
       const navH = 76; // sticky nav (68) + a little breathing room
-      const vh = window.innerHeight;
-      const top    = chart.getBoundingClientRect().top + window.scrollY;
-      const bottom = (legend || chart).getBoundingClientRect().bottom + window.scrollY;
-      const regionH = bottom - top;
-      const avail = vh - navH;
-      let targetTop;
-      if (regionH <= avail) {
-        targetTop = top - navH - (avail - regionH) / 2;
-      } else {
-        targetTop = top - navH - 8;
-      }
+      const top = expandRef.current.getBoundingClientRect().top + window.scrollY;
+      const targetTop = top - navH;
       window.scrollTo({ top: Math.max(0, targetTop), behavior: prefersReducedMotion() ? "auto" : "smooth" });
     }));
   }, []);

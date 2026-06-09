@@ -221,11 +221,10 @@ function PriceHero() {
             background: "linear-gradient(to right, rgba(255,255,255,0.04), transparent)"
           }}>
             <p style={{ margin: 0, fontSize: "19px", lineHeight: "1.6", color: "var(--g2)", fontFamily: "var(--ui)", fontWeight: 400 }}>
-              These charts trace that promise across Bangladesh's public finances— 
-              <strong style={{ color: "#fff", fontWeight: 600 }}> how the budget is funded</strong>, where costs like 
-              <strong style={{ color: "#f0c060", fontWeight: 600 }}> subsidies</strong> have quietly ballooned, how much of the proposed spending actually 
-              <strong style={{ color: "#45B7D1", fontWeight: 600 }}> reaches the ground</strong>, and how the country's 
-              <strong style={{ color: "#5fe093", fontWeight: 600 }}> fiscal ambitions</strong> compare to the size of its economy.
+              These charts trace that promise across Bangladesh's public finances— comparing 
+              <strong style={{ color: "#FF6B35", fontWeight: 600 }}> revenue and fiscal ambitions</strong> to the size of the economy, revealing how much of the budget actually 
+              <strong style={{ color: "#45B7D1", fontWeight: 600 }}> reaches the ground</strong>, and highlighting the escalating costs of 
+              <strong style={{ color: "#c084fc", fontWeight: 600 }}> debt, subsidies, and operating expenses</strong>.
             </p>
           </div>
         </div>

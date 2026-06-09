@@ -198,7 +198,7 @@ function GaugesSection() {
           <span className="eyebrow">Promise vs delivery</span>
           <h2>Gap between budget promises & delivery</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            For each fiscal year, the share of the proposed budget that was actually spent. Implementation hovered in the low 80s through the late 2010s; FY11 and FY13 stand out.
+            For each fiscal year, the share of the proposed budget that was actually spent. Implementation hovered in the low 80s through the late 2010s; FY11 and FY12 stand out.
           </p>
         </div>
 
@@ -257,7 +257,7 @@ function SectorHero({ setActive }) {
         </div>
         <h1>Fourteen sectors, <em>one ledger</em></h1>
         <p className="dek">
-          Sector by sector — totals, sub-sector stacks, GDP-share moves, and how much of each fiscal promise was actually delivered.
+          Sector by sector — absolute spending totals, sub-sector breakdowns, and historical shifts in budget and GDP shares.
         </p>
         <div className="page-hero-stats">
           <div className="phs-cell" onClick={() => document.querySelector('.s-sector-grid')?.scrollIntoView({ behavior: 'smooth' })}><div className="l">Sectors tracked</div><div className="n"><CountUp value={SECTORS.length} duration={1000} /></div><div className="s">Since FY09</div></div>

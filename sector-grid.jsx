@@ -199,7 +199,7 @@ function ExpandedSection({ active }) {
     ? n * 34 + 22 + 30
     : Math.round(Math.min(470, Math.max(380, W * 0.36)));
   const pad = isMobile
-    ? { l: 46, r: 60, t: 22, b: 30 }
+    ? { l: 46, r: 110, t: 22, b: 30 }
     : { l: 76, r: 30, t: 54, b: 40 };
   const innerW = W - pad.l - pad.r;
   const innerH = H - pad.t - pad.b;
