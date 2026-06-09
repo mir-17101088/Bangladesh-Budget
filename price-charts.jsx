@@ -138,6 +138,177 @@ function LegendRow({ d, idx, active, setActive, onDrill }) {
   return <div {...common} aria-hidden="false">{inner}</div>;
 }
 
+const TAX_TREND_DATA = [
+  { fy: "FY20", direct: 19.28, indirect: 38.32, total: 422976 },
+  { fy: "FY21", direct: 19.28, indirect: 38.32, total: 453525 },
+  { fy: "FY22", direct: 18.49, indirect: 37.04, total: 520033 },
+  { fy: "FY23", direct: 18.66, indirect: 36.05, total: 574310 },
+  { fy: "FY24", direct: 20.11, indirect: 37.89, total: 611392 },
+  { fy: "FY25", direct: 20.21, indirect: 37.20, total: 628546 },
+];
+
+function TaxTrendChart() {
+  const maxPct = 45; // slightly above 38.32%
+
+  return (
+    <div className="tax-trend-wrap" style={{ marginTop: "56px", paddingTop: "56px", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+      <div className="section-head" style={{ marginBottom: "32px", display: "flex", flexDirection: "column", gap: "12px" }}>
+        <h3 style={{ fontSize: "28px", color: "#fff", margin: 0, fontFamily: "var(--serif)", fontWeight: 600 }}>The burden of indirect taxation remains high</h3>
+        <p className="lede" style={{ fontSize: "18px", maxWidth: "760px", margin: 0, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>
+          Despite a growing budget, the reliance on indirect taxes continues to heavily outweigh taxes on income and profit. This regressive structure disproportionately impacts lower-income citizens.
+        </p>
+      </div>
+
+      <div className="glass" style={{ padding: "40px", position: "relative" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "48px", flexWrap: "wrap", gap: "16px" }}>
+          <div>
+            <div className="cap" style={{ color: "rgba(255,255,255,0.5)", marginBottom: "8px" }}>Tax collection as a % of total expenditure</div>
+          </div>
+          <div style={{ display: "flex", gap: "24px", fontSize: "14px", fontFamily: "var(--ui)", fontWeight: 500 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#FF6B35" }}></div>
+              <span style={{ color: "#fff" }}>Indirect Taxes*</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#3FD3B8" }}></div>
+              <span style={{ color: "#fff" }}>Taxes on income & profit</span>
+            </div>
+          </div>
+        </div>
+
+        {/* --- DESKTOP CHART --- */}
+        <div className="chart-desktop">
+          <div style={{ display: "flex", alignItems: "flex-end", height: "280px", gap: "16px", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "16px" }}>
+            {TAX_TREND_DATA.map((d, i) => {
+              const hInd = (d.indirect / maxPct) * 100;
+              const hDir = (d.direct / maxPct) * 100;
+              const isProposed = d.fy === "FY25";
+
+              return (
+                <div key={d.fy} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", height: "100%", justifyContent: "flex-end", opacity: 0, animation: "fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards", animationDelay: `${i * 100}ms` }}>
+                  
+                  <div style={{ width: "100%", display: "flex", alignItems: "flex-end", justifyContent: "center", gap: "8px", height: "100%", position: "relative" }}>
+                    
+                    {/* Indirect Bar */}
+                    <div style={{ width: "min(40%, 32px)", height: `${hInd}%`, background: isProposed ? "linear-gradient(to top, rgba(255,107,53,0.2), #FF6B35)" : "linear-gradient(to top, rgba(255,107,53,0.1), rgba(255,107,53,0.6))", borderRadius: "6px 6px 0 0", position: "relative", display: "flex", justifyContent: "center", transition: "all 0.3s", boxShadow: isProposed ? "0 0 16px rgba(255,107,53,0.3)" : "none" }} className="hover-bar">
+                      <div className="bar-val indirect-bar-val" style={{ position: "absolute", top: "-28px", fontSize: "14px", fontFamily: "var(--ui)", color: isProposed ? "#FF6B35" : "rgba(255,107,53,0.8)", fontWeight: isProposed ? 700 : 500, opacity: isProposed ? 1 : 0.8 }}>
+                        <CountUp value={d.indirect} decimals={2} duration={1200} />%
+                      </div>
+                    </div>
+
+                    {/* Direct Bar */}
+                    <div style={{ width: "min(40%, 32px)", height: `${hDir}%`, background: isProposed ? "linear-gradient(to top, rgba(63,211,184,0.2), #3FD3B8)" : "linear-gradient(to top, rgba(63,211,184,0.1), rgba(63,211,184,0.6))", borderRadius: "6px 6px 0 0", position: "relative", display: "flex", justifyContent: "center", transition: "all 0.3s", boxShadow: isProposed ? "0 0 16px rgba(63,211,184,0.3)" : "none" }} className="hover-bar">
+                      <div className="bar-val direct-bar-val" style={{ position: "absolute", top: "-28px", fontSize: "14px", fontFamily: "var(--ui)", color: isProposed ? "#3FD3B8" : "rgba(63,211,184,0.8)", fontWeight: isProposed ? 700 : 500, opacity: isProposed ? 1 : 0.8 }}>
+                        <CountUp value={d.direct} decimals={2} duration={1200} />%
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              );
+            })}
+          </div>
+
+          <div style={{ display: "flex", gap: "16px", marginTop: "16px" }}>
+            {TAX_TREND_DATA.map((d, i) => {
+              const isProposed = d.fy === "FY25";
+              return (
+                <div key={d.fy + "-label"} style={{ flex: 1, textAlign: "center" }}>
+                  <div style={{ fontSize: "15px", fontFamily: "var(--ui)", color: isProposed ? "#fff" : "rgba(255,255,255,0.7)", fontWeight: isProposed ? 700 : 500, background: isProposed ? "rgba(255,255,255,0.1)" : "transparent", padding: "4px 8px", borderRadius: "12px", display: "inline-block" }}>{d.fy}</div>
+                  <div style={{ fontSize: "13px", fontFamily: "var(--ui)", color: "rgba(255,255,255,0.5)", marginTop: "12px", lineHeight: 1.4 }}>
+                    <span style={{ color: "rgba(255,255,255,0.4)", display: "block", marginBottom: "2px" }}>Total Exp.</span>
+                    <span style={{ color: isProposed ? "#fff" : "rgba(255,255,255,0.8)", fontWeight: 500 }}>৳{(d.total/100000).toFixed(2)} Lakh</span>
+                    <span style={{ fontSize: "11px", marginLeft: "2px" }}>cr</span>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* --- MOBILE CHART (Horizontal) --- */}
+        <div className="chart-mobile">
+          {TAX_TREND_DATA.map((d, i) => {
+            const wInd = (d.indirect / maxPct) * 100;
+            const wDir = (d.direct / maxPct) * 100;
+            const isProposed = d.fy === "FY25";
+
+            return (
+              <div key={d.fy} style={{ marginBottom: "24px", opacity: 0, animation: "fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards", animationDelay: `${i * 100}ms` }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", alignItems: "baseline" }}>
+                  <span style={{ fontSize: "16px", fontFamily: "var(--ui)", fontWeight: 700, color: isProposed ? "#fff" : "rgba(255,255,255,0.7)", background: isProposed ? "rgba(255,255,255,0.1)" : "transparent", padding: "2px 8px", borderRadius: "8px", marginLeft: "-8px" }}>{d.fy}</span>
+                  <span style={{ fontSize: "13px", fontFamily: "var(--ui)", color: "rgba(255,255,255,0.5)" }}>
+                    Total: <span style={{ color: isProposed ? "#fff" : "rgba(255,255,255,0.8)", fontWeight: 500 }}>৳{(d.total/100000).toFixed(2)} Lakh</span> <span style={{ fontSize: "11px" }}>cr</span>
+                  </span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  
+                  {/* Indirect Bar */}
+                  <div style={{ width: "100%", height: "24px", background: "rgba(255,255,255,0.05)", borderRadius: "4px", position: "relative" }}>
+                    <div style={{ width: `${wInd}%`, height: "100%", background: isProposed ? "linear-gradient(to right, rgba(255,107,53,0.2), #FF6B35)" : "linear-gradient(to right, rgba(255,107,53,0.1), rgba(255,107,53,0.6))", borderRadius: "4px", position: "absolute", left: 0, top: 0, boxShadow: isProposed ? "0 0 16px rgba(255,107,53,0.3)" : "none", transition: "width 0.5s" }} />
+                    <div style={{ position: "absolute", left: `calc(${wInd}% + 8px)`, top: "50%", transform: "translateY(-50%)", fontSize: "13px", fontFamily: "var(--ui)", color: isProposed ? "#FF6B35" : "rgba(255,107,53,0.8)", fontWeight: 700 }}>
+                      <CountUp value={d.indirect} decimals={2} duration={1200} />%
+                    </div>
+                  </div>
+
+                  {/* Direct Bar */}
+                  <div style={{ width: "100%", height: "24px", background: "rgba(255,255,255,0.05)", borderRadius: "4px", position: "relative" }}>
+                    <div style={{ width: `${wDir}%`, height: "100%", background: isProposed ? "linear-gradient(to right, rgba(63,211,184,0.2), #3FD3B8)" : "linear-gradient(to right, rgba(63,211,184,0.1), rgba(63,211,184,0.6))", borderRadius: "4px", position: "absolute", left: 0, top: 0, boxShadow: isProposed ? "0 0 16px rgba(63,211,184,0.3)" : "none", transition: "width 0.5s" }} />
+                    <div style={{ position: "absolute", left: `calc(${wDir}% + 8px)`, top: "50%", transform: "translateY(-50%)", fontSize: "13px", fontFamily: "var(--ui)", color: isProposed ? "#3FD3B8" : "rgba(63,211,184,0.8)", fontWeight: 700 }}>
+                      <CountUp value={d.direct} decimals={2} duration={1200} />%
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{ fontSize: "13px", fontFamily: "var(--ui)", color: "rgba(255,255,255,0.4)", marginTop: "32px", textAlign: "left", fontStyle: "italic" }}>
+          * Indirect taxes include Value Added Taxes, Supplementary Duty and Import Duty
+        </div>
+
+      </div>
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .hover-bar:hover { filter: brightness(1.3); }
+        .chart-desktop { display: block; }
+        .chart-mobile { display: none; }
+        
+        .indirect-bar-val {
+          transform: translateX(-4px);
+        }
+        .direct-bar-val {
+          transform: translateX(4px);
+        }
+        
+        @media (max-width: 900px) and (min-width: 769px) {
+          .indirect-bar-val {
+            transform: translateX(-12px);
+          }
+          .direct-bar-val {
+            transform: translateX(12px);
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .tax-trend-wrap .glass { padding: 32px 24px; }
+          .chart-desktop { display: none !important; }
+          .chart-mobile { display: block !important; }
+        }
+        @media (max-width: 480px) {
+          .tax-trend-wrap .glass { padding: 24px 16px; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 function TaxSection() {
   const TOTAL = RESOURCES_TOTAL_CR;
   const [view, setView] = useStatePC("resources");          // "resources" | drill-key
@@ -297,6 +468,8 @@ function TaxSection() {
             ))}
           </tbody>
         </table>
+
+        <TaxTrendChart />
 
         <RelevantNews items={RELEVANT_NEWS.price_tax} accent="#28B49E" />
       </div>
