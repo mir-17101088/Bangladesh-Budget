@@ -597,7 +597,7 @@ function HomeNewsCard({ n, index }) {
 
   React.useEffect(() => {
     if (n.image || item.image || item.loading || !n.url) return;
-    
+
     setItem(prev => ({ ...prev, loading: true }));
     const eUrl = encodeURIComponent(n.url);
     fetch(`https://api.microlink.io?url=${eUrl}&filter=image,title,publisher,date`)
@@ -687,10 +687,10 @@ function NewsSection() {
             <HomeNewsCard key={i} n={n} index={i} />
           ))}
         </div>
-        
+
         {NEWS.length > 6 && (
           <div style={{ marginTop: 40, textAlign: "center" }}>
-            <button 
+            <button
               onClick={() => setShowCount(showCount >= NEWS.length ? 6 : NEWS.length)}
               style={{
                 fontFamily: "var(--ui)",
@@ -707,14 +707,14 @@ function NewsSection() {
                 letterSpacing: "0.04em",
                 textTransform: "uppercase"
               }}
-              onMouseEnter={(e) => { 
-                e.currentTarget.style.transform = "translateY(-3px)"; 
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-3px)";
                 e.currentTarget.style.boxShadow = "0 12px 32px -8px rgba(1, 133, 198, 0.8), inset 0 1px 1px rgba(255,255,255,0.3)";
                 e.currentTarget.style.filter = "brightness(1.1)";
               }}
-              onMouseLeave={(e) => { 
-                e.currentTarget.style.transform = "none"; 
-                e.currentTarget.style.boxShadow = "0 8px 24px -8px rgba(1, 133, 198, 0.6), inset 0 1px 1px rgba(255,255,255,0.2)"; 
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "none";
+                e.currentTarget.style.boxShadow = "0 8px 24px -8px rgba(1, 133, 198, 0.6), inset 0 1px 1px rgba(255,255,255,0.2)";
                 e.currentTarget.style.filter = "none";
               }}
               onMouseDown={(e) => {
@@ -826,24 +826,25 @@ function Footer() {
     <footer>
       <BackToTop />
       <div className="wrap">
-        <div className="foot-top">
-          <div className="foot-brand">
-            <img src="assets/logo.svg" alt="The Daily Star" />
-            <p>Budget at a Glance is an editorial visualization project from The Daily Star — making fiscal policy legible, year on year.</p>
+        <div className="foot-top" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '40px' }}>
+          <div className="foot-brand" style={{ flex: '1 1 300px', maxWidth: '400px' }}>
+            <a href="https://www.thedailystar.net/" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginBottom: '8px' }}>
+              <img src="assets/logo.svg" alt="The Daily Star" style={{ height: '32px', filter: 'brightness(0) invert(1)' }} />
+            </a>
+            <p style={{ marginTop: '16px', lineHeight: 1.6 }}>Budget at a Glance is an editorial visualization project from The Daily Star — making fiscal policy legible, year on year.</p>
           </div>
-          <div className="foot">
-            <h4>Pages</h4>
-            <ul><li>Home</li><li>Sector Deep Dive</li><li>Budget Realities</li></ul>
+          <div className="foot" style={{ flex: '0 1 auto', minWidth: '200px' }}>
+            <h4 style={{ marginBottom: '20px' }}>Pages</h4>
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <li><a href="Budget at a Glance.html" style={{ display: 'block' }}>Home</a></li>
+              <li><a href="Sector Deep Dive.html" style={{ display: 'block' }}>Sector Deep Dive</a></li>
+              <li><a href="Budget Realities.html" style={{ display: 'block' }}>Budget Realities</a></li>
+            </ul>
           </div>
-          <div className="foot">
-            <h4>Sources</h4>
-            <ul><li>Ministry of Finance</li><li>Bangladesh Bureau of Statistics</li><li>Bangladesh Bank</li><li>Full budget document (PDF)</li></ul>
-          </div>
-
         </div>
-        <div className="foot-bottom">
+        <div className="foot-bottom" style={{ marginTop: '56px', flexWrap: 'wrap', gap: '16px' }}>
           <span>© 2026 The Daily Star · Data via Ministry of Finance, Bangladesh</span>
-          <span>Designed & engineered by The Daily Star</span>
+          <span>Designed & Engineered by The Daily Star</span>
         </div>
       </div>
     </footer>
