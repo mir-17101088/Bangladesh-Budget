@@ -717,12 +717,12 @@
   .gap-legend { flex-direction: column; gap: 12px; margin-bottom: 24px; }
 }
 @media (max-width: 640px) {
-  .gap-tooltip {
+  .gap-tooltip, .gap-tooltip.edge-right {
     position: fixed;
     top: auto !important;
     left: 0 !important;
     bottom: 0 !important;
-    transform: none;
+    transform: none !important;
     width: 100%;
     max-width: 100%;
     min-width: 100%;
@@ -733,14 +733,14 @@
     border-bottom: none;
     border-left: none;
     border-right: none;
-    animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
     box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.1) inset;
   }
   @keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+    from { transform: translateY(100%) !important; }
+    to { transform: translateY(0) !important; }
   }
-  .gap-tooltip::before {
+  .gap-tooltip::before, .gap-tooltip.edge-right::before {
     content: '';
     position: fixed;
     bottom: 100%;
@@ -752,8 +752,8 @@
     pointer-events: none;
     animation: toolFadeIn 0.3s ease;
   }
-  .gap-tooltip::after {
-    display: none; /* Hide the arrow pointer on mobile bottom sheet */
+  .gap-tooltip::after, .gap-tooltip.edge-right::after {
+    display: none !important; /* Hide the arrow pointer on mobile bottom sheet */
   }
   .gap-tooltip-close {
     display: flex;
