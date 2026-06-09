@@ -40,29 +40,7 @@
 
 const { useState: useRN, useEffect: useRNE } = React;
 
-const NEWS_API_URLS = ["/api/news.php", "/api/news"]; // PHP first (traditional hosts), then Node.js (Vercel)
-
-async function fetchRelevantNewsAPI() {
-  for (const url of NEWS_API_URLS) {
-    try {
-      const r = await fetch(url, { headers: { Accept: "application/json" } });
-      console.log(`[relevant-news] ${url} status:`, r.status);
-      if (r.ok) {
-        const text = await r.text();
-        try {
-          const j = JSON.parse(text);
-          if (j && j.data) return j.data;
-          console.log(`[relevant-news] ${url} ok but no .data:`, j);
-        } catch (pe) {
-          console.log(`[relevant-news] ${url} JSON parse error, response was:`, text.slice(0, 200));
-        }
-      }
-    } catch (e) {
-      console.log(`[relevant-news] ${url} fetch error:`, e.message);
-    }
-  }
-  return [];
-}
+const NEWS_API_URL = "/api/news";
 
 const RELEVANT_NEWS = {
   // Fallback: replaced at runtime when API data loads successfully.
@@ -128,10 +106,11 @@ function applyApiNewsToSections(rawList) {
   if (items.length === 0) return;
 
   const buckets = {
-    taka: items.slice(0, 3),          // first 3
-    gdp: items.slice(3, 4),           // then 1
-    debt: items.slice(4, 5),          // then 1
-    sector_gauges: items.slice(5, 6), // last 1
+    taka: items.slice(0, 2),          // 2 items
+    gdp: items.slice(2, 4),           // 2 items
+    sector_gauges: items.slice(4, 6), // 2 items
+    sector_grid: items.slice(6, 8),   // 2 items
+    dev_op: items.slice(8, 10),       // 2 items
   };
 
   Object.keys(buckets).forEach((k) => {
@@ -143,10 +122,17 @@ function applyApiNewsToSections(rawList) {
 }
 
 function loadRelevantNews() {
-  console.log("[relevant-news] loadRelevantNews() called");
-  fetchRelevantNewsAPI()
-    .then((list) => {
-      console.log("[relevant-news] API response items:", list.length);
+  console.log("[relevant-news] fetching from", NEWS_API_URL);
+  fetch(NEWS_API_URL, { headers: { Accept: "application/json" } })
+    .then((r) => {
+      console.log("[relevant-news] response status:", r.status, r.ok);
+      if (!r.ok) throw new Error("News proxy request failed: " + r.status);
+      return r.json();
+    })
+    .then((j) => {
+      console.log("[relevant-news] API response:", j);
+      const list = Array.isArray(j && j.data) ? j.data : [];
+      console.log("[relevant-news] items to distribute:", list.length);
       applyApiNewsToSections(list);
     })
     .catch((e) => {
@@ -154,13 +140,7 @@ function loadRelevantNews() {
     });
 }
 
-// Force immediate execution
-(function() {
-  if (typeof window !== 'undefined') {
-    console.log("[relevant-news] module loaded, calling loadRelevantNews");
-    loadRelevantNews();
-  }
-})();
+loadRelevantNews();
 
 /* ── helpers ─────────────────────────────────────────────── */
 const RELNEWS_CACHE = new Map();

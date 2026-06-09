@@ -238,29 +238,7 @@ const NEWS = [
 /* ============================================================
    NEWS FEED — Load from API and replace static fallback
 ============================================================ */
-const NEWS_FEED_API_URLS = ["/api/news.php", "/api/news"]; // PHP first (traditional hosts), then Node.js (Vercel)
-
-async function fetchNewsFeedAPI() {
-  for (const url of NEWS_FEED_API_URLS) {
-    try {
-      const r = await fetch(url, { headers: { Accept: "application/json" } });
-      console.log(`[app-data] ${url} status:`, r.status);
-      if (r.ok) {
-        const text = await r.text();
-        try {
-          const j = JSON.parse(text);
-          if (j && j.data) return j.data;
-          console.log(`[app-data] ${url} ok but no .data:`, j);
-        } catch (pe) {
-          console.log(`[app-data] ${url} JSON parse error, response was:`, text.slice(0, 200));
-        }
-      }
-    } catch (e) {
-      console.log(`[app-data] ${url} fetch error:`, e.message);
-    }
-  }
-  return [];
-}
+const NEWS_FEED_API_URL = "/api/news";
 
 function mapFeedItem(n, index) {
   const colors = ["#0185C6", "#B0832B", "#019933", "#7D0066", "#C60001", "#45B7D1"];
@@ -275,7 +253,7 @@ function mapFeedItem(n, index) {
     ];
     return pairs[index % pairs.length];
   })();
-  const mapped = {
+  return {
     tag: n.category || "NEWS",
     tagColor: colors[index % colors.length],
     c1,
@@ -288,23 +266,24 @@ function mapFeedItem(n, index) {
     url: n.link_url || "",
     image: n.image_landscape || n.image_url || null,
   };
-  if (index === 0) console.log("[app-data] mapFeedItem[0] raw:", n);
-  if (index === 0) console.log("[app-data] mapFeedItem[0] mapped:", mapped);
-  return mapped;
 }
 
 function loadNewsFeedRemainder() {
-  console.log("[app-data] loadNewsFeedRemainder() called");
-  fetchNewsFeedAPI()
-    .then((items) => {
-      console.log("[app-data] API response items:", items.length);
+  console.log("[app-data] fetching news feed from", NEWS_FEED_API_URL);
+  fetch(NEWS_FEED_API_URL, { headers: { Accept: "application/json" } })
+    .then((r) => {
+      console.log("[app-data] response status:", r.status, r.ok);
+      if (!r.ok) throw new Error("News feed request failed: " + r.status);
+      return r.json();
+    })
+    .then((j) => {
+      console.log("[app-data] API response:", j);
+      const items = Array.isArray(j && j.data) ? j.data : [];
       const remainder = items.slice(5);
-      console.log("[app-data] remainder from index 5:", remainder.length);
+      console.log("[app-data] total items:", items.length, "remainder from index 5:", remainder.length);
       if (remainder.length === 0) return;
       const mapped = remainder.map((n, i) => mapFeedItem(n, i));
       NEWS.splice(0, NEWS.length, ...mapped);
-      console.log("[app-data] NEWS array after update:", window.NEWS);
-      console.log("[app-data] NEWS[0]:", window.NEWS[0]);
       window.dispatchEvent(new Event("news-feed:updated"));
     })
     .catch((e) => {
@@ -312,13 +291,7 @@ function loadNewsFeedRemainder() {
     });
 }
 
-// Force immediate execution
-(function() {
-  if (typeof window !== 'undefined') {
-    console.log("[app-data] module loaded, calling loadNewsFeedRemainder");
-    loadNewsFeedRemainder();
-  }
-})();
+loadNewsFeedRemainder();
 
 /* ============================================================
    LAUNCH FLAG — flip to false once FY27 budget data is entered.

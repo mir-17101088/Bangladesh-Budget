@@ -587,6 +587,77 @@ function Stat({ label, big, sub }) {
   );
 }
 
+function HomeNewsCard({ n, index }) {
+  const [item, setItem] = React.useState({ ...n });
+
+  React.useEffect(() => {
+    // If the API feed has changed, resync item state
+    setItem({ ...n });
+  }, [n]);
+
+  React.useEffect(() => {
+    if (n.image || item.image || item.loading || !n.url) return;
+    
+    setItem(prev => ({ ...prev, loading: true }));
+    const eUrl = encodeURIComponent(n.url);
+    fetch(`https://api.microlink.io?url=${eUrl}&filter=image,title,publisher,date`)
+      .then(r => r.json())
+      .then(res => {
+        if (res.status === "success" && res.data) {
+          const fetchedImage = res.data.image?.url;
+          setItem(prev => ({
+            ...prev,
+            image: fetchedImage || prev.image,
+            loading: false
+          }));
+        } else {
+          setItem(prev => ({ ...prev, loading: false }));
+        }
+      })
+      .catch(e => {
+        setItem(prev => ({ ...prev, loading: false }));
+      });
+  }, [n.url, n.image, item.image, item.loading]);
+
+  const cardContent = (
+    <>
+      <div className="news-thumb" style={{ "--c1": item.c1, "--c2": item.c2 }}>
+        {item.image ? (
+          <img src={item.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} />
+        ) : (
+          <>
+            <div className="news-thumb-shape"></div>
+            <div className="news-thumb-shape two"></div>
+            <span style={{ fontFamily: "var(--serif)", fontSize: 72, color: "rgba(255,255,255,0.18)", fontStyle: "italic", position: "relative" }}>{index + 1}</span>
+          </>
+        )}
+      </div>
+      <div className="news-body">
+        <div className="news-meta">
+          <span className="news-tag" style={{ "--tag": item.tagColor }}>{item.tag}</span>
+          <span className="news-date">{item.date}</span>
+        </div>
+        <div className="news-headline">{item.headline}</div>
+        <div className="news-dek">{item.dek}</div>
+        <div className="news-author">
+          <span>By {item.author}</span>
+          <span>{item.read}</span>
+        </div>
+      </div>
+    </>
+  );
+
+  return item.url ? (
+    <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit", display: "block" }} className="news-card glass">
+      {cardContent}
+    </a>
+  ) : (
+    <article className="news-card glass">
+      {cardContent}
+    </article>
+  );
+}
+
 /* ============================================================
    NEWS FEED
 ============================================================ */
@@ -612,51 +683,9 @@ function NewsSection() {
         </div>
 
         <div className="news-grid">
-          {NEWS.slice(0, showCount).map((n, i) => {
-            const cardContent = (
-              <>
-                <div className="news-thumb" style={{ "--c1": n.c1, "--c2": n.c2 }}>
-                  {n.image ? (
-                    <img src={n.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} />
-                  ) : (
-                    <>
-                      <div className="news-thumb-shape"></div>
-                      <div className="news-thumb-shape two"></div>
-                      <span style={{ fontFamily: "var(--serif)", fontSize: 72, color: "rgba(255,255,255,0.18)", fontStyle: "italic", position: "relative" }}>{i + 1}</span>
-                    </>
-                  )}
-                </div>
-                <div className="news-body">
-                  <div className="news-meta">
-                    <span className="news-tag" style={{ "--tag": n.tagColor }}>{n.tag}</span>
-                    <span className="news-date">{n.date}</span>
-                  </div>
-                  <div className="news-headline">{n.headline}</div>
-                  <div className="news-dek">{n.dek}</div>
-                  <div className="news-author">
-                    <span>By {n.author}</span>
-                    <span>{n.read}</span>
-                  </div>
-                </div>
-              </>
-            );
-            return n.url ? (
-              <a
-                key={i}
-                href={n.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ textDecoration: "none", color: "inherit", display: "block" }}
-                className="news-card glass"
-              >
-                {cardContent}
-              </a>
-            ) : (
-              <article key={i} className="news-card glass">
-                {cardContent}
-              </article>
-            );
-          })}
+          {NEWS.slice(0, showCount).map((n, i) => (
+            <HomeNewsCard key={i} n={n} index={i} />
+          ))}
         </div>
         
         {NEWS.length > 6 && (
