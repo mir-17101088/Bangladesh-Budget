@@ -95,7 +95,7 @@ function copyStaticPlugin() {
     name: "copy-static-assets",
     closeBundle() {
       const out = resolve(ROOT, "dist");
-      for (const dir of ["assets", "news-images"]) {
+      for (const dir of ["assets", "news-images", "api"]) {
         const src = resolve(ROOT, dir);
         if (existsSync(src)) cpSync(src, resolve(out, dir), { recursive: true });
       }
