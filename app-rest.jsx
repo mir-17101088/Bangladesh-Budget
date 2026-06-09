@@ -616,9 +616,15 @@ function NewsSection() {
             const cardContent = (
               <>
                 <div className="news-thumb" style={{ "--c1": n.c1, "--c2": n.c2 }}>
-                  <div className="news-thumb-shape"></div>
-                  <div className="news-thumb-shape two"></div>
-                  <span style={{ fontFamily: "var(--serif)", fontSize: 72, color: "rgba(255,255,255,0.18)", fontStyle: "italic", position: "relative" }}>{i + 1}</span>
+                  {n.image ? (
+                    <img src={n.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} />
+                  ) : (
+                    <>
+                      <div className="news-thumb-shape"></div>
+                      <div className="news-thumb-shape two"></div>
+                      <span style={{ fontFamily: "var(--serif)", fontSize: 72, color: "rgba(255,255,255,0.18)", fontStyle: "italic", position: "relative" }}>{i + 1}</span>
+                    </>
+                  )}
                 </div>
                 <div className="news-body">
                   <div className="news-meta">
