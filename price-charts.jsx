@@ -591,6 +591,8 @@ function DevOpGapSection() {
             </svg>
           </div>
         </div>
+
+        <RelevantNews items={RELEVANT_NEWS.dev_op} accent="#45B7D1" />
       </div>
     </section>
   );

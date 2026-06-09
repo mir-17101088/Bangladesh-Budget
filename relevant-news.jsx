@@ -79,6 +79,7 @@ const RELEVANT_NEWS = {
   price_tax: [],
   price_subsidy: [],
   price_calc: [],
+  dev_op: [],
 
   sector_grid: [],
   sector_heatmap: [],
@@ -105,10 +106,11 @@ function applyApiNewsToSections(rawList) {
   if (items.length === 0) return;
 
   const buckets = {
-    taka: items.slice(0, 3),          // first 3
-    gdp: items.slice(3, 4),           // then 1
-    debt: items.slice(4, 5),          // then 1
-    sector_gauges: items.slice(5, 6), // last 1
+    taka: items.slice(0, 2),          // 2 items
+    gdp: items.slice(2, 4),           // 2 items
+    sector_gauges: items.slice(4, 6), // 2 items
+    sector_grid: items.slice(6, 8),   // 2 items
+    dev_op: items.slice(8, 10),       // 2 items
   };
 
   Object.keys(buckets).forEach((k) => {

@@ -562,7 +562,6 @@ function DebtSection() {
           </div>
         </div>
 
-        <RelevantNews items={RELEVANT_NEWS.debt} accent="#c084fc" />
       </div>
     </section>
   );

@@ -495,7 +495,7 @@
 ═══════════════════════════════════════════════════════════ */
 .relnews {
   --accent: #0185C6;
-  max-width: 920px;
+  max-width: 1080px;
   margin: 56px auto 0;
   padding-top: 30px;
   border-top: 1px solid rgba(255, 255, 255, 0.10);
@@ -561,7 +561,7 @@
 .relnews-grid {
   display: grid;
   gap: 18px;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
 }
 
 /* single article → compact, premium feature card (not full-bleed) */
@@ -593,7 +593,8 @@
 /* the card itself */
 .relnews-card {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: stretch;
   background:
     linear-gradient(160deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.025) 60%, rgba(255, 255, 255, 0.012) 100%),
     var(--glass-tint);
@@ -645,7 +646,9 @@
 }
 
 .relnews-thumb {
-  aspect-ratio: 16 / 9;
+  width: 220px;
+  flex: none;
+  align-self: stretch;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -825,19 +828,23 @@
     grid-template-columns: 1fr;
   }
 
+  .relnews-card,
   .relnews.one .relnews-card {
     flex-direction: column;
   }
 
+  .relnews-thumb,
   .relnews.one .relnews-thumb {
     width: 100%;
     aspect-ratio: 16 / 9;
   }
 
+  .relnews-body,
   .relnews.one .relnews-body {
     padding: 18px 20px 20px;
   }
 
+  .relnews-title,
   .relnews.one .relnews-title {
     font-size: 20px;
   }
