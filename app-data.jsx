@@ -524,7 +524,7 @@ function PreLaunchHero() {
           <div className="pl-stat-div" style={{ margin: "0 auto" }}></div>
           <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center", textAlign: "center" }}>
             <span style={{ fontFamily: "var(--ui)", fontSize: "clamp(6.5px, 2.2vw, 10px)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--eyebrow)" }}>FY26</span>
-            <span style={{ fontFamily: "var(--serif)", fontSize: "clamp(14px, 4.5vw, 32px)", color: "#6fc7ee", lineHeight: 1 }}>৳7,90,000<span style={{ fontSize: "clamp(9px, 2.5vw, 14px)", color: "rgba(111,199,238,0.7)", marginLeft: "4px" }}>cr</span></span>
+            <span style={{ fontFamily: "var(--serif)", fontSize: "clamp(14px, 4.5vw, 32px)", color: "#6fc7ee", lineHeight: 1 }}>৳790,000<span style={{ fontSize: "clamp(9px, 2.5vw, 14px)", color: "rgba(111,199,238,0.7)", marginLeft: "4px" }}>cr</span></span>
           </div>
           <div className="pl-stat-div" style={{ margin: "0 auto" }}></div>
           <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center", textAlign: "center" }}>
