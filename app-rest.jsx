@@ -593,6 +593,7 @@ function Stat({ label, big, sub }) {
 ============================================================ */
 function NewsSection() {
   const [, force] = React.useState(0);
+  const [showCount, setShowCount] = React.useState(6);
 
   React.useEffect(() => {
     const onUpdate = () => force((v) => v + 1);
@@ -608,11 +609,11 @@ function NewsSection() {
             <span className="eyebrow">From the newsroom</span>
             <h2 style={{ marginTop: 16 }}>Latest Budget Coverage</h2>
           </div>
-          <a style={{ fontFamily: "var(--ui)", fontSize: 13, color: "#6fc7ee", letterSpacing: "0.04em", borderBottom: "1px solid #6fc7ee", paddingBottom: 4, cursor: "pointer" }}>All Budget {BUDGET.proposed} stories →</a>
+          <a href="https://www.thedailystar.net/business/bangladesh-budget-2026-27" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "var(--ui)", fontSize: 13, color: "#6fc7ee", letterSpacing: "0.04em", borderBottom: "1px solid #6fc7ee", paddingBottom: 4, cursor: "pointer", textDecoration: "none" }}>All Budget {BUDGET.proposed} stories →</a>
         </div>
 
         <div className="news-grid">
-          {NEWS.map((n, i) => {
+          {NEWS.slice(0, showCount).map((n, i) => {
             const cardContent = (
               <>
                 <div className="news-thumb" style={{ "--c1": n.c1, "--c2": n.c2 }}>
@@ -652,6 +653,47 @@ function NewsSection() {
             );
           })}
         </div>
+        
+        {NEWS.length > 6 && (
+          <div style={{ marginTop: 40, textAlign: "center" }}>
+            <button 
+              onClick={() => setShowCount(showCount >= NEWS.length ? 6 : NEWS.length)}
+              style={{
+                fontFamily: "var(--ui)",
+                fontSize: 14,
+                fontWeight: 600,
+                color: "#fff",
+                background: "linear-gradient(135deg, #0185C6, #005A8C)",
+                border: "1px solid rgba(1, 133, 198, 0.4)",
+                borderRadius: 999,
+                padding: "14px 36px",
+                cursor: "pointer",
+                boxShadow: "0 8px 24px -8px rgba(1, 133, 198, 0.6), inset 0 1px 1px rgba(255,255,255,0.2)",
+                transition: "all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)",
+                letterSpacing: "0.04em",
+                textTransform: "uppercase"
+              }}
+              onMouseEnter={(e) => { 
+                e.currentTarget.style.transform = "translateY(-3px)"; 
+                e.currentTarget.style.boxShadow = "0 12px 32px -8px rgba(1, 133, 198, 0.8), inset 0 1px 1px rgba(255,255,255,0.3)";
+                e.currentTarget.style.filter = "brightness(1.1)";
+              }}
+              onMouseLeave={(e) => { 
+                e.currentTarget.style.transform = "none"; 
+                e.currentTarget.style.boxShadow = "0 8px 24px -8px rgba(1, 133, 198, 0.6), inset 0 1px 1px rgba(255,255,255,0.2)"; 
+                e.currentTarget.style.filter = "none";
+              }}
+              onMouseDown={(e) => {
+                e.currentTarget.style.transform = "translateY(1px)";
+              }}
+              onMouseUp={(e) => {
+                e.currentTarget.style.transform = "translateY(-3px)";
+              }}
+            >
+              {showCount >= NEWS.length ? "Show less" : "Show more"}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
