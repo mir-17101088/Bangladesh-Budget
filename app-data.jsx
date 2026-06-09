@@ -244,12 +244,19 @@ async function fetchNewsFeedAPI() {
   for (const url of NEWS_FEED_API_URLS) {
     try {
       const r = await fetch(url, { headers: { Accept: "application/json" } });
+      console.log(`[app-data] ${url} status:`, r.status);
       if (r.ok) {
-        const j = await r.json();
-        if (j && j.data) return j.data;
+        const text = await r.text();
+        try {
+          const j = JSON.parse(text);
+          if (j && j.data) return j.data;
+          console.log(`[app-data] ${url} ok but no .data:`, j);
+        } catch (pe) {
+          console.log(`[app-data] ${url} JSON parse error, response was:`, text.slice(0, 200));
+        }
       }
     } catch (e) {
-      console.log(`[app-data] ${url} failed, trying next endpoint`);
+      console.log(`[app-data] ${url} fetch error:`, e.message);
     }
   }
   return [];

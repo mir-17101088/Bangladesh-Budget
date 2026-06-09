@@ -46,12 +46,19 @@ async function fetchRelevantNewsAPI() {
   for (const url of NEWS_API_URLS) {
     try {
       const r = await fetch(url, { headers: { Accept: "application/json" } });
+      console.log(`[relevant-news] ${url} status:`, r.status);
       if (r.ok) {
-        const j = await r.json();
-        if (j && j.data) return j.data;
+        const text = await r.text();
+        try {
+          const j = JSON.parse(text);
+          if (j && j.data) return j.data;
+          console.log(`[relevant-news] ${url} ok but no .data:`, j);
+        } catch (pe) {
+          console.log(`[relevant-news] ${url} JSON parse error, response was:`, text.slice(0, 200));
+        }
       }
     } catch (e) {
-      console.log(`[relevant-news] ${url} failed, trying next endpoint`);
+      console.log(`[relevant-news] ${url} fetch error:`, e.message);
     }
   }
   return [];
