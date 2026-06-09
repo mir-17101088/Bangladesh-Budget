@@ -193,7 +193,8 @@ function TaxSection() {
           <p className="lede" style={{ marginTop: 18, maxWidth: 760 }}>
             Most of the {PRICE_FY_SPAN} budget is self-financed: the state earns roughly seven taka of every ten
             it spends — tax revenue alone is <strong style={{ color: "#fff", fontWeight: 600 }}>63.2%</strong>.
-            The rest is borrowed. Tap <em style={{ fontStyle: "italic", color: "#3FD3B8" }}>Tax Revenue (NBR)</em> to see how the taxman raises his share.
+            But how fair is our tax system? Bangladesh's tax system leans heavily on indirect taxes — VAT, supplementary duty, and customs duty — which everyone pays regardless of income. 
+            That hits lower-income households hardest. While taxation is meant to promote equity, direct taxes account for only a third of Bangladesh’s total revenue. Tap <em style={{ fontStyle: "italic", color: "#3FD3B8" }}>Tax Revenue (NBR)</em> to see how regressive taxes fund the country.
           </p>
         </div>
 
