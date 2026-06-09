@@ -433,7 +433,7 @@ function GDPSection() {
               <div style={{ fontFamily: "var(--ui)", fontSize: 11, color: "#8B939F", margin: "8px 0", letterSpacing: "0.2em" }}>↓ {GDP_DATA.length - 1} YEARS</div>
               <div className="big"><CountUp value={last.pct} decimals={1} suffix="%" duration={1500} /></div>
               <div style={{ fontFamily: "var(--ui)", fontSize: 11, color: "#B0B5BE", marginTop: 8, letterSpacing: "0.1em" }}>{last.fy} · OF GDP</div>
-              <div className="arrow">+<CountUp value={last.pct - fy09.pct} decimals={1} /> pp · +<CountUp value={((last.pct - fy09.pct) / fy09.pct) * 100} decimals={0} />%</div>
+
             </div>
             <div style={{ paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)", marginTop: 24 }}>
               <span className="body" style={{ fontStyle: "italic" }}>
