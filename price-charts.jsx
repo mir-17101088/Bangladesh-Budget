@@ -594,4 +594,99 @@ function DevOpGapSection() {
   );
 }
 
-Object.assign(window, { ResourceDonut, LegendRow, TaxSection, SubsidySection, BudgetGdpRatioSection, DevOpGapSection });
+/* ============================================================
+   TAX REVENUE RATIO SECTION
+============================================================ */
+const TAX_REVENUE_RATIO_DATA = [
+  //{ country: "Solomon Islands", pct: 32.72, color: "rgba(255,255,255,0.4)" },
+  { country: "Bhutan", pct: 26.97, color: "rgba(255,255,255,0.4)" },
+  { country: "Philippines", pct: 21.16, color: "rgba(255,255,255,0.4)" },
+  { country: "India", pct: 20.48, color: "rgba(255,255,255,0.4)" },
+  { country: "Senegal", pct: 20.13, color: "rgba(255,255,255,0.4)" },
+  { country: "Cambodia", pct: 14.58, color: "rgba(255,255,255,0.4)" },
+  { country: "Indonesia", pct: 14.55, color: "rgba(255,255,255,0.4)" },
+  { country: "Sri Lanka", pct: 13.68, color: "rgba(255,255,255,0.4)" },
+  { country: "Pakistan", pct: 12.67, color: "rgba(255,255,255,0.4)" },
+  { country: "Bangladesh", pct: 8.34, color: "#FF6B35", isBd: true }
+];
+
+function TaxRevenueRatioSection() {
+  // Use the data and max value (Bhutan is highest at ~27, so max 30 is good)
+  const data = TAX_REVENUE_RATIO_DATA;
+  const max = 30; 
+  const bdColor = "#00E5FF";
+
+  return (
+    <section className="s s-tax-ratio" data-screen-label="04c Tax Revenue Ratio" style={{ position: "relative" }}>
+      {/* Subtle background glow effect behind the section */}
+      <div style={{ position: "absolute", top: "50%", right: "10%", width: "40vw", height: "40vw", background: "radial-gradient(circle, rgba(0,229,255,0.05) 0%, rgba(0,0,0,0) 70%)", transform: "translateY(-50%)", pointerEvents: "none", zIndex: 0 }}></div>
+
+      <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
+        <div className="split2" style={{ alignItems: "center" }}>
+          <div className="section-head" style={{ marginBottom: 0 }}>
+            <span className="eyebrow" style={{ color: bdColor }}>Revenue Generation</span>
+            <h2>Bangladesh collects far less than its peers</h2>
+            <p className="lede" style={{ marginTop: 18, maxWidth: "100%" }}>
+              Government budgets are meant to be funded by tax revenue — but at 8.34% of GDP, Bangladesh collects far less than its peers. The average among comparable countries is nearly double, leaving the budget chronically dependent on borrowing from domestic and external creditors.
+            </p>
+          </div>
+
+          <div className="tax-chart-wrap" style={{ padding: "40px 24px", background: "linear-gradient(145deg, rgba(20,25,30,0.8) 0%, rgba(10,15,20,0.95) 100%)", border: "1px solid rgba(0,229,255,0.1)", borderRadius: "24px", boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)" }}>
+            <div className="cap" style={{ marginBottom: 40, textAlign: "center", color: "rgba(255,255,255,0.7)" }}>Govt. Revenue to GDP Ratio (%)</div>
+            
+            <div className="tax-dom-chart" style={{ position: "relative", height: "240px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", margin: "0 10px" }}>
+              
+              {/* Grid lines */}
+              {[0, 0.25, 0.5, 0.75, 1].map(pct => (
+                <div key={pct} style={{ position: "absolute", left: "-10px", right: "-10px", bottom: `${pct * 100}%`, borderBottom: "1px dashed rgba(255,255,255,0.1)", zIndex: 0 }}></div>
+              ))}
+
+              {/* Columns */}
+              {data.map((d, i) => {
+                if (!d) return null; // Safe guard
+                const isBd = d.country === "Bangladesh";
+                const barH = (d.pct / max) * 100;
+                
+                return (
+                  <div key={d.country} style={{ display: "flex", flexDirection: "column", alignItems: "center", zIndex: 1, flex: 1, position: "relative", height: "100%", justifyContent: "flex-end", animation: "colGrowDom 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards", animationDelay: `${i * 80}ms`, opacity: 0 }}>
+                    
+                    <div style={{ fontFamily: "var(--serif)", fontSize: isBd ? "16px" : "13px", fontWeight: isBd ? 700 : 500, color: isBd ? bdColor : "#fff", marginBottom: "8px", textAlign: "center", whiteSpace: "nowrap" }}>
+                      <CountUp value={d.pct} decimals={2} duration={1200} />%
+                    </div>
+                    
+                    <div style={{ width: "min(100%, 32px)", height: `${barH}%`, background: isBd ? `linear-gradient(to top, rgba(0,229,255,0.1), ${bdColor})` : "linear-gradient(to top, rgba(255,255,255,0.05), rgba(255,255,255,0.3))", borderRadius: "4px 4px 0 0", boxShadow: isBd ? "0 0 10px rgba(0,229,255,0.3)" : "none" }}></div>
+                    
+                    <div style={{ position: "absolute", top: "100%", right: "50%", marginTop: "12px", transform: "rotate(-45deg)", transformOrigin: "top right", whiteSpace: "nowrap", fontFamily: "var(--ui)", fontSize: "12px", color: isBd ? "#fff" : "rgba(255,255,255,0.6)", fontWeight: isBd ? 700 : 400 }}>
+                      {d.country}
+                    </div>
+                    
+                  </div>
+                );
+              })}
+            </div>
+            {/* Spacer for the rotated labels below the chart */}
+            <div style={{ height: "90px" }}></div>
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @keyframes colGrowDom {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 640px) {
+          .s-tax-ratio .split2 {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+          }
+          .s-tax-ratio .tax-chart-wrap {
+            padding: 32px 16px !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+Object.assign(window, { ResourceDonut, LegendRow, TaxSection, SubsidySection, BudgetGdpRatioSection, DevOpGapSection, TaxRevenueRatioSection });
