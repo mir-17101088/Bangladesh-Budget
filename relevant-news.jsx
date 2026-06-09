@@ -122,10 +122,16 @@ function mapApiNewsItem(n) {
 
 function applyApiNewsToSections(rawList) {
   const items = (Array.isArray(rawList) ? rawList : [])
-    .map(mapApiNewsItem)loadRelevantNews() called");
-  fetchRelevantNewsAPI()
-    .then((list) => {
-      console.log("[relevant-news] API response items
+    .map(mapApiNewsItem)
+    .filter((x) => x.url);
+
+  if (items.length === 0) return;
+
+  const buckets = {
+    taka: items.slice(0, 3),          // first 3
+    gdp: items.slice(3, 4),           // then 1
+    debt: items.slice(4, 5),          // then 1
+    sector_gauges: items.slice(5, 6), // last 1
   };
 
   Object.keys(buckets).forEach((k) => {
@@ -137,17 +143,10 @@ function applyApiNewsToSections(rawList) {
 }
 
 function loadRelevantNews() {
-  console.log("[relevant-news] fetching from", NEWS_API_URL);
-  fetch(NEWS_API_URL, { headers: { Accept: "application/json" } })
-    .then((r) => {
-      console.log("[relevant-news] response status:", r.status, r.ok);
-      if (!r.ok) throw new Error("News proxy request failed: " + r.status);
-      return r.json();
-    })
-    .then((j) => {
-      console.log("[relevant-news] API response:", j);
-      const list = Array.isArray(j && j.data) ? j.data : [];
-      console.log("[relevant-news] items to distribute:", list.length);
+  console.log("[relevant-news] loadRelevantNews() called");
+  fetchRelevantNewsAPI()
+    .then((list) => {
+      console.log("[relevant-news] API response items:", list.length);
       applyApiNewsToSections(list);
     })
     .catch((e) => {
@@ -155,7 +154,13 @@ function loadRelevantNews() {
     });
 }
 
-loadRelevantNews();
+// Force immediate execution
+(function() {
+  if (typeof window !== 'undefined') {
+    console.log("[relevant-news] module loaded, calling loadRelevantNews");
+    loadRelevantNews();
+  }
+})();
 
 /* ── helpers ─────────────────────────────────────────────── */
 const RELNEWS_CACHE = new Map();
