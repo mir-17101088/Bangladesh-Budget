@@ -509,16 +509,16 @@ const _gdpRaw = {
     FY18: { total: 27862, pct: 1.24 }, FY19: { total: 33004, pct: 1.30 }, FY20: { total: 39291, pct: 1.41 },
     FY21: { total: 56581, pct: 1.78 }, FY22: { total: 75511, pct: 1.90 }, FY23: { total: 89707, pct: 2.02 },
     FY24: { total: 98662, pct: 1.97 },
-    FY25: { total: 188450, pct: 3.42 }, FY26: { total: 186088, pct: 2.10 },
+    FY25: { total: 188450, pct: 3.39 }, FY26: { total: 186088, pct: 2.98 },
   },
   localgov: {
     FY09: { total: 6897, pct: 1.12 }, FY10: { total: 8460, pct: 1.23 }, FY11: { total: 10206, pct: 1.30 },
     FY12: { total: 11050, pct: 1.21 }, FY13: { total: 14147, pct: 1.36 }, FY14: { total: 14466, pct: 1.22 },
     FY15: { total: 17831, pct: 1.18 }, FY16: { total: 18593, pct: 1.08 }, FY17: { total: 17913, pct: 0.92 },
     FY18: { total: 21573, pct: 0.96 }, FY19: { total: 31491, pct: 1.24 }, FY20: { total: 32390, pct: 1.16 },
-    FY21: { total: 35484, pct: 1.12 }, FY22: { total: 36944, pct: 0.93 }, FY23: { total: 41116, pct: 0.93 },
+    FY21: { total: 35484, pct: 1.12 }, FY22: { total: 36944, pct: 0.93 }, FY23: { total: 41116, pct: 0.92 },
     FY24: { total: 44500, pct: 0.89 },
-    FY25: { total: 44770, pct: 0.81 }, FY26: { total: 44895, pct: 0.93 },
+    FY25: { total: 44770, pct: 0.81 }, FY26: { total: 44895, pct: 0.72 },
   },
   defence: {
     FY09: { total: 6260, pct: 1.02 }, FY10: { total: 8759, pct: 1.27 }, FY11: { total: 11124, pct: 1.41 },
@@ -527,7 +527,7 @@ const _gdpRaw = {
     FY18: { total: 21146, pct: 0.94 }, FY19: { total: 29989, pct: 1.18 }, FY20: { total: 34480, pct: 1.23 },
     FY21: { total: 35463, pct: 1.12 }, FY22: { total: 35270, pct: 0.89 }, FY23: { total: 31624, pct: 0.71 },
     FY24: { total: 34848, pct: 0.70 },
-    FY25: { total: 39239, pct: 0.71 }, FY26: { total: 40698, pct: 0.48 },
+    FY25: { total: 39239, pct: 0.71 }, FY26: { total: 40698, pct: 0.65 },
   },
   order: {
     FY09: { total: 5684, pct: 0.92 }, FY10: { total: 6582, pct: 0.95 }, FY11: { total: 7815, pct: 0.99 },
@@ -535,8 +535,8 @@ const _gdpRaw = {
     FY15: { total: 13158, pct: 0.87 }, FY16: { total: 16452, pct: 0.95 }, FY17: { total: 19686, pct: 1.01 },
     FY18: { total: 22052, pct: 0.99 }, FY19: { total: 27022, pct: 1.07 }, FY20: { total: 23430, pct: 0.84 },
     FY21: { total: 24414, pct: 0.77 }, FY22: { total: 26195, pct: 0.66 }, FY23: { total: 25793, pct: 0.58 },
-    FY24: { total: 25940, pct: 0.52 },
-    FY25: { total: 31711, pct: 0.58 }, FY26: { total: 33542, pct: 0.70 },
+    FY24: { total: 28698., pct: 0.57 },
+    FY25: { total: 31721, pct: 0.56 }, FY26: { total: 33542, pct: 0.54 },
   },
   education: {
     FY09: { total: 12098, pct: 1.97 }, FY10: { total: 15904, pct: 2.30 }, FY11: { total: 18803, pct: 2.39 },
@@ -545,7 +545,7 @@ const _gdpRaw = {
     FY18: { total: 47572, pct: 2.13 }, FY19: { total: 63242, pct: 2.49 }, FY20: { total: 65967, pct: 2.36 },
     FY21: { total: 71925, pct: 2.27 }, FY22: { total: 77143, pct: 1.94 }, FY23: { total: 75429, pct: 1.70 },
     FY24: { total: 80290, pct: 1.60 },
-    FY25: { total: 99114, pct: 1.80 }, FY26: { total: 110657, pct: 1.76 },
+    FY25: { total: 99114, pct: 1.78 }, FY26: { total: 110657, pct: 1.77 },
   },
   health: {
     FY09: { total: 5104, pct: 0.83 }, FY10: { total: 6271, pct: 0.91 }, FY11: { total: 7287, pct: 0.93 },
@@ -554,7 +554,7 @@ const _gdpRaw = {
     FY18: { total: 16839, pct: 0.75 }, FY19: { total: 18677, pct: 0.74 }, FY20: { total: 17532, pct: 0.63 },
     FY21: { total: 21647, pct: 0.68 }, FY22: { total: 25028, pct: 0.63 }, FY23: { total: 22521, pct: 0.51 },
     FY24: { total: 23726, pct: 0.47 },
-    FY25: { total: 27923, pct: 0.51 }, FY26: { total: 41908, pct: 0.63 },
+    FY25: { total: 27923, pct: 0.50 }, FY26: { total: 41908, pct: 0.67 },
   },
   social: {
     FY09: { total: 7885, pct: 1.28 }, FY10: { total: 6959, pct: 1.01 }, FY11: { total: 7728, pct: 0.98 },
@@ -563,7 +563,7 @@ const _gdpRaw = {
     FY18: { total: 18089, pct: 0.81 }, FY19: { total: 23921, pct: 0.94 }, FY20: { total: 24086, pct: 0.86 },
     FY21: { total: 26938, pct: 0.85 }, FY22: { total: 32972, pct: 0.83 }, FY23: { total: 37460, pct: 0.84 },
     FY24: { total: 39189, pct: 0.78 },
-    FY25: { total: 42312, pct: 0.77 }, FY26: { total: 45083, pct: 0.61 },
+    FY25: { total: 42312, pct: 0.76 }, FY26: { total: 45083, pct: 0.72 },
   },
   housing: {
     FY09: { total: 1373, pct: 0.22 }, FY10: { total: 1249, pct: 0.18 }, FY11: { total: 1325, pct: 0.17 },
@@ -572,16 +572,16 @@ const _gdpRaw = {
     FY18: { total: 6018, pct: 0.27 }, FY19: { total: 5496, pct: 0.22 }, FY20: { total: 6419, pct: 0.23 },
     FY21: { total: 6935, pct: 0.22 }, FY22: { total: 6525, pct: 0.16 }, FY23: { total: 7744, pct: 0.17 },
     FY24: { total: 6543, pct: 0.13 },
-    FY25: { total: 5382, pct: 0.10 }, FY26: { total: 5111, pct: 0.15 },
+    FY25: { total: 5382, pct: 0.10 }, FY26: { total: 5111, pct: 0.08 },
   },
   rec: {
-    FY09: { total: 924, pct: 0.15 }, FY10: { total: 1029, pct: 0.15 }, FY11: { total: 1557, pct: 0.20 },
+    FY09: { total: 924, pct: 0.15 }, FY10: { total: 1029, pct: 0.14 }, FY11: { total: 1557, pct: 0.20 },
     FY12: { total: 1473, pct: 0.16 }, FY13: { total: 1698, pct: 0.16 }, FY14: { total: 1811, pct: 0.15 },
     FY15: { total: 1862, pct: 0.12 }, FY16: { total: 2389, pct: 0.14 }, FY17: { total: 3240, pct: 0.17 },
     FY18: { total: 3084, pct: 0.14 }, FY19: { total: 4454, pct: 0.18 }, FY20: { total: 3757, pct: 0.13 },
     FY21: { total: 3844, pct: 0.12 }, FY22: { total: 5137, pct: 0.13 }, FY23: { total: 6751, pct: 0.15 },
     FY24: { total: 5451, pct: 0.11 },
-    FY25: { total: 5464, pct: 0.10 }, FY26: { total: 6540, pct: 0.08 },
+    FY25: { total: 5464, pct: 0.09 }, FY26: { total: 6540, pct: 0.10 },
   },
   energy: {
     FY09: { total: 2550, pct: 0.41 }, FY10: { total: 3469, pct: 0.50 }, FY11: { total: 7233, pct: 0.92 },
@@ -590,7 +590,7 @@ const _gdpRaw = {
     FY18: { total: 28562, pct: 1.28 }, FY19: { total: 37188, pct: 1.47 }, FY20: { total: 33132, pct: 1.18 },
     FY21: { total: 22840, pct: 0.72 }, FY22: { total: 22754, pct: 0.57 }, FY23: { total: 27793, pct: 0.63 },
     FY24: { total: 28376, pct: 0.57 },
-    FY25: { total: 22705, pct: 0.41 }, FY26: { total: 22520, pct: 0.43 },
+    FY25: { total: 22705, pct: 0.41 }, FY26: { total: 22520, pct: 0.36 },
   },
   agri: {
     FY09: { total: 9557, pct: 1.55 }, FY10: { total: 11147, pct: 1.61 }, FY11: { total: 12957, pct: 1.65 },
@@ -599,10 +599,10 @@ const _gdpRaw = {
     FY18: { total: 19126, pct: 0.85 }, FY19: { total: 23600, pct: 0.93 }, FY20: { total: 21977, pct: 0.79 },
     FY21: { total: 25759, pct: 0.81 }, FY22: { total: 35803, pct: 0.90 }, FY23: { total: 54309, pct: 1.22 },
     FY24: { total: 53137, pct: 1.06 },
-    FY25: { total: 44568, pct: 0.81 }, FY26: { total: 46268, pct: 1.35 },
+    FY25: { total: 44568, pct: 0.80 }, FY26: { total: 46268, pct: 0.74 },
   },
   industry: {
-    FY09: { total: 849, pct: 0.14 }, FY10: { total: 946, pct: 0.14 }, FY11: { total: 1014, pct: 0.13 },
+    FY09: { total: 849, pct: 0.14 }, FY10: { total: 946, pct: 0.13 }, FY11: { total: 1014, pct: 0.14 },
     FY12: { total: 1679, pct: 0.18 }, FY13: { total: 2811, pct: 0.27 }, FY14: { total: 2616, pct: 0.22 },
     FY15: { total: 2929, pct: 0.19 }, FY16: { total: 2198, pct: 0.13 }, FY17: { total: 2438, pct: 0.12 },
     FY18: { total: 2677, pct: 0.12 }, FY19: { total: 3535, pct: 0.14 }, FY20: { total: 3222, pct: 0.12 },
@@ -617,7 +617,7 @@ const _gdpRaw = {
     FY18: { total: 40076, pct: 1.79 }, FY19: { total: 37833, pct: 1.49 }, FY20: { total: 53743, pct: 1.92 },
     FY21: { total: 50218, pct: 1.58 }, FY22: { total: 60200, pct: 1.52 }, FY23: { total: 65047, pct: 1.47 },
     FY24: { total: 59171, pct: 1.18 },
-    FY25: { total: 60500, pct: 1.10 }, FY26: { total: 71344, pct: 1.18 },
+    FY25: { total: 60500, pct: 1.09 }, FY26: { total: 71344, pct: 1.14 },
   },
   interest: {
     FY09: { total: 15180, pct: 2.47 }, FY10: { total: 14868, pct: 2.15 }, FY11: { total: 15623, pct: 1.98 },
@@ -626,7 +626,7 @@ const _gdpRaw = {
     FY18: { total: 41765, pct: 1.87 }, FY19: { total: 49461, pct: 1.95 }, FY20: { total: 58313, pct: 2.09 },
     FY21: { total: 70606, pct: 2.23 }, FY22: { total: 77779, pct: 1.96 }, FY23: { total: 92107, pct: 2.07 },
     FY24: { total: 114590, pct: 2.29 },
-    FY25: { total: 121500, pct: 2.21 }, FY26: { total: 122000, pct: 2.03 },
+    FY25: { total: 121500, pct: 2.19 }, FY26: { total: 122000, pct: 1.95 },
   },
 };
 Object.assign(GDP_SECTOR_DATA, _gdpRaw);
