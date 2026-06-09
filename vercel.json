@@ -21,5 +21,11 @@
         { "key": "Cache-Control", "value": "public, max-age=2592000" }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/news",
+      "destination": "https://www.thedailystar.net/json/dynamic-news/1624211"
+    }
   ]
 }
