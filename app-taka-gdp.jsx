@@ -254,7 +254,7 @@ function GDPSection() {
           <span className="eyebrow">The economy view</span>
           <h2>Total Budget as Part of GDP</h2>
           <p className="lede" style={{ marginTop: 18 }}>
-            From {fy09.pct}% of GDP in {fy09.fy} to {peak.pct}% in {peak.fy} — the government's footprint has steadily widened.
+            From {fy09.pct}% of GDP in {fy09.fy} to {peak.pct}% in {peak.fy} — the government's footprint has steadily widened. After FY23, it fell.
           </p>
         </div>
 
@@ -421,6 +421,9 @@ function GDPSection() {
                 </div>
               );
             })()}
+            <div style={{ marginTop: 24, fontSize: 11, color: "rgba(255,255,255,0.4)", fontFamily: "var(--ui)", letterSpacing: "0.02em" }}>
+              Source: Budget Data, Finance Ministry
+            </div>
           </div>
 
           <div className="gdp-stat-card glass">
