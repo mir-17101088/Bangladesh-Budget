@@ -238,7 +238,7 @@ const NEWS = [
 /* ============================================================
    NEWS FEED — Load from API and replace static fallback
 ============================================================ */
-const NEWS_FEED_API_URLS = ["/api/news", "/api/news.php"]; // Try both endpoints
+const NEWS_FEED_API_URLS = ["/api/news.php", "/api/news"]; // PHP first (traditional hosts), then Node.js (Vercel)
 
 async function fetchNewsFeedAPI() {
   for (const url of NEWS_FEED_API_URLS) {
