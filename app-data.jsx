@@ -505,12 +505,12 @@ function PreLaunchHero() {
       <div className="hero-content pl-content" style={{ alignItems: "center", textAlign: "center" }}>
 
 
-        <h1 id="pl-headline" className="pl-headline" style={{ fontSize: "clamp(36px, 11vw, 80px)", marginBottom: "20px", textWrap: "balance", textAlign: "center", overflowWrap: "break-word", hyphens: "auto" }}>
+        <h1 id="pl-headline" className="pl-headline" style={{ fontSize: "clamp(36px, 11vw, 80px)", marginBottom: "clamp(12px, 2.5vh, 20px)", textWrap: "balance", textAlign: "center", overflowWrap: "break-word", hyphens: "auto" }}>
           Bangladesh's National Budget<br />
           <span style={{ fontStyle: "italic", fontWeight: 400, color: "rgba(255,255,255,0.6)" }}>Then and Now</span>
         </h1>
 
-        <div className="pl-lede" style={{ maxWidth: "62ch", margin: "0 auto 32px auto", fontSize: "clamp(15px, 2vh, 18px)", color: "rgba(255,255,255,0.85)", lineHeight: 1.5, textShadow: "0 2px 14px rgba(2,6,31,0.8)", textAlign: "center" }}>
+        <div className="pl-lede" style={{ maxWidth: "62ch", margin: "0 auto clamp(16px, 3vh, 32px) auto", fontSize: "clamp(15px, 2vh, 18px)", color: "rgba(255,255,255,0.85)", lineHeight: 1.5, textShadow: "0 2px 14px rgba(2,6,31,0.8)", textAlign: "center" }}>
           <p style={{ margin: "0 0 16px 0" }}>
             Over 53 budgets, state expenditure has grown 1,000-fold. Yet at just over 12% of GDP, its true footprint relative to the economy remains constrained.
           </p>
@@ -519,7 +519,7 @@ function PreLaunchHero() {
           </p>
         </div>
 
-        <div className="pl-stats" style={{ width: "fit-content", margin: "0 auto clamp(32px, 5vh, 56px)" }}>
+        <div className="pl-stats" style={{ width: "fit-content", margin: "0 auto clamp(16px, 4vh, 56px)" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center", textAlign: "center" }}>
             <span style={{ fontFamily: "var(--ui)", fontSize: "clamp(6.5px, 2.2vw, 10px)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--eyebrow)" }}>First Budget (FY73)</span>
             <span style={{ fontFamily: "var(--serif)", fontSize: "clamp(14px, 4.5vw, 32px)", color: "#fff", lineHeight: 1 }}>৳786<span style={{ fontSize: "clamp(9px, 2.5vw, 14px)", color: "rgba(255,255,255,0.5)", marginLeft: "4px" }}>cr</span></span>

@@ -335,9 +335,10 @@ h3 {
   /* Full-viewport cover: nav (68px) + hero == one screen, so the next section
      never peeks above the fold on tall monitors. svh keeps it stable against
      mobile browser chrome; a 600px floor protects short landscape screens. */
-  min-height: max(600px, calc(100vh - 68px));
-  /* fallback for engines without svh */
-  min-height: max(600px, calc(100svh - 68px));
+  min-height: max(500px, calc(100vh - 68px));
+  /* fallback for engines without dvh */
+  min-height: max(500px, calc(100svh - 68px));
+  min-height: max(500px, calc(100dvh - 68px));
   background: var(--hero-grad);
   display: flex;
   align-items: center;
@@ -1467,21 +1468,11 @@ section.s {
   overflow: hidden;
 }
 
-.news-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-}
-
 .news-thumb::before {
   content: "";
   position: absolute;
   inset: 0;
   background-image: radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.18), transparent 50%);
-  z-index: 2;
 }
 
 .news-thumb-shape {
@@ -1717,7 +1708,7 @@ footer {
    Reuses .hero scaffolding (video / dots / glow / floating ৳).
 ============================================================ */
 .pl-hero {
-  padding: clamp(76px, 9vh, 132px) 0 clamp(68px, 9vh, 116px);
+  padding: clamp(32px, 6vh, 132px) 0 clamp(32px, 6vh, 116px);
 }
 
 /* ---- Legibility veil: left-weighted so the type column always reads
@@ -1814,11 +1805,11 @@ footer {
   font-family: var(--serif);
   font-weight: 600;
   color: #fff;
-  font-size: clamp(54px, 11.5vh, 156px);
+  font-size: clamp(42px, 10vh, 156px);
   line-height: 0.92;
   letter-spacing: -0.02em;
   text-wrap: balance;
-  margin: 0 0 clamp(22px, 3.4vh, 44px);
+  margin: 0 0 clamp(12px, 2.5vh, 44px);
   text-shadow: 0 6px 54px rgba(2, 6, 31, 0.88), 0 2px 10px rgba(2, 6, 31, 0.8);
 }
 
@@ -1842,7 +1833,7 @@ footer {
   font-family: var(--serif);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(22px, 3.5vh, 40px);
+  font-size: clamp(18px, 3vh, 40px);
   line-height: 1.1;
   letter-spacing: -0.01em;
   color: #fff;
@@ -1852,11 +1843,11 @@ footer {
 
 .pl-support {
   font-family: var(--body);
-  font-size: clamp(15px, 1.95vh, 19px);
+  font-size: clamp(14px, 1.8vh, 19px);
   line-height: 1.5;
   color: var(--ink-1);
   max-width: 52ch;
-  margin: clamp(14px, 2vh, 22px) 0 clamp(22px, 3.4vh, 36px);
+  margin: clamp(8px, 1.5vh, 22px) 0 clamp(16px, 2.5vh, 36px);
   text-shadow: 0 2px 14px rgba(2, 6, 31, 0.8);
 }
 
@@ -1868,8 +1859,8 @@ footer {
 .pl-stats {
   display: flex;
   justify-content: center;
-  gap: clamp(20px, 4vw, 36px);
-  margin-bottom: clamp(32px, 5vh, 56px);
+  gap: clamp(16px, 3vw, 36px);
+  margin-bottom: clamp(20px, 4vh, 56px) !important;
   align-items: center;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -1930,9 +1921,9 @@ footer {
   position: relative;
   display: inline-flex;
   flex-direction: column;
-  gap: clamp(13px, 1.9vh, 19px);
+  gap: clamp(10px, 1.5vh, 19px);
   max-width: 100%;
-  padding: clamp(18px, 2.6vh, 26px) clamp(20px, 2.4vw, 34px);
+  padding: clamp(14px, 2vh, 26px) clamp(16px, 2vw, 34px);
   border-radius: 18px;
   background:
     linear-gradient(158deg, rgba(1, 133, 198, 0.16) 0%, rgba(2, 6, 31, 0.52) 58%),
@@ -2023,7 +2014,7 @@ footer {
 .pl-tnum {
   font-family: var(--serif);
   font-weight: 500;
-  font-size: clamp(42px, 6.6vh, 78px);
+  font-size: clamp(32px, 6vh, 78px);
   line-height: 0.9;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
@@ -2046,7 +2037,7 @@ footer {
 .pl-colon {
   font-family: var(--serif);
   font-weight: 500;
-  font-size: clamp(34px, 5.2vh, 60px);
+  font-size: clamp(26px, 4.5vh, 60px);
   line-height: 0.9;
   color: rgba(111, 199, 238, 0.5);
   font-variant-numeric: tabular-nums;
@@ -2069,7 +2060,7 @@ footer {
   line-height: 1.45;
   color: var(--ink-2);
   max-width: 48ch;
-  margin: clamp(16px, 2.4vh, 24px) 0 0;
+  margin: clamp(12px, 1.8vh, 24px) 0 0;
   text-shadow: 0 2px 12px rgba(2, 6, 31, 0.78);
 }
 
@@ -2138,7 +2129,7 @@ footer {
   .pl-hero {
     display: block;
     min-height: 0;
-    padding: 44px 0 48px;
+    padding: 24px 0 24px;
   }
 
   .pl-content {
@@ -2165,13 +2156,14 @@ footer {
   }
 
   .pl-headline {
-    font-size: clamp(42px, 14.5vw, 62px);
+    font-size: clamp(34px, 12vw, 54px) !important;
     line-height: 0.96;
-    margin-bottom: clamp(16px, 4vw, 26px);
+    margin-bottom: clamp(12px, 3vw, 20px) !important;
   }
 
   .pl-lede {
     max-width: 100%;
+    margin-bottom: 20px !important;
   }
 
   .pl-stats {
@@ -2179,6 +2171,7 @@ footer {
     align-items: center;
     gap: 8px;
     padding: 12px 12px;
+    margin-bottom: 24px !important;
   }
 
   .pl-stat-div {
