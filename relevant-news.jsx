@@ -40,7 +40,29 @@
 
 const { useState: useRN, useEffect: useRNE } = React;
 
-const NEWS_API_URL = "/api/news";
+const NEWS_API_URLS = ["/api/news.php", "/api/news"]; // PHP first (traditional hosts), then Node.js (Vercel)
+
+async function fetchRelevantNewsAPI() {
+  for (const url of NEWS_API_URLS) {
+    try {
+      const r = await fetch(url, { headers: { Accept: "application/json" } });
+      console.log(`[relevant-news] ${url} status:`, r.status);
+      if (r.ok) {
+        const text = await r.text();
+        try {
+          const j = JSON.parse(text);
+          if (j && j.data) return j.data;
+          console.log(`[relevant-news] ${url} ok but no .data:`, j);
+        } catch (pe) {
+          console.log(`[relevant-news] ${url} JSON parse error, response was:`, text.slice(0, 200));
+        }
+      }
+    } catch (e) {
+      console.log(`[relevant-news] ${url} fetch error:`, e.message);
+    }
+  }
+  return [];
+}
 
 const RELEVANT_NEWS = {
   // Fallback: replaced at runtime when API data loads successfully.
@@ -100,17 +122,10 @@ function mapApiNewsItem(n) {
 
 function applyApiNewsToSections(rawList) {
   const items = (Array.isArray(rawList) ? rawList : [])
-    .map(mapApiNewsItem)
-    .filter((x) => x.url);
-
-  if (items.length === 0) return;
-
-  const buckets = {
-    taka: items.slice(0, 2),          // 2 items
-    gdp: items.slice(2, 4),           // 2 items
-    sector_gauges: items.slice(4, 6), // 2 items
-    sector_grid: items.slice(6, 8),   // 2 items
-    dev_op: items.slice(8, 10),       // 2 items
+    .map(mapApiNewsItem)loadRelevantNews() called");
+  fetchRelevantNewsAPI()
+    .then((list) => {
+      console.log("[relevant-news] API response items
   };
 
   Object.keys(buckets).forEach((k) => {
