@@ -275,7 +275,7 @@ function mapFeedItem(n, index) {
     ];
     return pairs[index % pairs.length];
   })();
-  return {
+  const mapped = {
     tag: n.category || "NEWS",
     tagColor: colors[index % colors.length],
     c1,
@@ -288,6 +288,9 @@ function mapFeedItem(n, index) {
     url: n.link_url || "",
     image: n.image_landscape || n.image_url || null,
   };
+  if (index === 0) console.log("[app-data] mapFeedItem[0] raw:", n);
+  if (index === 0) console.log("[app-data] mapFeedItem[0] mapped:", mapped);
+  return mapped;
 }
 
 function loadNewsFeedRemainder() {
@@ -300,6 +303,8 @@ function loadNewsFeedRemainder() {
       if (remainder.length === 0) return;
       const mapped = remainder.map((n, i) => mapFeedItem(n, i));
       NEWS.splice(0, NEWS.length, ...mapped);
+      console.log("[app-data] NEWS array after update:", window.NEWS);
+      console.log("[app-data] NEWS[0]:", window.NEWS[0]);
       window.dispatchEvent(new Event("news-feed:updated"));
     })
     .catch((e) => {
