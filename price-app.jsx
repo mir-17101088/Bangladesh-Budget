@@ -7,6 +7,7 @@ function PriceApp() {
       <PriceHero/>
       <BudgetGdpRatioSection/>
       <GaugesSection/>
+      <DevOpGapSection/>
       <DebtSection/>
       <SubsidySection/>
       <Footer/>

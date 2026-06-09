@@ -437,4 +437,161 @@ function BudgetGdpRatioSection() {
   );
 }
 
-Object.assign(window, { ResourceDonut, LegendRow, TaxSection, SubsidySection, BudgetGdpRatioSection });
+function DevOpGapSection() {
+  const [hoverIdx, setHoverIdx] = useStatePC(null);
+
+  // We use DEV_OP_GAP_DATA from price-data.jsx
+  const data = window.DEV_OP_GAP_DATA || [];
+
+  if (data.length === 0) return null;
+
+  // SVG Chart dimensions
+  const w = 800;
+  const h = 400;
+  const padX = 40;
+  const padY = 60;
+  const innerW = w - padX * 2;
+  const innerH = h - padY * 2;
+
+  // Min/Max for Y axis to give some breathing room
+  const minV = Math.min(...data.map(d => Math.min(d.dev, d.op))) - 5;
+  const maxV = Math.max(...data.map(d => Math.max(d.dev, d.op))) + 5;
+  const range = maxV - minV;
+
+  // Scale functions
+  const getX = (index) => padX + (index / (data.length - 1)) * innerW;
+  const getY = (val) => h - padY - ((val - minV) / range) * innerH;
+
+  // Generate SVG path strings
+  const devPath = data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${getX(i)} ${getY(d.dev)}`).join(' ');
+  const opPath = data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${getX(i)} ${getY(d.op)}`).join(' ');
+
+  // Gap Area (combine opPath forward, then devPath backward)
+  const areaPath = opPath + ' ' + [...data].reverse().map((d, i) => `L ${getX(data.length - 1 - i)} ${getY(d.dev)}`).join(' ') + ' Z';
+
+  return (
+    <section className="s s-dev-op" data-screen-label="04 Dev vs Op Gap">
+      <div className="wrap">
+        <div className="split2" style={{ alignItems: "center" }}>
+          <div className="section-head" style={{ marginBottom: 0 }}>
+            <span className="eyebrow" style={{ color: "#c084fc" }}>Development vs Operating Expenditure</span>
+            <h2>Development spending collapses as operating costs surge</h2>
+            <p className="lede" style={{ marginTop: 18, maxWidth: "100%" }}>
+              Since FY2019, the gap between development and operating expenditure has steadily grown. But in FY2025, development implementation fell to a record low of 53.92% of allocation — even as operating spending hit 93.52%, its highest in the period.
+            </p>
+          </div>
+
+          <div className="gap-chart-wrap glass">
+            {hoverIdx !== null && (
+              <div
+                className={`gap-tooltip ${hoverIdx === data.length - 1 ? 'edge-right' : ''}`}
+                style={{ left: `${(getX(hoverIdx) / w) * 100}%` }}
+              >
+                <button className="gap-tooltip-close" onClick={() => setHoverIdx(null)}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <div className="gt-title">{data[hoverIdx].fy} Gap</div>
+                <div className="gt-val">{Math.abs(data[hoverIdx].op - data[hoverIdx].dev).toFixed(2)}%</div>
+                <div className="gt-sub">Difference between operating<br />and development spending</div>
+              </div>
+            )}
+
+            <div className="gap-legend">
+              <div className="gap-lg-item">
+                <div className="gap-lg-dot" style={{ background: "#ff7676", boxShadow: "0 0 10px #ff7676" }}></div>
+                Operating Expenditure
+              </div>
+              <div className="gap-lg-item">
+                <div className="gap-lg-dot" style={{ background: "#45B7D1", boxShadow: "0 0 10px #45B7D1" }}></div>
+                Development Expenditure
+              </div>
+            </div>
+
+            <svg viewBox={`0 0 ${w} ${h}`} className="gap-chart-svg" onMouseLeave={() => setHoverIdx(null)}>
+              <defs>
+                <linearGradient id="gapGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="rgba(255, 118, 118, 0.4)" />
+                  <stop offset="100%" stopColor="rgba(69, 183, 209, 0.4)" />
+                </linearGradient>
+              </defs>
+
+              {/* Grid lines */}
+              {[0, 0.25, 0.5, 0.75, 1].map(pct => {
+                const y = h - padY - pct * innerH;
+                return (
+                  <line key={pct} x1={padX} y1={y} x2={w - padX} y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+                );
+              })}
+
+              {/* Gap Area */}
+              <path d={areaPath} fill="url(#gapGrad)" className="gap-area" />
+
+              {/* Hover Line */}
+              {hoverIdx !== null && (
+                <line
+                  x1={getX(hoverIdx)} y1={padY}
+                  x2={getX(hoverIdx)} y2={h - padY}
+                  stroke="rgba(255,255,255,0.3)" strokeWidth="1" strokeDasharray="4 4"
+                  pointerEvents="none"
+                />
+              )}
+
+              {/* Lines */}
+              <path d={opPath} stroke="#ff7676" className="gap-line" />
+              <path d={devPath} stroke="#45B7D1" className="gap-line" />
+
+              {/* Data Points & Labels */}
+              {data.map((d, i) => {
+                const x = getX(i);
+                const opY = getY(d.op);
+                const devY = getY(d.dev);
+                const isLast = i === data.length - 1;
+                return (
+                  <g key={d.fy} className="gap-pt" style={{ animationDelay: `${0.8 + (i * 0.1)}s` }}>
+                    {/* X Axis Label */}
+                    <text x={x} y={h - 15} className="gap-label-fy">{d.fy}</text>
+
+                    {/* Operating Point */}
+                    <circle cx={x} cy={opY} r="5" fill="#181d24" stroke="#ff7676" strokeWidth="2" />
+                    <text x={x} y={opY - 14} className="gap-label" fill="#ff7676" style={{ fontWeight: isLast ? 700 : 400 }}>
+                      {d.op}%
+                    </text>
+
+                    {/* Development Point */}
+                    <circle cx={x} cy={devY} r="5" fill="#181d24" stroke="#45B7D1" strokeWidth="2" />
+                    <text x={x} y={devY + 22} className="gap-label" fill="#45B7D1" style={{ fontWeight: isLast ? 700 : 400 }}>
+                      {d.dev}%
+                    </text>
+                  </g>
+                );
+              })}
+
+              {/* Invisible Hitboxes for Hover/Touch */}
+              {data.map((d, i) => {
+                const x = getX(i);
+                const rectWidth = innerW / Math.max(1, data.length - 1);
+                return (
+                  <rect
+                    key={"hit-" + i}
+                    x={x - rectWidth / 2}
+                    y={0}
+                    width={rectWidth}
+                    height={h}
+                    fill="transparent"
+                    onMouseEnter={() => setHoverIdx(i)}
+                    onTouchStart={() => setHoverIdx(i)}
+                    style={{ cursor: 'pointer', outline: 'none', WebkitTapHighlightColor: 'transparent' }}
+                  />
+                );
+              })}
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+Object.assign(window, { ResourceDonut, LegendRow, TaxSection, SubsidySection, BudgetGdpRatioSection, DevOpGapSection });
