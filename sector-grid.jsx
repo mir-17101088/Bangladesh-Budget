@@ -87,7 +87,6 @@ function SectorGridSection({ active, setActive }) {
           ))}
         </div>
 
-        <RelevantNews items={RELEVANT_NEWS.sector_grid} accent="#0185C6" />
       </div>
     </section>
   );
@@ -732,6 +731,8 @@ function ExpandedSection({ active }) {
             )}
           </div>
         </div>
+
+        <RelevantNews items={RELEVANT_NEWS.sector_grid} accent="#0185C6" />
       </div>
     </section>
   );
