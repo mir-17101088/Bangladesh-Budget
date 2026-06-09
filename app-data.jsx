@@ -286,6 +286,7 @@ function mapFeedItem(n, index) {
     author: n.author || "The Daily Star",
     read: "Read article →",
     url: n.link_url || "",
+    image: n.image_landscape || n.image_url || null,
   };
 }
 
