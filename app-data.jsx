@@ -235,6 +235,61 @@ const NEWS = [
   },
 ];
 
+const NEWS_FEED_API_URL = "/api/news";
+const NEWS_FEED_PALETTE = [
+  { tagColor: "#0185C6", c1: "#0d2847", c2: "#0185C6" },
+  { tagColor: "#B0832B", c1: "#3a2a15", c2: "#B0832B" },
+  { tagColor: "#019933", c1: "#0a2818", c2: "#019933" },
+  { tagColor: "#7D0066", c1: "#2a0a22", c2: "#7D0066" },
+  { tagColor: "#C60001", c1: "#2a0508", c2: "#C60001" },
+  { tagColor: "#45B7D1", c1: "#0d2847", c2: "#45B7D1" },
+];
+
+function feedFormatDate(d) {
+  if (!d) return null;
+  const t = Date.parse(d);
+  if (isNaN(t)) return d;
+  return new Date(t).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
+function mapFeedItem(n, i) {
+  const style = NEWS_FEED_PALETTE[i % NEWS_FEED_PALETTE.length];
+  const tag = ((n.subcategory || n.provider || "News") + "").toUpperCase();
+  return {
+    tag,
+    tagColor: style.tagColor,
+    c1: style.c1,
+    c2: style.c2,
+    headline: n.title || "Untitled",
+    dek: n.subtitle || "",
+    date: feedFormatDate(n.created) || "",
+    author: n.provider || "The Daily Star",
+    read: "Read more",
+    url: n.link_url || "",
+  };
+}
+
+function loadNewsFeedRemainder() {
+  fetch(NEWS_FEED_API_URL, { headers: { Accept: "application/json" } })
+    .then((r) => {
+      if (!r.ok) throw new Error("News feed request failed");
+      return r.json();
+    })
+    .then((j) => {
+      const items = Array.isArray(j && j.data) ? j.data : [];
+      const remainder = items.slice(5);
+      if (remainder.length === 0) return;
+      const mapped = remainder.map((n, i) => mapFeedItem(n, i));
+      NEWS.splice(0, NEWS.length, ...mapped);
+      window.dispatchEvent(new Event("news-feed:updated"));
+    })
+    .catch(() => {
+      // Keep static NEWS fallback when API/proxy is unavailable.
+    });
+}
+
+loadNewsFeedRemainder();
+
 /* ============================================================
    LAUNCH FLAG — flip to false once FY27 budget data is entered.
    true  = show the pre-launch hero (countdown to 11 Jun 2026)

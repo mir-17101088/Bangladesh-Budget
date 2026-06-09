@@ -40,8 +40,10 @@
 
 const { useState: useRN, useEffect: useRNE } = React;
 
+const NEWS_API_URL = "/api/news";
+
 const RELEVANT_NEWS = {
-  // ── 100-Taka note · "signature view" ──  (accent: blue)
+  // Fallback: replaced at runtime when API data loads successfully.
   taka: [
     {
       url: "https://www.thedailystar.net/opinion/views/macro-mirror/news/what-the-fy2027-budget-must-prioritise-4188416",
@@ -53,17 +55,12 @@ const RELEVANT_NEWS = {
     },
     {
       url: "https://www.thedailystar.net/business/bangladesh-budget-2026-27/news/bangladeshs-budget-really-too-big-4189171",
-      title: "Is Bangladesh’s budget really too big?",
-      kicker: "BANGLADESH BUDGET 2026-27",
+      title: "Is Bangladesh's budget really too big?",
+      kicker: "Bangladesh Budget 2026-27",
       source: "The Daily Star",
       date: "Jun 3, 2026",
       image: "news-images/good_budget.jpg",
     },
-  ],
-
-  // ── Budget as % of GDP ──  (accent: sky)
-  //   This one is URL-only on purpose — it shows the auto-fetch.
-  gdp: [
     {
       url: "https://www.thedailystar.net/business/economy/news/big-numbers-tight-choices-4177311",
       title: "Big in numbers, tight in choices",
@@ -73,58 +70,71 @@ const RELEVANT_NEWS = {
       image: "news-images/budget.jpg",
     },
   ],
+  gdp: [],
+  treemap: [],
+  debt: [],
 
-  // ── Treemap · department by department ──  (accent: gold)
-  //treemap: [
-  //{
-  //url: "https://www.thedailystar.net/opinion/views/macro-mirror/news/conservative-budget-fy2026-3909971",
-  //title: "A conservative budget for FY2026",
-  //kicker: "Macro Mirror",
-  //source: "The Daily Star",
-  // date: "Jun 2, 2025",
-  // },
-  //],
-
-  // ── Interest / debt story ──  (accent: red)
-  debt: [
-    {
-      url: "https://www.thedailystar.net/opinion/views/news/fy2026-budget-missed-opportunity-structural-reform-3910351",
-      title: "FY2026 budget: A missed opportunity for structural reform",
-      kicker: "Opinion",
-      source: "The Daily Star",
-      date: "Jun 4, 2025",
-      image: "news-images/missed_opportunity.jpg",
-      // image: "structural-reform.jpg",   // ← drop the file in news-images/ and uncomment
-    },
-  ],
-
-  /* ════════ PRICE IMPACT page ════════ */
-  price_pricier: [
-
-  ],
+  price_pricier: [],
   price_cheaper: [],
   price_tax: [],
   price_subsidy: [],
   price_calc: [],
 
-  /* ════════ SECTOR DEEP DIVE page ════════ */
-  sector_grid: [
-
-  ],
+  sector_grid: [],
   sector_heatmap: [],
   sector_rankings: [],
-  sector_gauges: [
-    {
-      url: "https://www.thedailystar.net/business/bangladesh-budget-2026-27/news/who-pays-the-price-chronic-budget-underspending-4190896",
-      title: "Who pays the price for chronic budget underspending?",
-      kicker: "Bangladesh Budget 2026-27",
-      source: "The Daily Star",
-      date: "Jun 5, 2026",
-      image: "news-images/implementation.jpg",
-      // image: "structural-reform.jpg",   // ← drop the file in news-images/ and uncomment
-    },
-  ],
+  sector_gauges: [],
 };
+
+function mapApiNewsItem(n) {
+  return {
+    url: n.link_url || "",
+    title: n.title || "",
+    kicker: n.subcategory || null,
+    source: n.provider || "The Daily Star",
+    date: n.created || null,
+    image: n.image_landscape || n.image_url || null,
+  };
+}
+
+function applyApiNewsToSections(rawList) {
+  const items = (Array.isArray(rawList) ? rawList : [])
+    .map(mapApiNewsItem)
+    .filter((x) => x.url);
+
+  if (items.length === 0) return;
+
+  const buckets = {
+    taka: items.slice(0, 3),          // first 3
+    gdp: items.slice(3, 4),           // then 1
+    debt: items.slice(4, 5),          // then 1
+    sector_gauges: items.slice(5, 6), // last 1
+  };
+
+  Object.keys(buckets).forEach((k) => {
+    if (!RELEVANT_NEWS[k]) return;
+    RELEVANT_NEWS[k].splice(0, RELEVANT_NEWS[k].length, ...buckets[k]);
+  });
+
+  window.dispatchEvent(new Event("relevant-news:updated"));
+}
+
+function loadRelevantNews() {
+  fetch(NEWS_API_URL, { headers: { Accept: "application/json" } })
+    .then((r) => {
+      if (!r.ok) throw new Error("News proxy request failed");
+      return r.json();
+    })
+    .then((j) => {
+      const list = Array.isArray(j && j.data) ? j.data : [];
+      applyApiNewsToSections(list);
+    })
+    .catch(() => {
+      // Keep fallback entries when API/proxy is unavailable.
+    });
+}
+
+loadRelevantNews();
 
 /* ── helpers ─────────────────────────────────────────────── */
 const RELNEWS_CACHE = new Map();
@@ -261,7 +271,16 @@ function RelNewsCard({ item, accent }) {
 }
 
 /* ── container — renders nothing when empty ──────────────── */
+
 function RelevantNews({ items, accent = "#0185C6", label = "Relevant News" }) {
+  const [, force] = useRN(0);
+
+  useRNE(() => {
+    const onUpdate = () => force((v) => v + 1);
+    window.addEventListener("relevant-news:updated", onUpdate);
+    return () => window.removeEventListener("relevant-news:updated", onUpdate);
+  }, []);
+
   if (!items || items.length === 0) return null;
   const one = items.length === 1;
   return (

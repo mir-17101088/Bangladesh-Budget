@@ -109,6 +109,15 @@ function copyStaticPlugin() {
 export default defineConfig({
   base: "./", // relative asset URLs — works from any sub-path or CDN origin
   plugins: [budgetPagesPlugin(), copyStaticPlugin()],
+  server: {
+    proxy: {
+      "/api/news": {
+        target: "https://www.thedailystar.net",
+        changeOrigin: true,
+        rewrite: () => "/json/dynamic-news/1624211",
+      },
+    },
+  },
   esbuild: {
     jsxFactory: "React.createElement",
     jsxFragment: "React.Fragment",
