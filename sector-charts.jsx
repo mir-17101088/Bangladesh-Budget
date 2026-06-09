@@ -23,8 +23,8 @@ function HeatmapSection() {
             <thead>
               <tr>
                 <th></th>
-                {fyCols.map(y => <th key={y} className="col-h">{y}</th>)}
-                <th className="col-h rises-h" style={{ paddingLeft: 18, textAlign: "left" }}>RISES</th>
+                {fyCols.map(y => <th key={y} className="col-h"><span className="yr-text">{y}</span></th>)}
+                <th className="col-h rises-h" style={{ paddingLeft: 18, textAlign: "left" }}><span className="yr-text">RISES</span></th>
               </tr>
             </thead>
             <tbody>

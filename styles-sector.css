@@ -267,13 +267,20 @@
   .heat-table { table-layout: fixed; width: 100%; border-spacing: 0 6px; }
   .heat-table thead th:first-child { width: 124px; }   /* sector-label column */
   .heat-table th.col-h.rises-h {
-    width: 56px; -webkit-writing-mode: horizontal-tb; writing-mode: horizontal-tb; transform: none;
+    width: 56px;
     text-align: left; padding-left: 8px !important; font-size: 9px; letter-spacing: 0.06em;
   }
+  .heat-table th.col-h.rises-h .yr-text {
+    -webkit-writing-mode: horizontal-tb; writing-mode: horizontal-tb; transform: none;
+    display: inline-block;
+  }
   .heat-table th.col-h {
-    -webkit-writing-mode: vertical-rl; writing-mode: vertical-rl; transform: rotate(180deg);
     white-space: nowrap; height: auto; vertical-align: bottom;
     font-size: 10px; letter-spacing: 0; padding: 4px 0 8px;
+  }
+  .heat-table th.col-h .yr-text {
+    -webkit-writing-mode: vertical-rl; writing-mode: vertical-rl; transform: rotate(180deg);
+    display: inline-block;
   }
   .heat-table td.row-h {
     font-size: 11px; padding-right: 8px; width: 124px; max-width: 124px;
@@ -377,9 +384,6 @@
      luminance, so rise/fall survives colour-blindness without per-cell glyphs. */
   /* Vertical (rotated) column headers so 17 narrow columns fit */
   .heat-table th.col-h {
-    -webkit-writing-mode: vertical-rl;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
     font-size: 9px;
     letter-spacing: 0;
     padding: 4px 0 6px;
@@ -388,14 +392,23 @@
     height: auto;
     vertical-align: bottom;
   }
+  .heat-table th.col-h .yr-text {
+    -webkit-writing-mode: vertical-rl;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    display: inline-block;
+  }
   .heat-table th.col-h.rises-h {
-    -webkit-writing-mode: horizontal-tb;
-    writing-mode: horizontal-tb;
-    transform: none;
     text-align: left;
     padding-left: 6px !important;
     font-size: 8.5px;
     letter-spacing: 0.08em;
+  }
+  .heat-table th.col-h.rises-h .yr-text {
+    -webkit-writing-mode: horizontal-tb;
+    writing-mode: horizontal-tb;
+    transform: none;
+    display: inline-block;
   }
   .heat-table td.row-h {
     font-size: 10.5px;
