@@ -238,7 +238,22 @@ const NEWS = [
 /* ============================================================
    NEWS FEED — Load from API and replace static fallback
 ============================================================ */
-const NEWS_FEED_API_URL = "/api/news";
+const NEWS_FEED_API_URLS = ["/api/news", "/api/news.php"]; // Try both endpoints
+
+async function fetchNewsAPI() {
+  for (const url of NEWS_FEED_API_URLS) {
+    try {
+      const r = await fetch(url, { headers: { Accept: "application/json" } });
+      if (r.ok) {
+        const j = await r.json();
+        if (j && j.data) return j.data;
+      }
+    } catch (e) {
+      console.log(`[app-data] ${url} failed, trying next endpoint`);
+    }
+  }
+  return [];
+}
 
 function mapFeedItem(n, index) {
   const colors = ["#0185C6", "#B0832B", "#019933", "#7D0066", "#C60001", "#45B7D1"];
@@ -268,18 +283,12 @@ function mapFeedItem(n, index) {
 }
 
 function loadNewsFeedRemainder() {
-  console.log("[app-data] fetching news feed from", NEWS_FEED_API_URL);
-  fetch(NEWS_FEED_API_URL, { headers: { Accept: "application/json" } })
-    .then((r) => {
-      console.log("[app-data] response status:", r.status, r.ok);
-      if (!r.ok) throw new Error("News feed request failed: " + r.status);
-      return r.json();
-    })
-    .then((j) => {
-      console.log("[app-data] API response:", j);
-      const items = Array.isArray(j && j.data) ? j.data : [];
+  console.log("[app-data] loadNewsFeedRemainder() called");
+  fetchNewsAPI()
+    .then((items) => {
+      console.log("[app-data] API response items:", items.length);
       const remainder = items.slice(5);
-      console.log("[app-data] total items:", items.length, "remainder from index 5:", remainder.length);
+      console.log("[app-data] remainder from index 5:", remainder.length);
       if (remainder.length === 0) return;
       const mapped = remainder.map((n, i) => mapFeedItem(n, i));
       NEWS.splice(0, NEWS.length, ...mapped);
@@ -290,7 +299,13 @@ function loadNewsFeedRemainder() {
     });
 }
 
-loadNewsFeedRemainder();
+// Force immediate execution
+(function() {
+  if (typeof window !== 'undefined') {
+    console.log("[app-data] module loaded, calling loadNewsFeedRemainder");
+    loadNewsFeedRemainder();
+  }
+})();
 
 /* ============================================================
    LAUNCH FLAG — flip to false once FY27 budget data is entered.
