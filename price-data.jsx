@@ -195,6 +195,12 @@ function PriceHero() {
 
   const implP = IMPL.filter(g => typeof g.v === "number");
   const avgImpl = (implP.reduce((a, b) => a + b.v, 0) / implP.length).toFixed(0);
+
+  const proposedFy = BUDGET.proposed;
+  const proposedInterest = INTEREST_DATA.find(d => d.fy === proposedFy) || { d: 100000, f: 22000 };
+  const proposedTotalInterest = (proposedInterest.d || 0) + (proposedInterest.f || 0);
+  const proposedTotalBudget = window.TOTAL_BUDGET_BY_YEAR[proposedFy] || 1;
+  const calculatedInterestPct = (proposedTotalInterest / proposedTotalBudget) * 100;
   return (
     <section className="page-hero" data-screen-label="01 Page Hero">
       <div className="wrap">
@@ -227,11 +233,6 @@ function PriceHero() {
 
 
         <div className="page-hero-stats">
-          <div className="phs-cell" onClick={() => document.querySelector('.s-tax')?.scrollIntoView({ behavior: 'smooth' })}>
-            <div className="l">Tax revenue target</div>
-            <div className="n">৳<CountUp value={4.99} decimals={2} /> lakh cr</div>
-            <div className="s">NBR + non-NBR · 65.6% of budget</div>
-          </div>
           <div className="phs-cell" style={{ "--cell-accent": "#FF6B35" }} onClick={() => document.querySelector('.s-gdp-ratio')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Regional Comparison</div>
             <div className="n"><CountUp value={12.03} decimals={2} />%</div>
@@ -241,6 +242,11 @@ function PriceHero() {
             <div className="l">Avg implementation</div>
             <div className="n"><CountUp value={parseFloat(avgImpl)} suffix="%" /></div>
             <div className="s">FY09 — FY25 average</div>
+          </div>
+          <div className="phs-cell" style={{ "--cell-accent": "#c084fc" }} onClick={() => document.querySelector('.s-debt')?.scrollIntoView({ behavior: 'smooth' })}>
+            <div className="l">Interest Bill</div>
+            <div className="n">৳<CountUp value={calculatedInterestPct} decimals={1} /></div>
+            <div className="s">of every ৳100 spent</div>
           </div>
           <div className="phs-cell" style={{ "--cell-accent": "#f0c060" }} onClick={() => document.querySelector('.s-subsidy')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Subsidy bill</div>
