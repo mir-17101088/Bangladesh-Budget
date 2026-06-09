@@ -310,7 +310,7 @@ function Hero({ tweaks }) {
         <video
           className="hero-video"
           src="assets/bangladesh.mp4"
-          poster="assets/bangladesh-poster.jpg"
+          poster="assets/bangladesh-poster.webp"
           autoPlay
           muted
           loop
@@ -424,7 +424,7 @@ function PreLaunchHero() {
         <video
           className="hero-video"
           src="assets/bangladesh.mp4"
-          poster="assets/bangladesh-poster.jpg"
+          poster="assets/bangladesh-poster.webp"
           autoPlay
           muted
           loop

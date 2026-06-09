@@ -1,0 +1,19 @@
+{
+  "name": "budget-fy2026-27",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The Daily Star — Bangladesh National Budget FY 2026–27. Vite build: production React, pre-compiled JSX, no in-browser Babel.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173 --strictPort"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

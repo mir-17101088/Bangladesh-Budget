@@ -751,8 +751,17 @@ section.s {
   max-width: 760px;
 }
 
+/* <picture> wrapper must not affect layout — the absolutely-positioned
+   .taka-overlay aligns to .taka-stage, and .taka-img stays the laid-out box. */
+.taka-stage picture {
+  display: contents;
+}
+
 .taka-img {
   width: 100%;
+  /* height:auto lets the width/height attributes drive aspect-ratio (CLS-safe)
+     instead of the height attribute stretching the note vertically. */
+  height: auto;
   display: block;
   border-radius: 8px;
   box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);

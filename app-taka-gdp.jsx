@@ -48,7 +48,11 @@ function TakaSection() {
         </div>
 
         <div className="taka-stage">
-          <img className="taka-img" src="assets/100_taka_note.jpg" alt="Bangladesh 100 Taka note" />
+          <picture>
+            <source srcSet="assets/100_taka_note.webp" type="image/webp" />
+            <img className="taka-img" src="assets/100_taka_note.jpg" alt="Bangladesh 100 Taka note"
+              width="1642" height="729" loading="lazy" decoding="async" />
+          </picture>
           <div className="taka-overlay">
             {TAKA_SECTORS.map((s, idx) => {
               const w = (s.proposed / total) * 100;
