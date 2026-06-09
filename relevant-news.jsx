@@ -42,7 +42,7 @@ const { useState: useRN, useEffect: useRNE } = React;
 
 const NEWS_API_URLS = ["/api/news", "/api/news.php"]; // Try both endpoints
 
-async function fetchNewsAPI() {
+async function fetchRelevantNewsAPI() {
   for (const url of NEWS_API_URLS) {
     try {
       const r = await fetch(url, { headers: { Accept: "application/json" } });
@@ -136,7 +136,7 @@ function applyApiNewsToSections(rawList) {
 
 function loadRelevantNews() {
   console.log("[relevant-news] loadRelevantNews() called");
-  fetchNewsAPI()
+  fetchRelevantNewsAPI()
     .then((list) => {
       console.log("[relevant-news] API response items:", list.length);
       applyApiNewsToSections(list);

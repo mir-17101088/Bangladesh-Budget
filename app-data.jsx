@@ -240,7 +240,7 @@ const NEWS = [
 ============================================================ */
 const NEWS_FEED_API_URLS = ["/api/news", "/api/news.php"]; // Try both endpoints
 
-async function fetchNewsAPI() {
+async function fetchNewsFeedAPI() {
   for (const url of NEWS_FEED_API_URLS) {
     try {
       const r = await fetch(url, { headers: { Accept: "application/json" } });
@@ -284,7 +284,7 @@ function mapFeedItem(n, index) {
 
 function loadNewsFeedRemainder() {
   console.log("[app-data] loadNewsFeedRemainder() called");
-  fetchNewsAPI()
+  fetchNewsFeedAPI()
     .then((items) => {
       console.log("[app-data] API response items:", items.length);
       const remainder = items.slice(5);
