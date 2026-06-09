@@ -267,11 +267,11 @@
   .heat-table { table-layout: fixed; width: 100%; border-spacing: 0 6px; }
   .heat-table thead th:first-child { width: 124px; }   /* sector-label column */
   .heat-table th.col-h.rises-h {
-    width: 56px; writing-mode: horizontal-tb; transform: none;
+    width: 56px; -webkit-writing-mode: horizontal-tb; writing-mode: horizontal-tb; transform: none;
     text-align: left; padding-left: 8px !important; font-size: 9px; letter-spacing: 0.06em;
   }
   .heat-table th.col-h {
-    writing-mode: vertical-rl; transform: rotate(180deg);
+    -webkit-writing-mode: vertical-rl; writing-mode: vertical-rl; transform: rotate(180deg);
     white-space: nowrap; height: auto; vertical-align: bottom;
     font-size: 10px; letter-spacing: 0; padding: 4px 0 8px;
   }
@@ -377,6 +377,7 @@
      luminance, so rise/fall survives colour-blindness without per-cell glyphs. */
   /* Vertical (rotated) column headers so 17 narrow columns fit */
   .heat-table th.col-h {
+    -webkit-writing-mode: vertical-rl;
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     font-size: 9px;
@@ -388,6 +389,7 @@
     vertical-align: bottom;
   }
   .heat-table th.col-h.rises-h {
+    -webkit-writing-mode: horizontal-tb;
     writing-mode: horizontal-tb;
     transform: none;
     text-align: left;
