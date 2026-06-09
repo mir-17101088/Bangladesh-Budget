@@ -276,7 +276,7 @@ function RelNewsCard({ item, accent }) {
 
 /* ── container — renders nothing when empty ──────────────── */
 
-function RelevantNews({ items, accent = "#0185C6", label = "Relevant News" }) {
+function RelevantNews({ items, accent = "#0185C6", label = "Read more" }) {
   const [, force] = useRN(0);
 
   useRNE(() => {
