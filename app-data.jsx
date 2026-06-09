@@ -270,21 +270,25 @@ function mapFeedItem(n, i) {
 }
 
 function loadNewsFeedRemainder() {
+  console.log("[app-data] fetching news feed from", NEWS_FEED_API_URL);
   fetch(NEWS_FEED_API_URL, { headers: { Accept: "application/json" } })
     .then((r) => {
-      if (!r.ok) throw new Error("News feed request failed");
+      console.log("[app-data] response status:", r.status, r.ok);
+      if (!r.ok) throw new Error("News feed request failed: " + r.status);
       return r.json();
     })
     .then((j) => {
+      console.log("[app-data] API response:", j);
       const items = Array.isArray(j && j.data) ? j.data : [];
       const remainder = items.slice(5);
+      console.log("[app-data] total items:", items.length, "remainder from index 5:", remainder.length);
       if (remainder.length === 0) return;
       const mapped = remainder.map((n, i) => mapFeedItem(n, i));
       NEWS.splice(0, NEWS.length, ...mapped);
       window.dispatchEvent(new Event("news-feed:updated"));
     })
-    .catch(() => {
-      // Keep static NEWS fallback when API/proxy is unavailable.
+    .catch((e) => {
+      console.error("[app-data] fetch error:", e);
     });
 }
 
