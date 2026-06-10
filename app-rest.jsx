@@ -678,7 +678,7 @@ function NewsSection() {
         <div className="section-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", maxWidth: "100%", marginBottom: 48 }}>
           <div>
             <span className="eyebrow">From the newsroom</span>
-            <h2 style={{ marginTop: 16 }}>Latest Budget Coverage</h2>
+            <h2 style={{ marginTop: 16 }}>Latest budget coverage</h2>
           </div>
           <a href="https://www.thedailystar.net/business/bangladesh-budget-2026-27" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "var(--ui)", fontSize: 13, color: "#6fc7ee", letterSpacing: "0.04em", borderBottom: "1px solid #6fc7ee", paddingBottom: 4, cursor: "pointer", textDecoration: "none" }}>All Budget {BUDGET.proposed} stories →</a>
         </div>
@@ -840,15 +840,15 @@ function Footer() {
 
   const routes = isLocal
     ? {
-        home: basePath,
-        sector: basePath + "sector-deep-dive/",
-        realities: basePath + "budget-realities/",
-      }
+      home: basePath,
+      sector: basePath + "sector-deep-dive/",
+      realities: basePath + "budget-realities/",
+    }
     : {
-        home: "/",
-        sector: "/sector-deep-dive",
-        realities: "/budget-realities",
-      };
+      home: "/",
+      sector: "/sector-deep-dive",
+      realities: "/budget-realities",
+    };
 
   return (
     <footer>
