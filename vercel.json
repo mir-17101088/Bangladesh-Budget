@@ -4,6 +4,8 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "redirects": [
+    { "source": "/sector-deep-dive/", "destination": "/sector-deep-dive", "permanent": true },
+    { "source": "/budget-realities/", "destination": "/budget-realities", "permanent": true },
     { "source": "/index.html", "destination": "/", "permanent": true },
     { "source": "/budget-at-a-glance", "destination": "/", "permanent": true },
     { "source": "/Budget%20at%20a%20Glance.html", "destination": "/", "permanent": true },
