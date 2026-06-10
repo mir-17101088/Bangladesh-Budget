@@ -313,10 +313,23 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
    NAV
 ============================================================ */
 function Nav({ active }) {
+  const isLocal = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
+  const routes = isLocal
+    ? {
+        home: "index.html",
+        sector: "sector-deep-dive.html",
+        realities: "budget-realities.html",
+      }
+    : {
+        home: "/",
+        sector: "/sector-deep-dive",
+        realities: "/budget-realities",
+      };
+
   const links = [
-    { name: "Home", href: "index.html" },
-    { name: "Sector Deep Dive", href: "sector-deep-dive.html" },
-    { name: "Budget Realities", href: "budget-realities.html" },
+    { name: "Home", href: routes.home },
+    { name: "Sector Deep Dive", href: routes.sector },
+    { name: "Budget Realities", href: routes.realities },
   ];
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -336,7 +349,7 @@ function Nav({ active }) {
     <div className={"nav" + (scrolled ? " scrolled" : "")}>
       <div className="nav-accent" aria-hidden="true"></div>
       <div className="wrap nav-inner">
-        <a href="index.html" className="nav-brand">
+        <a href={routes.home} className="nav-brand">
           <span className="nav-mark" aria-hidden="true">৳</span>
           <img src="assets/logo.svg" alt="The Daily Star" />
           <span className="nav-divider"></span>

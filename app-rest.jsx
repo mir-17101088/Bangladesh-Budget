@@ -823,6 +823,19 @@ function BackToTop() {
 }
 
 function Footer() {
+  const isLocal = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
+  const routes = isLocal
+    ? {
+        home: "index.html",
+        sector: "sector-deep-dive.html",
+        realities: "budget-realities.html",
+      }
+    : {
+        home: "/",
+        sector: "/sector-deep-dive",
+        realities: "/budget-realities",
+      };
+
   return (
     <footer>
       <BackToTop />
@@ -837,9 +850,9 @@ function Footer() {
           <div className="foot" style={{ flex: '0 1 auto', minWidth: '200px' }}>
             <h4 style={{ marginBottom: '20px' }}>Pages</h4>
             <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><a href="index.html" style={{ display: 'block' }}>Home</a></li>
-              <li><a href="sector-deep-dive.html" style={{ display: 'block' }}>Sector Deep Dive</a></li>
-              <li><a href="budget-realities.html" style={{ display: 'block' }}>Budget Realities</a></li>
+              <li><a href={routes.home} style={{ display: 'block' }}>Home</a></li>
+              <li><a href={routes.sector} style={{ display: 'block' }}>Sector Deep Dive</a></li>
+              <li><a href={routes.realities} style={{ display: 'block' }}>Budget Realities</a></li>
             </ul>
           </div>
         </div>
