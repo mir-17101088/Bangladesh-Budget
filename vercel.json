@@ -2,6 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/api/news", "destination": "/api/news.js" }
+  ],
   "headers": [
     {
       "source": "/_assets/(.*)",
