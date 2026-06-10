@@ -823,18 +823,16 @@ function BackToTop() {
 }
 
 function Footer() {
-  const isLocal = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
-  const routes = isLocal
-    ? {
-        home: "index.html",
-        sector: "sector-deep-dive.html",
-        realities: "budget-realities.html",
-      }
-    : {
-        home: "/",
-        sector: "/sector-deep-dive",
-        realities: "/budget-realities",
-      };
+  let basePath = window.location.pathname;
+  basePath = basePath.replace(/(?:index\.html|budget-realities\.html|sector-deep-dive\.html)$/, "");
+  basePath = basePath.replace(/(?:budget-realities|sector-deep-dive)\/$/, "");
+  if (!basePath.endsWith("/")) basePath += "/";
+
+  const routes = {
+    home: basePath,
+    sector: basePath + "sector-deep-dive/",
+    realities: basePath + "budget-realities/",
+  };
 
   return (
     <footer>

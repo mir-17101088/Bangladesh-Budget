@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Sector Deep Dive · Budget FY 2026—27 · The Daily Star</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../loading-screen.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles-price.css" />
+  <link rel="stylesheet" href="../styles-sector.css" />
+  <link rel="stylesheet" href="../enhance.css" />
+
+  <script>
+    (function () {
+      try {
+        var c = navigator.connection || {};
+        if ((navigator.deviceMemory && navigator.deviceMemory <= 2) ||
+            c.saveData === true || /(^|-)2g$/.test(c.effectiveType || "")) {
+          document.documentElement.classList.add("reduce-fx");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    html.reduce-fx *, html.reduce-fx *::before, html.reduce-fx *::after {
+      backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    }
+    html.reduce-fx .glass { background-color: rgba(9, 14, 34, 0.9); }
+    html.reduce-fx .hero-taka-float, html.reduce-fx .hero-dots, html.reduce-fx .hero-glow { display: none !important; }
+  </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N05BY78YLS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-N05BY78YLS');
+  </script>
+</head>
+
+<body class="app-loading">
+
+  <div id="app-loader" aria-hidden="false">
+    <span class="ls-eyebrow">The Daily Star</span>
+    <span class="ls-mark">৳</span>
+    <div class="ls-progress"></div>
+    <span class="ls-caption">Loading Sector Deep Dive</span>
+  </div>
+
+  <div id="root"></div>
+
+  <script>
+    (function () {
+      function hide() {
+        var el = document.getElementById('app-loader');
+        if (!el) return;
+        el.classList.add('hidden');
+        document.body.classList.remove('app-loading');
+        setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 800);
+      }
+      window.addEventListener('app:ready', hide, { once: true });
+      setTimeout(hide, 3500);
+    })();
+  </script>
+
+  <script type="module" src="../entry-sector.js"></script>
+</body>
+
+</html>
