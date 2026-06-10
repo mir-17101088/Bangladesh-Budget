@@ -823,7 +823,16 @@ function BackToTop() {
 }
 
 function Footer() {
-  const isLocal = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
+  const host = window.location.hostname;
+  const isLocal =
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host === "::1" ||
+    host === "0.0.0.0" ||
+    host.endsWith(".local") ||
+    /^10\./.test(host) ||
+    /^192\.168\./.test(host) ||
+    /^172\.(1[6-9]|2\d|3[0-1])\./.test(host);
   let basePath = window.location.pathname;
   basePath = basePath.replace(/(?:index\.html|budget-realities\.html|sector-deep-dive\.html)$/, "");
   basePath = basePath.replace(/(?:budget-realities|sector-deep-dive)\/$/, "");
