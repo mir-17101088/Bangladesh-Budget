@@ -49,7 +49,7 @@ function SectorGridSection({ active, setActive }) {
       <div className="wrap">
         <div className="section-head">
           <span className="eyebrow">The fourteen sectors</span>
-          <h2>Which Sectors Got Priority?</h2>
+          <h2>Which sectors got priority?</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
             The cards below show how public spending across sectors has grown since FY09, the earliest year for which actual expenditure data is available.
           </p>
@@ -359,7 +359,7 @@ function ExpandedSection({ active }) {
               <h3>
                 {(() => {
                   if (mode === "abs") return SUBTITLE_TEMPLATES[s.k]?.replace('{g}', s.growth.replace(/\.0×$/, '×'));
-                  
+
                   if (mode === "gdp") {
                     const pts = parseFloat(s.gdpGrowth);
                     const absPts = Math.abs(pts).toFixed(2) + " pts";

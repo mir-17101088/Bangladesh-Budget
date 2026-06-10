@@ -208,7 +208,7 @@ function PriceHero() {
           <span>Budget at a Glance</span><span style={{ color: "var(--g7)" }}>·</span>
 
         </div>
-        <h1>Budget on paper, <em>vs Budget in practice</em></h1>
+        <h1>Budget on paper <em>vs budget in practice</em></h1>
         <div className="dek-intro" style={{ marginBottom: 40 }}>
           <p className="dek" style={{ marginBottom: 28 }}>
             Every budget is the government's promise of what it will spend, where the money will come from, and what it will prioritise.
@@ -221,9 +221,9 @@ function PriceHero() {
             background: "linear-gradient(to right, rgba(255,255,255,0.04), transparent)"
           }}>
             <p style={{ margin: 0, fontSize: "19px", lineHeight: "1.6", color: "var(--g2)", fontFamily: "var(--ui)", fontWeight: 400 }}>
-              These charts trace that promise across Bangladesh's public finances— comparing 
-              <strong style={{ color: "#FF6B35", fontWeight: 600 }}> revenue and fiscal ambitions</strong> to the size of the economy, revealing how much of the budget actually 
-              <strong style={{ color: "#45B7D1", fontWeight: 600 }}> reaches the ground</strong>, and highlighting the escalating costs of 
+              These charts trace that promise across Bangladesh's public finances— comparing
+              <strong style={{ color: "#FF6B35", fontWeight: 600 }}> revenue and fiscal ambitions</strong> to the size of the economy, revealing how much of the budget actually
+              <strong style={{ color: "#45B7D1", fontWeight: 600 }}> reaches the ground</strong>, and highlighting the escalating costs of
               <strong style={{ color: "#c084fc", fontWeight: 600 }}> debt, subsidies, and operating expenses</strong>.
             </p>
           </div>

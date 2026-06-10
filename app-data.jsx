@@ -330,15 +330,15 @@ function Nav({ active }) {
 
   const routes = isLocal
     ? {
-        home: basePath,
-        sector: basePath + "sector-deep-dive/",
-        realities: basePath + "budget-realities/",
-      }
+      home: basePath,
+      sector: basePath + "sector-deep-dive/",
+      realities: basePath + "budget-realities/",
+    }
     : {
-        home: "/",
-        sector: "/sector-deep-dive",
-        realities: "/budget-realities",
-      };
+      home: "/",
+      sector: "/sector-deep-dive",
+      realities: "/budget-realities",
+    };
 
   const links = [
     { name: "Home", href: routes.home },
@@ -476,7 +476,7 @@ function Hero({ tweaks }) {
 // Target anchored to a fixed timezone (UTC+6, Dhaka) so the countdown is
 // correct for every visitor regardless of their local clock. Edit if the
 // presentation time changes.
-const BUDGET_DATETIME = new Date("2026-06-11T23:00:00+06:00"); // 11:00 PM Dhaka
+const BUDGET_DATETIME = new Date("2026-06-11T15:00:00+06:00"); // 03:00 PM Dhaka
 
 function PreLaunchHero() {
   // ── live 1-second tick, single interval, cleaned up on unmount ──
@@ -575,26 +575,24 @@ function PreLaunchHero() {
             </span>
           </div>
 
-          {passed ? (
-            <div className="pl-passed" role="status" style={{ textAlign: "center" }}>
-              Budget presented — figures coming soon.
-            </div>
-          ) : (
-            <div className="pl-timer" aria-hidden="true" style={{ justifyContent: "center" }}>
-              {units.map((u, i) => (
-                <React.Fragment key={u.one}>
-                  {i > 0 && <span className="pl-colon" aria-hidden="true">:</span>}
-                  <span className="pl-tu">
-                    <span className="pl-tnum">{String(u.v).padStart(2, "0")}</span>
-                    <span className="pl-tlab">{u.v === 1 ? u.one : u.many}</span>
-                  </span>
-                </React.Fragment>
-              ))}
-            </div>
-          )}
+          <div className="pl-timer" aria-hidden="true" style={{ justifyContent: "center" }}>
+            {units.map((u, i) => (
+              <React.Fragment key={u.one}>
+                {i > 0 && <span className="pl-colon" aria-hidden="true">:</span>}
+                <span className="pl-tu">
+                  <span className="pl-tnum">{String(u.v).padStart(2, "0")}</span>
+                  <span className="pl-tlab">{u.v === 1 ? u.one : u.many}</span>
+                </span>
+              </React.Fragment>
+            ))}
+          </div>
         </div>
 
-        <p className="pl-foot">This site updates with the new figures of FY27 within hours of the announcement.</p>
+        <p className="pl-foot">
+          {passed
+            ? "FY27 budget data coming soon"
+            : "This site updates with the new figures of FY27 within hours of the announcement."}
+        </p>
       </div>
     </section>
   );
