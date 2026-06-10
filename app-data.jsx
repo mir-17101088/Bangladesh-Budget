@@ -314,9 +314,9 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 ============================================================ */
 function Nav({ active }) {
   const links = [
-    { name: "Home", href: "/" },
-    { name: "Sector Deep Dive", href: "/sector-deep-dive" },
-    { name: "Budget Realities", href: "/budget-realities" },
+    { name: "Home", href: "index.html" },
+    { name: "Sector Deep Dive", href: "sector-deep-dive.html" },
+    { name: "Budget Realities", href: "budget-realities.html" },
   ];
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -336,7 +336,7 @@ function Nav({ active }) {
     <div className={"nav" + (scrolled ? " scrolled" : "")}>
       <div className="nav-accent" aria-hidden="true"></div>
       <div className="wrap nav-inner">
-        <a href="/" className="nav-brand">
+        <a href="index.html" className="nav-brand">
           <span className="nav-mark" aria-hidden="true">৳</span>
           <img src="assets/logo.svg" alt="The Daily Star" />
           <span className="nav-divider"></span>
