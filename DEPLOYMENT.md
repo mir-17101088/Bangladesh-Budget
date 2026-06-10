@@ -168,6 +168,14 @@ location /_assets/ {
 location ~* \.html$ {
     add_header Cache-Control "no-cache";
 }
+
+# Ensure social scrapers can fetch OG tags (avoid 403 in Facebook Debugger)
+location = /robots.txt {
+  try_files $uri =404;
+}
+
+# If you use bot/user-agent blocking rules elsewhere, explicitly allow these:
+# facebookexternalhit, Facebot, Twitterbot, LinkedInBot
 ```
 
 **Apache** — enable `mod_deflate`/`mod_brotli` and set the same `Cache-Control` per path
