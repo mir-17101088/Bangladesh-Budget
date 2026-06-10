@@ -2,6 +2,16 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/budget-at-a-glance", "destination": "/", "permanent": true },
+    { "source": "/Budget%20at%20a%20Glance.html", "destination": "/", "permanent": true },
+    { "source": "/sector-deep-dive.html", "destination": "/sector-deep-dive", "permanent": true },
+    { "source": "/Sector%20Deep%20Dive.html", "destination": "/sector-deep-dive", "permanent": true },
+    { "source": "/budget-realities.html", "destination": "/budget-realities", "permanent": true },
+    { "source": "/Budget%20Realities.html", "destination": "/budget-realities", "permanent": true }
+  ],
   "functions": {
     "api/news.js": { "runtime": "nodejs20.x" }
   },

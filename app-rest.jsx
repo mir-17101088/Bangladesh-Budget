@@ -664,6 +664,7 @@ function HomeNewsCard({ n, index }) {
 function NewsSection() {
   const [, force] = React.useState(0);
   const [showCount, setShowCount] = React.useState(6);
+  const visibleNews = NEWS.slice(4);
 
   React.useEffect(() => {
     const onUpdate = () => force((v) => v + 1);
@@ -683,15 +684,15 @@ function NewsSection() {
         </div>
 
         <div className="news-grid">
-          {NEWS.slice(0, showCount).map((n, i) => (
+          {visibleNews.slice(0, showCount).map((n, i) => (
             <HomeNewsCard key={i} n={n} index={i} />
           ))}
         </div>
 
-        {NEWS.length > 6 && (
+        {visibleNews.length > 6 && (
           <div style={{ marginTop: 40, textAlign: "center" }}>
             <button
-              onClick={() => setShowCount(showCount >= NEWS.length ? 6 : NEWS.length)}
+              onClick={() => setShowCount(showCount >= visibleNews.length ? 6 : visibleNews.length)}
               style={{
                 fontFamily: "var(--ui)",
                 fontSize: 14,
@@ -724,7 +725,7 @@ function NewsSection() {
                 e.currentTarget.style.transform = "translateY(-3px)";
               }}
             >
-              {showCount >= NEWS.length ? "Show less" : "Show more"}
+              {showCount >= visibleNews.length ? "Show less" : "Show more"}
             </button>
           </div>
         )}
@@ -836,9 +837,9 @@ function Footer() {
           <div className="foot" style={{ flex: '0 1 auto', minWidth: '200px' }}>
             <h4 style={{ marginBottom: '20px' }}>Pages</h4>
             <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><a href="Budget at a Glance.html" style={{ display: 'block' }}>Home</a></li>
-              <li><a href="Sector Deep Dive.html" style={{ display: 'block' }}>Sector Deep Dive</a></li>
-              <li><a href="Budget Realities.html" style={{ display: 'block' }}>Budget Realities</a></li>
+              <li><a href="/" style={{ display: 'block' }}>Home</a></li>
+              <li><a href="/sector-deep-dive" style={{ display: 'block' }}>Sector Deep Dive</a></li>
+              <li><a href="/budget-realities" style={{ display: 'block' }}>Budget Realities</a></li>
             </ul>
           </div>
         </div>

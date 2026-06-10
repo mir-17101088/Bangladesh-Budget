@@ -70,6 +70,9 @@ function budgetPagesPlugin() {
       const key = id.slice(("\0" + VPREFIX).length);
       const files = PAGES[key];
       if (!files) return null;
+      // Register every source file as a dependency so HMR/full-reload triggers
+      // whenever any page fragment changes.
+      files.forEach((f) => this.addWatchFile(resolve(ROOT, f)));
       const raw =
         PRELUDE + "\n" +
         files.map((f) => readFileSync(resolve(ROOT, f), "utf8")).join("\n;\n");
@@ -99,10 +102,6 @@ function copyStaticPlugin() {
         const src = resolve(ROOT, dir);
         if (existsSync(src)) cpSync(src, resolve(out, dir), { recursive: true });
       }
-      // index.html is a pure static redirect — copy it verbatim rather than
-      // letting Vite rewrite its <link rel="canonical"> into a hashed dead-end.
-      const indexHtml = resolve(ROOT, "index.html");
-      if (existsSync(indexHtml)) cpSync(indexHtml, resolve(out, "index.html"));
     },
   };
 }
@@ -131,9 +130,12 @@ export default defineConfig({
     chunkSizeWarningLimit: 1500,
     rollupOptions: {
       input: {
+        index: resolve(ROOT, "index.html"),
+        "sector-deep-dive": resolve(ROOT, "sector-deep-dive.html"),
+        "budget-realities": resolve(ROOT, "budget-realities.html"),
         "budget-at-a-glance": resolve(ROOT, "Budget at a Glance.html"),
-        "sector-deep-dive": resolve(ROOT, "Sector Deep Dive.html"),
-        "budget-realities": resolve(ROOT, "Budget Realities.html"),
+        "sector-deep-dive-legacy": resolve(ROOT, "Sector Deep Dive.html"),
+        "budget-realities-legacy": resolve(ROOT, "Budget Realities.html"),
       },
     },
   },

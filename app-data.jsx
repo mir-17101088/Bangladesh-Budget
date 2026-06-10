@@ -279,10 +279,9 @@ function loadNewsFeedRemainder() {
     .then((j) => {
       console.log("[app-data] API response:", j);
       const items = Array.isArray(j && j.data) ? j.data : [];
-      const remainder = items.slice(5);
-      console.log("[app-data] total items:", items.length, "remainder from index 5:", remainder.length);
-      if (remainder.length === 0) return;
-      const mapped = remainder.map((n, i) => mapFeedItem(n, i));
+      console.log("[app-data] total items:", items.length);
+      if (items.length === 0) return;
+      const mapped = items.map((n, i) => mapFeedItem(n, i));
       NEWS.splice(0, NEWS.length, ...mapped);
       window.dispatchEvent(new Event("news-feed:updated"));
     })
@@ -315,9 +314,9 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 ============================================================ */
 function Nav({ active }) {
   const links = [
-    { name: "Home", href: "Budget at a Glance.html" },
-    { name: "Sector Deep Dive", href: "Sector Deep Dive.html" },
-    { name: "Budget Realities", href: "Budget Realities.html" },
+    { name: "Home", href: "/" },
+    { name: "Sector Deep Dive", href: "/sector-deep-dive" },
+    { name: "Budget Realities", href: "/budget-realities" },
   ];
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -337,7 +336,7 @@ function Nav({ active }) {
     <div className={"nav" + (scrolled ? " scrolled" : "")}>
       <div className="nav-accent" aria-hidden="true"></div>
       <div className="wrap nav-inner">
-        <a href="Budget at a Glance.html" className="nav-brand">
+        <a href="/" className="nav-brand">
           <span className="nav-mark" aria-hidden="true">৳</span>
           <img src="assets/logo.svg" alt="The Daily Star" />
           <span className="nav-divider"></span>

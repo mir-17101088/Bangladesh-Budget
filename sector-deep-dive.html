@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Budget at a Glance · FY 2026—27 · The Daily Star</title>
+  <title>Sector Deep Dive · Budget FY 2026—27 · The Daily Star</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,8 +12,8 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="loading-screen.css" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="styles-calc.css" />
   <link rel="stylesheet" href="styles-price.css" />
+  <link rel="stylesheet" href="styles-sector.css" />
   <link rel="stylesheet" href="enhance.css" />
 
   <!-- Low-end / Save-Data adaptation: drop the most GPU-expensive effects on
@@ -54,13 +54,12 @@
     <span class="ls-eyebrow">The Daily Star</span>
     <span class="ls-mark">৳</span>
     <div class="ls-progress"></div>
-    <span class="ls-caption">Loading Budget at a Glance</span>
+    <span class="ls-caption">Loading Sector Deep Dive</span>
   </div>
 
   <div id="root"></div>
 
   <script>
-    // Hide the loader after first paint (or after a max wait)
     (function () {
       function hide() {
         var el = document.getElementById('app-loader');
@@ -70,13 +69,12 @@
         setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 800);
       }
       window.addEventListener('app:ready', hide, { once: true });
-      // Fallback: hide after 3.5s no matter what
       setTimeout(hide, 3500);
     })();
   </script>
 
   <!-- Production React + pre-compiled app bundle (built by Vite). No in-browser Babel. -->
-  <script type="module" src="entry-home.js"></script>
+  <script type="module" src="entry-sector.js"></script>
 </body>
 
 </html>
