@@ -93,7 +93,7 @@
   margin-top: 32px;
   position: relative;
 }
-.sg-expand-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; margin-bottom: 32px; }
+.sg-expand-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: nowrap; margin-bottom: 32px; }
 .sg-expand-title h3 { font-family: var(--serif); font-size: 34px; line-height: 1; }
 .sg-expand-title .eyebrow { display: block; margin-bottom: 10px; }
 .sg-expand-stats { display: flex; gap: 32px; }
@@ -101,7 +101,7 @@
 .see-stat .v { font-family: var(--serif); font-size: 26px; color: #fff; line-height: 1; }
 .see-stat .s { font-family: var(--ui); font-size: 11px; color: var(--ink-3); margin-top: 4px; }
 
-.see-toggle { display: inline-flex; padding: 4px; background: rgba(255,255,255,0.05); border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); }
+.see-toggle { display: inline-flex; padding: 4px; background: rgba(255,255,255,0.05); border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; }
 .see-toggle button {
   font-family: var(--ui); font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
   text-transform: uppercase; min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 0;

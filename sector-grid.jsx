@@ -27,20 +27,20 @@ function Sparkline({ series, color }) {
 }
 
 const SUBTITLE_TEMPLATES = {
-  interest: "Interest Payments surge {g}",
-  publicsvc: "Public Services expenditure jumps {g}",
-  education: "Education and Technology spending rises {g}",
-  transport: "Transport and Communication spending soars {g}",
+  interest: "Interest payments surge {g}",
+  publicsvc: "Public services expenditure jumps {g}",
+  education: "Education and technology spending rises {g}",
+  transport: "Transport and communication spending soars {g}",
   agri: "Agriculture records only {g} growth in spending",
-  localgov: "Local Government and Rural Development expenditure rises {g}",
-  social: "Social Security spending increases {g}",
-  defence: "Defence Services expenditure grows {g}",
-  energy: "Energy and Power spending grows {g}",
-  order: "Public Order and Safety expenditure increases {g}",
-  health: "Health Sector expenditure grows {g}",
+  localgov: "Local government and rural development expenditure rises {g}",
+  social: "Social security spending increases {g}",
+  defence: "Defence services expenditure grows {g}",
+  energy: "Energy and power spending grows {g}",
+  order: "Public order and safety expenditure increases {g}",
+  health: "Health sector expenditure grows {g}",
   housing: "Housing sees only {g} growth in spending",
-  rec: "Recreation, Culture and Religious Affairs expenditure spikes {g}",
-  industry: "Industrial and Economic Services expenditure grows {g}"
+  rec: "Recreation, culture and religious affairs expenditure spikes {g}",
+  industry: "Industrial and economic services expenditure grows {g}"
 };
 
 function SectorGridSection({ active, setActive }) {
