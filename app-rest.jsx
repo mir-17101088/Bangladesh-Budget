@@ -74,7 +74,7 @@ function Treemap() {
           <span className="eyebrow">Sector by sector</span>
           <h2>Every area, every taka</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            FY27's proposed ৳9,38,000 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — Finance division and domestic interest — already eat a quarter.
+            FY27's proposed <b>৳9,38,000</b> crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — <b>Finance Division</b> and <b>interest</b>paid domestically — already eat a quarter.
           </p>
         </div>
 
