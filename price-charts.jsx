@@ -653,7 +653,7 @@ function DevOpGapSection() {
             <span className="eyebrow" style={{ color: "#c084fc" }}>Development vs Operating Expenditure</span>
             <h2>Development spending collapses as operating costs surge</h2>
             <p className="lede" style={{ marginTop: 18, maxWidth: "100%" }}>
-              Since FY2019, the gap between development and operating expenditure has steadily grown. But in FY2025, development implementation fell to a record low of 53.92% of allocation — even as operating spending hit 93.52%, its highest in the period.
+              Since FY2019, the gap between development and operating expenditure has steadily grown. But in FY2025, development implementation <b>fell to a record low of 53.92%</b> of allocation — even as operating spending hit <b>93.52%, its highest in the period</b>.
             </p>
           </div>
 
