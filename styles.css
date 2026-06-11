@@ -525,6 +525,7 @@ h3 {
   position: relative;
   display: inline-block;
   margin-bottom: clamp(10px, 2vh, 24px);
+  filter: drop-shadow(0 0 80px rgba(1, 133, 198, 0.4)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9));
 }
 
 .hero-num-glow-intense {
@@ -559,9 +560,9 @@ h3 {
   background: linear-gradient(180deg, #ffffff 0%, #d9f0ff 60%, #6bc5ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: transparent;
   text-shadow: 0 0 120px rgba(111, 199, 238, 0.6);
-  filter: drop-shadow(0 0 80px rgba(1, 133, 198, 0.4)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9));
   position: relative;
   display: inline-block;
   transform-origin: center center;
@@ -572,12 +573,10 @@ h3 {
   0%,
   100% {
     transform: scale(1);
-    filter: drop-shadow(0 0 80px rgba(1, 133, 198, 0.4)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9));
   }
 
   50% {
     transform: scale(1.02);
-    filter: drop-shadow(0 0 120px rgba(111, 199, 238, 0.7)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9));
   }
 }
 
@@ -1741,6 +1740,7 @@ footer {
 .hero-strip-cell {
   padding: 20px 24px;
   border-right: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
 }
 
 .hero-strip-cell:last-child {
