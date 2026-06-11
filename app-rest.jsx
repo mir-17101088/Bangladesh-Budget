@@ -74,7 +74,7 @@ function Treemap() {
           <span className="eyebrow">Sector by sector</span>
           <h2>Every area, every taka</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            FY26's allocated ৳7,90,000 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — debt interest and the Finance Division — already eat a quarter.
+            FY27's allocated ৳9,38,000 crore expenditure, sliced into the multiple ministries and divisions that consume it. Two single line items — Finance division and domestic interest — already eat a quarter.
           </p>
         </div>
 
@@ -271,10 +271,10 @@ function DebtSection() {
   const totals = DEBT.map(d => d.d + d.f);
   const maxV = Math.ceil(Math.max(...totals) * 1.18 / 10000) * 10000;
 
-  const proposedFy = BUDGET.proposed;
-  const proposedInterest = INTEREST_DATA.find(d => d.fy === proposedFy) || { d: 100000, f: 22000 };
+  const debtPropFy = DEBT.some(d => d.fy === BUDGET.proposed) ? BUDGET.proposed : DEBT[DEBT.length - 1].fy;
+  const proposedInterest = DEBT.find(d => d.fy === debtPropFy);
   const proposedTotalInterest = (proposedInterest.d || 0) + (proposedInterest.f || 0);
-  const proposedTotalBudget = window.TOTAL_BUDGET_BY_YEAR[proposedFy] || 1;
+  const proposedTotalBudget = window.TOTAL_BUDGET_BY_YEAR[debtPropFy] || 1;
   const calculatedInterestPct = (proposedTotalInterest / proposedTotalBudget) * 100;
 
   const fy09 = INTEREST_DATA.find(d => d.fy === "FY09") || { d: 13839, f: 1341 };
@@ -355,13 +355,13 @@ function DebtSection() {
 
         <div className="debt-callout">
           <span className="big"><CountUp value={calculatedInterestPct} decimals={1} prefix="৳" duration={1600} /></span>
-          <span className="txt">of every ৳100 in the {BUDGET.proposed} budget goes to paying interest</span>
+          <span className="txt">of every ৳100 in the {debtPropFy} budget goes to paying interest</span>
         </div>
 
         <div className="debt-chart-wrap glass">
           <div className="debt-chart-head">
             <div>
-              <span className="eyebrow" style={{ color: "#c084fc", display: "block" }}>Government interest payments · FY09 — {BUDGET.proposed}</span>
+              <span className="eyebrow" style={{ color: "#c084fc", display: "block" }}>Government interest payments · FY09 — {debtPropFy}</span>
               <span className="cap" style={{ marginTop: 6, display: "block" }}>In crore Taka</span>
             </div>
             <div className="debt-legend">
@@ -416,7 +416,7 @@ function DebtSection() {
               })}
 
               {DEBT.map((d, i) => {
-                const isProposed = d.fy === BUDGET.proposed;
+                const isProposed = d.fy === debtPropFy;
                 const isActual = d.fy === BUDGET.actual;
                 const total = d.d + d.f;
                 const delay = i * 40;
@@ -556,9 +556,9 @@ function DebtSection() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20, marginTop: 32, paddingTop: 28, borderTop: "1px solid rgba(147,51,234,0.18)" }}>
-            <Stat label={"Domestic, FY09 → " + BUDGET.proposed} big={d_mult + "×"} sub={`৳${(fy09.d / 1000).toFixed(1)}k → ৳${(proposedInterest.d / 1000).toFixed(0)}k cr`} />
-            <Stat label={"Foreign, FY09 → " + BUDGET.proposed} big={f_mult + "×"} sub={`৳${(fy09.f / 1000).toFixed(1)}k → ৳${(proposedInterest.f / 1000).toFixed(0)}k cr`} />
-            <Stat label={BUDGET.proposed + " share of every ৳100"} big={"৳" + calculatedInterestPct.toFixed(1)} sub={`up from ৳${pct11} in FY11`} />
+            <Stat label={"Domestic, FY09 → " + debtPropFy} big={d_mult + "×"} sub={`৳${(fy09.d / 1000).toFixed(1)}k → ৳${(proposedInterest.d / 1000).toFixed(0)}k cr`} />
+            <Stat label={"Foreign, FY09 → " + debtPropFy} big={f_mult + "×"} sub={`৳${(fy09.f / 1000).toFixed(1)}k → ৳${(proposedInterest.f / 1000).toFixed(0)}k cr`} />
+            <Stat label={debtPropFy + " share of every ৳100"} big={"৳" + calculatedInterestPct.toFixed(1)} sub={`up from ৳${pct11} in FY11`} />
           </div>
         </div>
 

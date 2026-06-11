@@ -51,14 +51,14 @@ function useInView(opts = {}) {
 }
 
 function useCountUp(target, opts = {}) {
-  const { duration = 1400, decimals = 0, start = 0, delay = 0 } = opts;
+  const { duration = 1400, decimals = 0, start = 0, delay = 0, alwaysOn = false } = opts;
   const [ref, inView] = useInView(opts);
   const [value, setValue] = useAS(start);
   const targetRef = useAR(target);
   targetRef.current = target;
 
   useAE(() => {
-    if (!inView) return;
+    if (!inView && !alwaysOn) return;
     if (prefersReducedMotion()) { setValue(targetRef.current); return; }
     let rafId, started = null;
     const tick = (t) => {
@@ -76,9 +76,8 @@ function useCountUp(target, opts = {}) {
     return () => cancelAnimationFrame(rafId);
   }, [inView]);
 
-  // also re-animate from current value to target when target changes after animation
   useAE(() => {
-    if (!inView) return;
+    if (!inView && !alwaysOn) return;
     if (prefersReducedMotion()) { setValue(target); return; }
     let rafId, started = null;
     const from = value;
@@ -99,8 +98,8 @@ function useCountUp(target, opts = {}) {
 
 // Inline number element that counts up when in view.
 // `format` lets you wrap (e.g. for currency, units, locale separators).
-function CountUp({ value, decimals = 0, duration = 1400, format, prefix = "", suffix = "", className, style, locale = "en-IN", as: As = "span" }) {
-  const { ref, value: v, display } = useCountUp(value, { decimals, duration });
+function CountUp({ value, decimals = 0, duration = 1400, format, prefix = "", suffix = "", className, style, locale = "en-IN", as: As = "span", alwaysOn = false }) {
+  const { ref, value: v, display } = useCountUp(value, { decimals, duration, alwaysOn });
   let out;
   if (format) out = format(v);
   else if (decimals > 0) out = v.toFixed(decimals);

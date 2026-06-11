@@ -72,7 +72,7 @@ function SectorGridSection({ active, setActive }) {
               </div>
               <div className="sg-name">{s.name}</div>
               <div className="sg-stats">
-                <div className="sg-total">৳{(s.proposed / 1000).toFixed(0)}k <span className="unit">cr · {BUDGET.proposed}</span></div>
+                <div className="sg-total">৳{(s.proposed / 1000).toFixed(0)}k <span className="unit">cr · {SECTOR_PROP}</span></div>
                 <div className="sg-growth">
                   <div className="v">{s.growth}</div>
                   <div className="l">since FY09</div>
@@ -80,7 +80,7 @@ function SectorGridSection({ active, setActive }) {
               </div>
               <Sparkline series={s.series} color={s.color} />
               <div className="sg-foot">
-                <span className="cap">FY09 ৳{(s.fy09 / 1000).toFixed(0)}k → {BUDGET.proposed} ৳{(s.proposed / 1000).toFixed(0)}k cr</span>
+                <span className="cap">FY09 ৳{(s.fy09 / 1000).toFixed(0)}k → {SECTOR_PROP} ৳{(s.proposed / 1000).toFixed(0)}k cr</span>
                 <span className="sg-cta">Explore →</span>
               </div>
             </div>
@@ -368,9 +368,9 @@ function ExpandedSection({ active }) {
                       transport: "Transport infrastructure outpaces GDP growth, rising {g}",
                       interest: "Interest payments shrink relative to the economy, down {g}",
                       defence: "Defence spending halves as a share of GDP, down {g}",
-                      education: "Education fails to keep pace with economic growth, dropping {g}",
+                      education: "Education sees slight hope, increasing {g}",
                       social: "Social Security footprint shrinks significantly, down {g}",
-                      industry: "Industry's share of the economy halves, dropping {g}",
+                      industry: "Industry's share of the economy falls, dropping {g}",
                       health: "Health spending falls behind economic expansion, down {g}",
                       agri: "Agriculture's economic footprint declines by {g}",
                       energy: "Energy spending remains relatively flat, " + (pts >= 0 ? "up" : "down") + " {g}",
@@ -389,12 +389,12 @@ function ExpandedSection({ active }) {
                     interest: "Interest consumes " + (budPts > 0 ? "more" : "less") + " of the budget, " + (budPts > 0 ? "up" : "down") + " {g}",
                     publicsvc: "Public Services takes a massive leap in budget priority, up {g}",
                     transport: "Transport secures a larger slice of the national budget, up {g}",
-                    education: "Education loses priority in the budget allocation, down {g}",
+                    education: "Education gets more priority in the budget allocation, up {g}",
                     agri: "Agriculture's share of the national budget drops by {g}",
                     social: "Social Security's budget priority falls by {g}",
-                    health: "Health sector sees its budget share shrink by {g}",
+                    health: "Health sector sees a massive growth in budget allocation, up {g}",
                     defence: "Defence is deprioritized in the national budget, down {g}",
-                    energy: "Energy maintains its budget allocation, " + (budPts >= 0 ? "up" : "down") + " {g}",
+                    energy: "Energy maintains its low budget allocation, " + (budPts >= 0 ? "up" : "down") + " {g}",
                     localgov: "Local Government loses budget share, down {g}",
                     order: "Public Order's slice of the budget decreases by {g}",
                     housing: "Housing's budget priority drops by {g}",
@@ -429,26 +429,26 @@ function ExpandedSection({ active }) {
 
               if (mode === "abs") return (
                 <>
-                  {renderCard(`${BUDGET.proposed} total`, <>৳<CountUp value={s.proposed} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>cr</span></>, `vs FY09: ৳${s.fy09.toLocaleString("en-IN")} cr`)}
-                  {renderCard("Growth multiple", <><CountUp value={parseFloat(s.growth)} decimals={1} suffix="×" /></>, `FY09 → ${BUDGET.proposed}`)}
+                  {renderCard(`${SECTOR_PROP} total`, <>৳<CountUp value={s.proposed} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>cr</span></>, `vs FY09: ৳${s.fy09.toLocaleString("en-IN")} cr`)}
+                  {renderCard("Growth multiple", <><CountUp value={parseFloat(s.growth)} decimals={1} suffix="×" /></>, `FY09 → ${SECTOR_PROP}`)}
                   {renderCard("Years of rise", <><CountUp value={s.riseAbs || 0} />{`/${SECTOR_YEARS.length - 1}`}</>, "YoY increases (absolute)")}
-                  {renderCard("Peak year", s.peakYearAbs || BUDGET.proposed, "all-time high in the series")}
+                  {renderCard("Peak year", s.peakYearAbs || SECTOR_PROP, "all-time high in the series")}
                 </>
               );
               if (mode === "gdp") return (
                 <>
-                  {renderCard(`${BUDGET.proposed} share`, <><CountUp value={parseFloat(s.gdpProposed) || 0} decimals={2} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>%</span></>, `vs FY09: ${(s.gdp09 || 0).toFixed(2)}%`)}
-                  {renderCard("Change since FY09", <><CountUp value={parseFloat(s.gdpGrowth) || 0} decimals={2} prefix={parseFloat(s.gdpGrowth) > 0 ? "+" : ""} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>pts</span></>, `FY09 → ${BUDGET.proposed}`)}
+                  {renderCard(`${SECTOR_PROP} share`, <><CountUp value={parseFloat(s.gdpProposed) || 0} decimals={2} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>%</span></>, `vs FY09: ${(s.gdp09 || 0).toFixed(2)}%`)}
+                  {renderCard("Change since FY09", <><CountUp value={parseFloat(s.gdpGrowth) || 0} decimals={2} prefix={parseFloat(s.gdpGrowth) > 0 ? "+" : ""} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>pts</span></>, `FY09 → ${SECTOR_PROP}`)}
                   {renderCard("Years of rise", <><CountUp value={s.riseGdp || 0} />{`/${SECTOR_YEARS.length - 1}`}</>, "YoY increases (% share)")}
-                  {renderCard("Peak year", s.peakYearGdp || BUDGET.proposed, "highest GDP share")}
+                  {renderCard("Peak year", s.peakYearGdp || SECTOR_PROP, "highest GDP share")}
                 </>
               );
               return (
                 <>
-                  {renderCard(`${BUDGET.proposed} share`, <><CountUp value={parseFloat(s.budProposed) || 0} decimals={2} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>%</span></>, `vs FY09: ${(s.bud09 || 0).toFixed(2)}%`)}
-                  {renderCard("Change since FY09", <><CountUp value={parseFloat(s.budGrowth) || 0} decimals={2} prefix={parseFloat(s.budGrowth) > 0 ? "+" : ""} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>pts</span></>, `FY09 → ${BUDGET.proposed}`)}
+                  {renderCard(`${SECTOR_PROP} share`, <><CountUp value={parseFloat(s.budProposed) || 0} decimals={2} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>%</span></>, `vs FY09: ${(s.bud09 || 0).toFixed(2)}%`)}
+                  {renderCard("Change since FY09", <><CountUp value={parseFloat(s.budGrowth) || 0} decimals={2} prefix={parseFloat(s.budGrowth) > 0 ? "+" : ""} /><span style={{ fontSize: 14, color: "var(--g4)", marginLeft: 6 }}>pts</span></>, `FY09 → ${SECTOR_PROP}`)}
                   {renderCard("Years of rise", <><CountUp value={s.riseBud || 0} />{`/${SECTOR_YEARS.length - 1}`}</>, "YoY increases (% of budget)")}
-                  {renderCard("Peak year", s.peakYearBud || BUDGET.proposed, "highest budget share")}
+                  {renderCard("Peak year", s.peakYearBud || SECTOR_PROP, "highest budget share")}
                 </>
               );
             })()}
@@ -505,7 +505,7 @@ function ExpandedSection({ active }) {
               {/* ── ABSOLUTE VIEW: stacked bars ── */}
               {mode === "abs" && absBars.map((b, i) => {
                 const baseDelay = i * 45;
-                const isProposed = b.fy === BUDGET.proposed;
+                const isProposed = b.fy === SECTOR_PROP;
                 const isActual = b.fy === BUDGET.actual;
                 const tag = BUDGET.tagFor(b.fy);
 
@@ -618,7 +618,7 @@ function ExpandedSection({ active }) {
               {/* ── PERCENT VIEWS (GDP share / budget share): single-color bars ── */}
               {mode !== "abs" && pctBars.map((b, i) => {
                 const baseDelay = i * 45;
-                const isProposed = b.fy === BUDGET.proposed;
+                const isProposed = b.fy === SECTOR_PROP;
                 const barSize = (b.pct / dispMax) * (isMobile ? innerW : innerH);
                 const tag = BUDGET.tagFor(b.fy);
 
@@ -717,7 +717,7 @@ function ExpandedSection({ active }) {
                 ))}
                 <span className="ll" style={{ marginLeft: "auto" }}>
                   <span className="sw" style={{ background: "transparent", border: "1px dashed " + s.color }}></span>
-                  {BUDGET.revised}–{BUDGET.proposed} · not yet actual
+                  {BUDGET.revised}–{SECTOR_PROP} · not yet actual
                 </span>
               </>
             ) : (
@@ -725,7 +725,7 @@ function ExpandedSection({ active }) {
                 <span className="ll"><span className="sw" style={{ background: s.color }}></span>Total {s.name} as {mode === "gdp" ? "% of GDP" : "% of total budget"}</span>
                 <span className="ll" style={{ marginLeft: "auto" }}>
                   <span className="sw" style={{ background: "transparent", border: "1px dashed " + s.color }}></span>
-                  {BUDGET.revised}–{BUDGET.proposed} · not yet actual
+                  {BUDGET.revised}–{SECTOR_PROP} · not yet actual
                 </span>
               </>
             )}

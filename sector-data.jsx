@@ -27,112 +27,112 @@ const SECTOR_VALUES = {
     FY09: 15180, FY10: 14868, FY11: 15623, FY12: 20351, FY13: 23915, FY14: 28205,
     FY15: 30973, FY16: 33114, FY17: 35090, FY18: 41765, FY19: 49461, FY20: 58313,
     FY21: 70606, FY22: 77779,
-    // mock — edit
-    FY23: 92107, FY24: 114590, FY25: 121500, FY26: 122000, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 92107, FY24: 114590, FY25: 136123, FY26: 127000, FY27: 127500,
   },
   publicsvc: {
     color: "#997B50", parent: "Public Services",
     FY09: 6881, FY10: 8250, FY11: 8081, FY12: 11050, FY13: 7948, FY14: 14521,
     FY15: 12288, FY16: 15240, FY17: 31303, FY18: 27862, FY19: 33004, FY20: 39291,
     FY21: 56581, FY22: 75511,
-    // mock — edit
-    FY23: 89707, FY24: 98662, FY25: 188450, FY26: 186088, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 89707, FY24: 98662, FY25: 133498, FY26: 227189, FY27: 263945,
   },
   education: {
     color: "#0185C6", parent: "Education",
     FY09: 12098, FY10: 15904, FY11: 18803, FY12: 19107, FY13: 21284, FY14: 26629,
     FY15: 30290, FY16: 39906, FY17: 48641, FY18: 47572, FY19: 63242, FY20: 65967,
     FY21: 71925, FY22: 77143,
-    // mock — edit
-    FY23: 75429, FY24: 80290, FY25: 99114, FY26: 110657, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 75429, FY24: 80290, FY25: 82149, FY26: 106525, FY27: 142659,
   },
   transport: {
     color: "#B0832B", parent: "Transport",
     FY09: 4205, FY10: 6623, FY11: 7049, FY12: 9455, FY13: 12480, FY14: 14244,
     FY15: 19046, FY16: 24104, FY17: 22899, FY18: 40076, FY19: 37833, FY20: 53743,
     FY21: 50218, FY22: 60200,
-    // mock — edit
-    FY23: 65047, FY24: 59171, FY25: 60500, FY26: 71344, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 65047, FY24: 59171, FY25: 41464, FY26: 50280, FY27: 62872,
   },
   agri: {
     color: "#019933", parent: "Agriculture",
     FY09: 9557, FY10: 11147, FY11: 12957, FY12: 14671, FY13: 19687, FY14: 17277,
     FY15: 15926, FY16: 17877, FY17: 16893, FY18: 19126, FY19: 23600, FY20: 21977,
     FY21: 25759, FY22: 35803,
-    // mock — edit
-    FY23: 54309, FY24: 53137, FY25: 44568, FY26: 46268, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 54309, FY24: 53137, FY25: 42030, FY26: 45789, FY27: 46821,
   },
   localgov: {
     color: "#96CEB4", parent: "Local Govt",
     FY09: 6897, FY10: 8460, FY11: 10206, FY12: 11050, FY13: 14147, FY14: 14466,
     FY15: 17831, FY16: 18593, FY17: 17913, FY18: 21573, FY19: 31491, FY20: 32390,
     FY21: 35484, FY22: 36944,
-    // mock — edit
-    FY23: 41116, FY24: 44500, FY25: 44770, FY26: 44895, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 41116, FY24: 44500, FY25: 38187, FY26: 46592, FY27: 42809,
   },
   social: {
     color: "#45B7D1", parent: "Social Security",
     FY09: 7885, FY10: 6959, FY11: 7728, FY12: 8986, FY13: 10047, FY14: 11229,
     FY15: 11159, FY16: 15322, FY17: 16208, FY18: 18089, FY19: 23921, FY20: 24086,
     FY21: 26938, FY22: 32972,
-    // mock — edit
-    FY23: 37460, FY24: 39189, FY25: 42312, FY26: 45083, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 37460, FY24: 39189, FY25: 36978, FY26: 44591, FY27: 62443,
   },
   defence: {
     color: "#7D0066", parent: "Defence",
     FY09: 6260, FY10: 8759, FY11: 11124, FY12: 12230, FY13: 12021, FY14: 13920,
     FY15: 17490, FY16: 20313, FY17: 23621, FY18: 21146, FY19: 29989, FY20: 34480,
     FY21: 35463, FY22: 35270,
-    // mock — edit
-    FY23: 31624, FY24: 34848, FY25: 39239, FY26: 40698, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 31624, FY24: 34848, FY25: 37629, FY26: 40502, FY27: 42291,
   },
   energy: {
     color: "#FF6B35", parent: "Energy",
     FY09: 2550, FY10: 3469, FY11: 7233, FY12: 7969, FY13: 10280, FY14: 10504,
     FY15: 5894, FY16: 16375, FY17: 14620, FY18: 28562, FY19: 37188, FY20: 33132,
     FY21: 22840, FY22: 22754,
-    // mock — edit
-    FY23: 27793, FY24: 28376, FY25: 22705, FY26: 22520, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 27793, FY24: 28376, FY25: 22110, FY26: 16951, FY27: 17345,
   },
   order: {
     color: "#FFEAA7", parent: "Public Order",
     FY09: 5684, FY10: 6582, FY11: 7815, FY12: 8737, FY13: 9655, FY14: 11759,
     FY15: 13158, FY16: 16452, FY17: 19686, FY18: 22052, FY19: 27022, FY20: 23430,
     FY21: 24414, FY22: 26195,
-    // mock — edit
-    FY23: 25793, FY24: 28698, FY25: 31711, FY26: 33542, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 25793, FY24: 28698, FY25: 29245, FY26: 33630, FY27: 33764,
   },
   health: {
     color: "#4ECDC4", parent: "Health",
     FY09: 5104, FY10: 6271, FY11: 7287, FY12: 7667, FY13: 8549, FY14: 9384,
     FY15: 10417, FY16: 12605, FY17: 6621, FY18: 16839, FY19: 18677, FY20: 17532,
     FY21: 21647, FY22: 25028,
-    // mock — edit
-    FY23: 22521, FY24: 23726, FY25: 27923, FY26: 41908, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 22521, FY24: 23726, FY25: 19031, FY26: 28054, FY27: 62852,
   },
   housing: {
     color: "#A8E6CF", parent: "Housing",
     FY09: 1373, FY10: 1249, FY11: 1325, FY12: 1336, FY13: 1695, FY14: 1965,
     FY15: 3861, FY16: 5005, FY17: 3456, FY18: 6018, FY19: 5496, FY20: 6419,
     FY21: 6935, FY22: 6525,
-    // mock — edit
-    FY23: 7744, FY24: 6543, FY25: 5382, FY26: 5111, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 7744, FY24: 6543, FY25: 4521, FY26: 4822, FY27: 5078,
   },
   rec: {
     color: "#DDA0DD", parent: "Recreation",
     FY09: 924, FY10: 1029, FY11: 1557, FY12: 1473, FY13: 1698, FY14: 1811,
     FY15: 1862, FY16: 2389, FY17: 3240, FY18: 3084, FY19: 4454, FY20: 3757,
     FY21: 3844, FY22: 5137,
-    // mock — edit
-    FY23: 6751, FY24: 5451, FY25: 5464, FY26: 6540, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 6751, FY24: 5451, FY25: 4786, FY26: 6183, FY27: 7556,
   },
   industry: {
     color: "#FF8C94", parent: "Industry",
     FY09: 849, FY10: 946, FY11: 1014, FY12: 1679, FY13: 2811, FY14: 2616,
     FY15: 2929, FY16: 2198, FY17: 2438, FY18: 2677, FY19: 3535, FY20: 3222,
     FY21: 3371, FY22: 3594,
-    // mock — edit
-    FY23: 3668, FY24: 4080, FY25: 3953, FY26: 4172, FY27: null,
+    // mock — edit - 27 DONE
+    FY23: 3668, FY24: 4080, FY25: 3013, FY26: 4292, FY27: 3880,
   },
 };
 
@@ -156,7 +156,7 @@ const SECTOR_META = [
 
 // Years that have data across EVERY sector (drops the FY27 placeholder until filled).
 const SECTOR_YEARS = FY_YEARS.filter(fy => Object.values(SECTOR_VALUES).every(v => typeof v[fy] === "number"));
-const SECTOR_PROP = BUDGET.proposed;   // shared global state from app-data.jsx
+const SECTOR_PROP = SECTOR_YEARS.includes(BUDGET.proposed) ? BUDGET.proposed : SECTOR_YEARS[SECTOR_YEARS.length - 1];
 
 // Derive the SECTORS array used by every chart on the page.
 const SECTORS = SECTOR_META.map(m => {
@@ -191,7 +191,6 @@ function countRises(arr) {
 // FY24's shape, scaled to each sector's total) — edit freely; nothing overwrites them.
 // ⟶ GO-LIVE FY27 (sub-sectors): optional. Once SECTOR_VALUES.FY27 is set, the
 //   Absolute view auto-fills FY27 from the latest known shape. To use real
-//   figures, add `FY27: [...]` (same order/length as FY24) to a sector's `data`.
 // ──────────────────────────────────────────────────────────────────────
 
 function _parseNum(s) {
@@ -210,8 +209,8 @@ const SUB_SECTOR_RAW = {
       FY18: [20295, 827, 24], FY19: [28505, 1450, 34], FY20: [33120, 1323, 37],
       FY21: [33877, 1549, 37], FY22: [33239, 1979, 52], FY23: [29860, 1730, 34],
       FY24: [33067, 1747, 34],
-      FY25: [37380, 1816, 43], FY26: [38728, 1923, 47],
-    }
+      FY25: [35667, 1926, 36], FY26: [38549, 1923, 40], FY27: [40332, 1915, 44]
+    } //FY27 DONE
   },
   interest: {
     names: ["Domestic", "Foreign"],
@@ -223,7 +222,7 @@ const SUB_SECTOR_RAW = {
       FY18: [38160, 3605], FY19: [46015, 3446], FY20: [53995, 4318],
       FY21: [66319, 4287], FY22: [73225, 4554], FY23: [82670, 9437],
       FY24: [99606, 14984],
-      FY25: [99500, 22000], FY26: [100000, 22000],
+      FY25: [118311, 17812], FY26: [105000, 22000], FY27: [105000, 22500],
     }
   },
   agri: {
@@ -238,7 +237,7 @@ const SUB_SECTOR_RAW = {
       FY19: [12174, 1661, 820, 1392, 7553], FY20: [11533, 1762, 828, 1251, 6603],
       FY21: [12926, 2707, 901, 1407, 7818], FY22: [21326, 2483, 1051, 1543, 9400],
       FY23: [33810, 3637, 1357, 1949, 13556], FY24: [31969, 3605, 1850, 1600, 14113],
-      FY25: [24696, 3858, 1323, 2007, 12684], FY26: [27224, 3392, 2144, 2304, 11204],
+      FY25: [23890, 3355, 1155, 1376, 12254], FY26: [24825, 3345, 1838, 2401, 13380], FY27: [28881, 2727, 2240, 2440, 10533]
     }
   },
   education: {
@@ -253,7 +252,7 @@ const SUB_SECTOR_RAW = {
       FY19: [19916, 24460, 12390, 1251, 5225], FY20: [20461, 25869, 12680, 909, 6048],
       FY21: [23211, 29613, 11587, 859, 6655], FY22: [23463, 28971, 15070, 1642, 7997],
       FY23: [23815, 30496, 11623, 1727, 7768], FY24: [26231, 32276, 11208, 2292, 8283],
-      FY25: [35123, 39234, 12799, 2004, 9954], FY26: [35403, 47563, 12869, 2144, 12678],
+      FY25: [25888, 36474, 9245, 1445, 9097], FY26: [31718, 41753, 17792, 2866, 12396], FY27: [46737, 57301, 18115, 2049, 18457]
     }
   },
   energy: {
@@ -266,7 +265,7 @@ const SUB_SECTOR_RAW = {
       FY18: [1013, 27549], FY19: [4738, 32450], FY20: [3672, 29460],
       FY21: [1457, 21383], FY22: [1513, 21241], FY23: [2829, 24964],
       FY24: [1230, 27146],
-      FY25: [1054, 21651], FY26: [2178, 20342],
+      FY25: [986, 21124], FY26: [1366, 15585], FY27: [2349, 14996]
     }
   },
   health: {
@@ -279,7 +278,7 @@ const SUB_SECTOR_RAW = {
       FY18: [13036, 3803], FY19: [14693, 3984], FY20: [13811, 3721],
       FY21: [17185, 4462], FY22: [20502, 4526], FY23: [17663, 4858],
       FY24: [18942, 4784],
-      FY25: [21116, 6807], FY26: [31022, 10886],
+      FY25: [14763, 4268], FY26: [21933, 6121], FY27: [49386, 13466]
     }
   },
   housing: {
@@ -290,7 +289,7 @@ const SUB_SECTOR_RAW = {
       FY13: [1695], FY14: [1965], FY15: [3861], FY16: [5005],
       FY17: [3456], FY18: [6018], FY19: [5496], FY20: [6419],
       FY21: [6935], FY22: [6525], FY23: [7744], FY24: [6543],
-      FY25: [5382], FY26: [5111],
+      FY25: [4521], FY26: [4822], FY27: [5078]
     }
   },
   industry: {
@@ -305,7 +304,7 @@ const SUB_SECTOR_RAW = {
       FY19: [1409, 714, 440, 486, 486], FY20: [1555, 494, 303, 435, 435],
       FY21: [1524, 453, 324, 535, 535], FY22: [2135, 558, 252, 237, 412],
       FY23: [2030, 480, 340, 330, 488], FY24: [2510, 449, 351, 244, 526],
-      FY25: [1499, 498, 470, 346, 1140], FY26: [1891, 480, 608, 438, 755],
+      FY25: [1248, 453, 321, 212, 779], FY26: [1582, 481, 909, 389, 931], FY27: [1692, 512, 329, 467, 880]
     }
   },
   localgov: {
@@ -318,8 +317,8 @@ const SUB_SECTOR_RAW = {
       FY18: [18622, 2162, 789], FY19: [27973, 2208, 1310], FY20: [29361, 1864, 1165],
       FY21: [32211, 2264, 1009], FY22: [33913, 1770, 1261], FY23: [38606, 1208, 1302],
       FY24: [42003, 1183, 1314],
-      FY25: [42357, 1109, 1304], FY26: [42433, 1100, 1362],
-    }
+      FY25: [35972, 991, 1224], FY26: [44243, 990, 1359], FY27: [40247, 1105, 1457]
+    } // FY27 DONE
   },
   order: {
     names: ["Law & Justice Division", "Supreme Court", "Public Security Division", "ACC", "Legislative and Parliamentary Affairs Division", "Security Services Division"],
@@ -333,8 +332,8 @@ const SUB_SECTOR_RAW = {
       FY19: [1363, 196, 21595, 30, 114, 3724], FY20: [1227, 181, 19372, 29, 106, 2515],
       FY21: [1232, 169, 20150, 32, 87, 2744], FY22: [1352, 199, 21449, 101, 32, 3062],
       FY23: [1322, 186, 21273, 121, 31, 2860], FY24: [1344, 230, 23560, 129, 36, 3399],
-      FY25: [1922, 242, 25634, 164, 52, 3697], FY26: [2015, 250, 27001, 191, 47, 4038],
-    }
+      FY25: [1572, 224, 24040, 128, 42, 3239], FY26: [2055, 270, 27174, 203, 48, 3880], FY27: [2128, 291, 31099, 197, 49, 4038]
+    } //FY27 DONE - CHECK SECURITY SERVICES DIVISON
   },
   rec: {
     names: ["Information & Broadcasting Ministry", "Cultural Affairs Ministry", "Religious Affairs Ministry", "Youth & Sports Ministry"],
@@ -348,7 +347,7 @@ const SUB_SECTOR_RAW = {
       FY19: [909, 605, 1482, 1458], FY20: [754, 421, 1237, 1345],
       FY21: [814, 468, 1770, 792], FY22: [976, 556, 2465, 1140],
       FY23: [1326, 618, 3363, 1444], FY24: [934, 730, 2542, 1245],
-      FY25: [1198, 742, 1943, 1581], FY26: [1110, 824, 2183, 2423],
+      FY25: [1010, 571, 1901, 1304], FY26: [1223, 753, 2403, 1804], FY27: [1189, 826, 2955, 2586]
     }
   },
   social: {
@@ -363,7 +362,7 @@ const SUB_SECTOR_RAW = {
       FY19: [5468, 3331, 3710, 7925, 3487], FY20: [6671, 1609, 4120, 7758, 3928],
       FY21: [7593, 3589, 3894, 7988, 3874], FY22: [8717, 3892, 6407, 5309, 8647],
       FY23: [9463, 4228, 7845, 5014, 10910], FY24: [11044, 4902, 6976, 6415, 9852],
-      FY25: [12177, 5040, 7122, 7862, 10111], FY26: [13991, 5078, 7330, 8322, 10362],
+      FY25: [11631, 4630, 6635, 7332, 6750], FY26: [13453, 5371, 7452, 9246, 9069], FY27: [30443, 5197, 7515, 8939, 10349]
     }
   },
   transport: {
@@ -378,7 +377,7 @@ const SUB_SECTOR_RAW = {
       FY19: [23517, 741, 4157, 999, 2102, 6317], FY20: [23580, 14916, 3366, 3218, 1978, 6685],
       FY21: [26321, 11967, 3899, 2755, 1333, 3943], FY22: [29851, 14801, 4141, 4369, 1467, 5571],
       FY23: [30920, 14703, 4684, 5157, 2636, 6947], FY24: [24217, 14256, 5825, 4786, 2599, 7488],
-      FY25: [24059, 14564, 8785, 4878, 2359, 5855], FY26: [38496, 11944, 10279, 2455, 2148, 6022],
+      FY25: [18030, 6850, 7544, 2895, 1966, 4179], FY26: [25686, 9153, 6828, 1300, 1987, 5326], FY27: [36917, 9941, 9081, 1884, 2141, 2908]
     }
   },
   publicsvc: {
@@ -406,8 +405,9 @@ const SUB_SECTOR_RAW = {
       FY22: [21, 229, 3861, 120, 1659, 2684, 85, 57787, 1722, 4898, 418, 135, 199, 1453, 240, 0],
       FY23: [21, 250, 3460, 87, 878, 2495, 97, 75978, 1591, 2909, 329, 146, 185, 285, 996, 0],
       FY24: [24, 258, 2867, 69, 4190, 3997, 106, 79328, 1592, 2912, 1348, 119, 209, 482, 1161, 0],
-      FY25: [31, 154, 3058, 111, 1142, 4146, 172, 143251, 2216, 4154, 835, 26692, 189, 702, 1597, 0], FY26: [34, 232, 3556, 116, 2956, 4899, 149, 153655, 3126, 3521, 584, 10906, 183, 467, 1704, 0],
-    }
+      FY25: [24, 117, 1895, 71, 672, 2608, 93, 120372, 1595, 3855, 792, 102, 160, 565, 577, 0],
+      FY26: [30, 248, 3485, 132, 4346, 4490, 179, 179773, 2966, 5212, 628, 23314, 205, 417, 1764, 0], FY27: [34, 291, 3845, 105, 4400, 4947, 139, 202213, 4656, 3567, 749, 36252, 231, 672, 1844, 0]
+    } // FY27 DONE
   },
 };
 
@@ -423,7 +423,6 @@ SUB_SECTOR_RAW.publicsvc.colors = [
 // Safety net for FUTURE years (e.g. FY27): if a sector has a total in
 // SECTOR_VALUES but no explicit sub-sector array yet, fill it from the latest
 // known breakdown scaled to that total — so the Absolute view always renders the
-// proposed year. An explicit `FY27: [...]` array always takes precedence
 // (this loop never overwrites a year that already has data).
 Object.keys(SUB_SECTOR_RAW).forEach(k => {
   const raw = SUB_SECTOR_RAW[k];
@@ -509,8 +508,8 @@ const _gdpRaw = {
     FY18: { total: 27862, pct: 1.24 }, FY19: { total: 33004, pct: 1.30 }, FY20: { total: 39291, pct: 1.41 },
     FY21: { total: 56581, pct: 1.78 }, FY22: { total: 75511, pct: 1.90 }, FY23: { total: 89707, pct: 2.02 },
     FY24: { total: 98662, pct: 1.97 },
-    FY25: { total: 188450, pct: 3.39 }, FY26: { total: 186088, pct: 2.98 },
-  },
+    FY25: { total: 133498, pct: 2.40 }, FY26: { total: 227189, pct: 3.64 }, FY27: { total: 263945, pct: 3.86 },
+  }, //FY 27 DONE
   localgov: {
     FY09: { total: 6897, pct: 1.12 }, FY10: { total: 8460, pct: 1.23 }, FY11: { total: 10206, pct: 1.30 },
     FY12: { total: 11050, pct: 1.21 }, FY13: { total: 14147, pct: 1.36 }, FY14: { total: 14466, pct: 1.22 },
@@ -518,8 +517,8 @@ const _gdpRaw = {
     FY18: { total: 21573, pct: 0.96 }, FY19: { total: 31491, pct: 1.24 }, FY20: { total: 32390, pct: 1.16 },
     FY21: { total: 35484, pct: 1.12 }, FY22: { total: 36944, pct: 0.93 }, FY23: { total: 41116, pct: 0.92 },
     FY24: { total: 44500, pct: 0.89 },
-    FY25: { total: 44770, pct: 0.81 }, FY26: { total: 44895, pct: 0.72 },
-  },
+    FY25: { total: 38187, pct: 0.69 }, FY26: { total: 46592, pct: 0.75 }, FY27: { total: 42809, pct: 0.63 },
+  }, //FY 27 DONE
   defence: {
     FY09: { total: 6260, pct: 1.02 }, FY10: { total: 8759, pct: 1.27 }, FY11: { total: 11124, pct: 1.41 },
     FY12: { total: 12230, pct: 1.34 }, FY13: { total: 12021, pct: 1.16 }, FY14: { total: 13920, pct: 1.18 },
@@ -527,8 +526,8 @@ const _gdpRaw = {
     FY18: { total: 21146, pct: 0.94 }, FY19: { total: 29989, pct: 1.18 }, FY20: { total: 34480, pct: 1.23 },
     FY21: { total: 35463, pct: 1.12 }, FY22: { total: 35270, pct: 0.89 }, FY23: { total: 31624, pct: 0.71 },
     FY24: { total: 34848, pct: 0.70 },
-    FY25: { total: 39239, pct: 0.71 }, FY26: { total: 40698, pct: 0.65 },
-  },
+    FY25: { total: 37629, pct: 0.68 }, FY26: { total: 40502, pct: 0.65 }, FY27: { total: 42291, pct: 0.62 },
+  },// FY 27 DONE
   order: {
     FY09: { total: 5684, pct: 0.92 }, FY10: { total: 6582, pct: 0.95 }, FY11: { total: 7815, pct: 0.99 },
     FY12: { total: 8737, pct: 0.96 }, FY13: { total: 9655, pct: 0.93 }, FY14: { total: 11759, pct: 1.00 },
@@ -536,7 +535,7 @@ const _gdpRaw = {
     FY18: { total: 22052, pct: 0.99 }, FY19: { total: 27022, pct: 1.07 }, FY20: { total: 23430, pct: 0.84 },
     FY21: { total: 24414, pct: 0.77 }, FY22: { total: 26195, pct: 0.66 }, FY23: { total: 25793, pct: 0.58 },
     FY24: { total: 28698., pct: 0.57 },
-    FY25: { total: 31721, pct: 0.56 }, FY26: { total: 33542, pct: 0.54 },
+    FY25: { total: 29245, pct: 0.53 }, FY26: { total: 33630, pct: 0.54 }, FY27: { total: 33764, pct: 0.49 },
   },
   education: {
     FY09: { total: 12098, pct: 1.97 }, FY10: { total: 15904, pct: 2.30 }, FY11: { total: 18803, pct: 2.39 },
@@ -545,7 +544,7 @@ const _gdpRaw = {
     FY18: { total: 47572, pct: 2.13 }, FY19: { total: 63242, pct: 2.49 }, FY20: { total: 65967, pct: 2.36 },
     FY21: { total: 71925, pct: 2.27 }, FY22: { total: 77143, pct: 1.94 }, FY23: { total: 75429, pct: 1.70 },
     FY24: { total: 80290, pct: 1.60 },
-    FY25: { total: 99114, pct: 1.78 }, FY26: { total: 110657, pct: 1.77 },
+    FY25: { total: 82149, pct: 1.48 }, FY26: { total: 106525, pct: 1.71 }, FY27: { total: 142659, pct: 2.09 },
   },
   health: {
     FY09: { total: 5104, pct: 0.83 }, FY10: { total: 6271, pct: 0.91 }, FY11: { total: 7287, pct: 0.93 },
@@ -554,7 +553,7 @@ const _gdpRaw = {
     FY18: { total: 16839, pct: 0.75 }, FY19: { total: 18677, pct: 0.74 }, FY20: { total: 17532, pct: 0.63 },
     FY21: { total: 21647, pct: 0.68 }, FY22: { total: 25028, pct: 0.63 }, FY23: { total: 22521, pct: 0.51 },
     FY24: { total: 23726, pct: 0.47 },
-    FY25: { total: 27923, pct: 0.50 }, FY26: { total: 41908, pct: 0.67 },
+    FY25: { total: 19031, pct: 0.34 }, FY26: { total: 13453, pct: 0.22 }, FY27: { total: 30443, pct: 0.45 },
   },
   social: {
     FY09: { total: 7885, pct: 1.28 }, FY10: { total: 6959, pct: 1.01 }, FY11: { total: 7728, pct: 0.98 },
@@ -563,7 +562,7 @@ const _gdpRaw = {
     FY18: { total: 18089, pct: 0.81 }, FY19: { total: 23921, pct: 0.94 }, FY20: { total: 24086, pct: 0.86 },
     FY21: { total: 26938, pct: 0.85 }, FY22: { total: 32972, pct: 0.83 }, FY23: { total: 37460, pct: 0.84 },
     FY24: { total: 39189, pct: 0.78 },
-    FY25: { total: 42312, pct: 0.76 }, FY26: { total: 45083, pct: 0.72 },
+    FY25: { total: 36978, pct: 0.67 }, FY26: { total: 44591, pct: 0.71 }, FY27: { total: 62443, pct: 0.91 },
   },
   housing: {
     FY09: { total: 1373, pct: 0.22 }, FY10: { total: 1249, pct: 0.18 }, FY11: { total: 1325, pct: 0.17 },
@@ -572,7 +571,7 @@ const _gdpRaw = {
     FY18: { total: 6018, pct: 0.27 }, FY19: { total: 5496, pct: 0.22 }, FY20: { total: 6419, pct: 0.23 },
     FY21: { total: 6935, pct: 0.22 }, FY22: { total: 6525, pct: 0.16 }, FY23: { total: 7744, pct: 0.17 },
     FY24: { total: 6543, pct: 0.13 },
-    FY25: { total: 5382, pct: 0.10 }, FY26: { total: 5111, pct: 0.08 },
+    FY25: { total: 4521, pct: 0.08 }, FY26: { total: 4822, pct: 0.07 }, FY27: { total: 5078, pct: 0.06 },
   },
   rec: {
     FY09: { total: 924, pct: 0.15 }, FY10: { total: 1029, pct: 0.14 }, FY11: { total: 1557, pct: 0.20 },
@@ -581,7 +580,7 @@ const _gdpRaw = {
     FY18: { total: 3084, pct: 0.14 }, FY19: { total: 4454, pct: 0.18 }, FY20: { total: 3757, pct: 0.13 },
     FY21: { total: 3844, pct: 0.12 }, FY22: { total: 5137, pct: 0.13 }, FY23: { total: 6751, pct: 0.15 },
     FY24: { total: 5451, pct: 0.11 },
-    FY25: { total: 5464, pct: 0.09 }, FY26: { total: 6540, pct: 0.10 },
+    FY25: { total: 4786, pct: 0.09 }, FY26: { total: 6183, pct: 0.10 }, FY27: { total: 7556, pct: 0.11 },
   },
   energy: {
     FY09: { total: 2550, pct: 0.41 }, FY10: { total: 3469, pct: 0.50 }, FY11: { total: 7233, pct: 0.92 },
@@ -590,7 +589,7 @@ const _gdpRaw = {
     FY18: { total: 28562, pct: 1.28 }, FY19: { total: 37188, pct: 1.47 }, FY20: { total: 33132, pct: 1.18 },
     FY21: { total: 22840, pct: 0.72 }, FY22: { total: 22754, pct: 0.57 }, FY23: { total: 27793, pct: 0.63 },
     FY24: { total: 28376, pct: 0.57 },
-    FY25: { total: 22705, pct: 0.41 }, FY26: { total: 22520, pct: 0.36 },
+    FY25: { total: 22110, pct: 0.40 }, FY26: { total: 16951, pct: 0.27 }, FY27: { total: 17345, pct: 0.25 },
   },
   agri: {
     FY09: { total: 9557, pct: 1.55 }, FY10: { total: 11147, pct: 1.61 }, FY11: { total: 12957, pct: 1.65 },
@@ -599,7 +598,7 @@ const _gdpRaw = {
     FY18: { total: 19126, pct: 0.85 }, FY19: { total: 23600, pct: 0.93 }, FY20: { total: 21977, pct: 0.79 },
     FY21: { total: 25759, pct: 0.81 }, FY22: { total: 35803, pct: 0.90 }, FY23: { total: 54309, pct: 1.22 },
     FY24: { total: 53137, pct: 1.06 },
-    FY25: { total: 44568, pct: 0.80 }, FY26: { total: 46268, pct: 0.74 },
+    FY25: { total: 42030, pct: 0.76 }, FY26: { total: 45789, pct: 0.73 }, FY27: { total: 46821, pct: 0.69 },
   },
   industry: {
     FY09: { total: 849, pct: 0.14 }, FY10: { total: 946, pct: 0.13 }, FY11: { total: 1014, pct: 0.14 },
@@ -608,7 +607,7 @@ const _gdpRaw = {
     FY18: { total: 2677, pct: 0.12 }, FY19: { total: 3535, pct: 0.14 }, FY20: { total: 3222, pct: 0.12 },
     FY21: { total: 3371, pct: 0.11 }, FY22: { total: 3594, pct: 0.09 }, FY23: { total: 3668, pct: 0.08 },
     FY24: { total: 4080, pct: 0.08 },
-    FY25: { total: 3953, pct: 0.07 }, FY26: { total: 4172, pct: 0.07 },
+    FY25: { total: 3013, pct: 0.05 }, FY26: { total: 4292, pct: 0.07 }, FY27: { total: 3880, pct: 0.06 },
   },
   transport: {
     FY09: { total: 4205, pct: 0.68 }, FY10: { total: 6623, pct: 0.96 }, FY11: { total: 7049, pct: 0.90 },
@@ -617,7 +616,7 @@ const _gdpRaw = {
     FY18: { total: 40076, pct: 1.79 }, FY19: { total: 37833, pct: 1.49 }, FY20: { total: 53743, pct: 1.92 },
     FY21: { total: 50218, pct: 1.58 }, FY22: { total: 60200, pct: 1.52 }, FY23: { total: 65047, pct: 1.47 },
     FY24: { total: 59171, pct: 1.18 },
-    FY25: { total: 60500, pct: 1.09 }, FY26: { total: 71344, pct: 1.14 },
+    FY25: { total: 41464, pct: 0.75 }, FY26: { total: 50280, pct: 0.81 }, FY27: { total: 62872, pct: 0.92 },
   },
   interest: {
     FY09: { total: 15180, pct: 2.47 }, FY10: { total: 14868, pct: 2.15 }, FY11: { total: 15623, pct: 1.98 },
@@ -626,7 +625,7 @@ const _gdpRaw = {
     FY18: { total: 41765, pct: 1.87 }, FY19: { total: 49461, pct: 1.95 }, FY20: { total: 58313, pct: 2.09 },
     FY21: { total: 70606, pct: 2.23 }, FY22: { total: 77779, pct: 1.96 }, FY23: { total: 92107, pct: 2.07 },
     FY24: { total: 114590, pct: 2.29 },
-    FY25: { total: 121500, pct: 2.19 }, FY26: { total: 122000, pct: 1.95 },
+    FY25: { total: 136123, pct: 2.45 }, FY26: { total: 127000, pct: 2.03 }, FY27: { total: 127500, pct: 1.87 },
   },
 };
 Object.assign(GDP_SECTOR_DATA, _gdpRaw);
@@ -664,7 +663,7 @@ SECTORS.forEach(s => {
   s.riseAbs = countRises(absArr);
   s.rise = s.riseGdp; // Heatmap sort uses this by default
 
-  s.gdpProposed = GDP_SECTOR_DATA[s.k]?.[BUDGET.proposed]?.pct ?? 0;
+  s.gdpProposed = GDP_SECTOR_DATA[s.k]?.[SECTOR_PROP]?.pct ?? 0;
   s.gdp09 = GDP_SECTOR_DATA[s.k]?.['FY09']?.pct ?? 0;
   s.gdpGrowth = (s.gdpProposed - s.gdp09).toFixed(2);
 
@@ -674,7 +673,7 @@ SECTORS.forEach(s => {
   // % of total budget stats (mirror the GDP-share stats)
   const budArr = SECTOR_YEARS.map(fy => BUDGET_SHARE_SECTOR_DATA[s.k]?.[fy]?.pct ?? 0);
   s.riseBud = countRises(budArr);
-  s.budProposed = BUDGET_SHARE_SECTOR_DATA[s.k]?.[BUDGET.proposed]?.pct ?? 0;
+  s.budProposed = BUDGET_SHARE_SECTOR_DATA[s.k]?.[SECTOR_PROP]?.pct ?? 0;
   s.bud09 = BUDGET_SHARE_SECTOR_DATA[s.k]?.['FY09']?.pct ?? 0;
   s.budGrowth = (s.budProposed - s.bud09).toFixed(2);
   s.peakYearBud = SECTOR_YEARS[budArr.indexOf(Math.max(...budArr))];
@@ -731,7 +730,7 @@ const IMPL = [
   { fy: "FY18", v: 80.4 }, { fy: "FY19", v: 84.1 }, { fy: "FY20", v: 80.3 },
   { fy: "FY21", v: 81.0 }, { fy: "FY22", v: 85.8 }, { fy: "FY23", v: 85.4 },
   // ── projected / mock ──
-  { fy: "FY24", v: 80.0 }, { fy: "FY25", v: 79.0 }, { fy: "FY26", v: null },
+  { fy: "FY24", v: 80.0 }, { fy: "FY25", v: 79.0 }, { fy: "FY26", v: 80.0 },
   { fy: "FY27", v: null }, // ⟶ GO-LIVE FY27: implementation %
 ];
 
@@ -742,7 +741,7 @@ function patternFor(_unused, key) {
 }
 
 Object.assign(window, {
-  SECTORS, FY_YEARS, SECTOR_YEARS, DEFENCE_STACK, DEPTS, IMPL, patternFor, SECTOR_VALUES,
+  SECTORS, FY_YEARS, SECTOR_YEARS, SECTOR_PROP, DEFENCE_STACK, DEPTS, IMPL, patternFor, SECTOR_VALUES,
   getSubSectorConfig, GDP_SECTOR_DATA, SUB_SECTOR_RAW,
   BUDGET_SHARE_SECTOR_DATA,
 });

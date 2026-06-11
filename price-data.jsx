@@ -32,7 +32,7 @@ const { useState: useStatePrice, useMemo: useMemoPrice } = React;
 
 // The budget year these price changes belong to. Change to "FY27"
 // (and swap the two arrays below) when the new budget lands.
-const PRICE_FY = "FY26";
+const PRICE_FY = "FY27";
 const PRICE_FY_SPAN = (typeof fyToSpan === "function") ? fyToSpan(PRICE_FY) : PRICE_FY; // → "FY 2025—26"
 
 // Keep only real, filled-in rows; an item without a `name` is treated
@@ -133,14 +133,14 @@ const CHEAPER = [
      from PRICE_FY / PRICE_FY_SPAN — no need to touch them. A drill whose
      entry is missing or has no items simply stops being clickable.
 ============================================================ */
-const RESOURCES_TOTAL_CR = 790000;            // ৳7,90,000 Cr (Tk 7,900 billion)
+const RESOURCES_TOTAL_CR = 938000;            // ৳7,90,000 Cr (Tk 7,900 billion)
 const RESOURCES = [
-  { key: "nbr", name: "Tax Revenue (NBR)", pct: 63.2, cr: 499280, color: "#00E6D2", group: "earned", drill: "nbr" },
-  { key: "domloan", name: "Domestic Loan", pct: 15.8, cr: 124820, color: "#6666FF", group: "borrowed" },
-  { key: "forloan", name: "Foreign Loan", pct: 12.2, cr: 96380, color: "#9999FF", group: "borrowed" },
-  { key: "nontax", name: "Non-Tax Revenue", pct: 5.8, cr: 45820, color: "#00FFD5", group: "earned" },
-  { key: "nonnbr", name: "Tax Revenue (Non-NBR)", pct: 2.4, cr: 18960, color: "#33FFCD", group: "earned" },
-  { key: "grants", name: "Foreign Grants", pct: 0.6, cr: 4740, color: "#FFB700", group: "granted" },
+  { key: "nbr", name: "Tax Revenue (NBR)", pct: 64.4, cr: 604000, color: "#00E6D2", group: "earned", drill: "nbr" },
+  { key: "domloan", name: "Domestic Loan", pct: 13.5, cr: 127000, color: "#6666FF", group: "borrowed" },
+  { key: "forloan", name: "Foreign Loan", pct: 11.7, cr: 109850, color: "#9999FF", group: "borrowed" },
+  { key: "nontax", name: "Non-Tax Revenue", pct: 7.0, cr: 66000, color: "#00FFD5", group: "earned" },
+  { key: "nonnbr", name: "Tax Revenue (Non-NBR)", pct: 2.7, cr: 25000, color: "#33FFCD", group: "earned" },
+  { key: "grants", name: "Foreign Grants", pct: 0.7, cr: 6150, color: "#FFB700", group: "granted" },
 ];
 
 // How each group reads in the summary + legend. Order = display order.
@@ -156,13 +156,13 @@ const RESOURCE_DRILLDOWNS = {
   nbr: {
     label: "Tax Revenue (NBR)",
     short: "NBR",
-    total_cr: 499280,                          // ৳4,99,280 Cr (budget doc: Tk 4,990 billion)
+    total_cr: 604000,                          // ৳4,99,280 Cr (budget doc: Tk 4,990 billion)
     items: [
-      { name: "VAT", pct: 37.8, cr: 188728, color: "#00E6D2" },
-      { name: "Income Tax", pct: 36.5, cr: 182237, color: "#FF3366" },
-      { name: "Supplementary Duty", pct: 13.7, cr: 68401, color: "#FFCC00" },
-      { name: "Import Duty", pct: 10.3, cr: 51426, color: "#AA00FF" },
-      { name: "Others", pct: 1.7, cr: 8488, color: "#3399FF" },
+      { name: "VAT", pct: 37.9, cr: 228915, color: "#00E6D2" },
+      { name: "Income Tax", pct: 36.4, cr: 219835, color: "#FF3366" },
+      { name: "Supplementary Duty", pct: 13.6, cr: 82283, color: "#FFCC00" },
+      { name: "Import Duty", pct: 10.3, cr: 61939, color: "#AA00FF" },
+      { name: "Others", pct: 1.8, cr: 11028, color: "#3399FF" },
     ],
   },
 };
@@ -181,7 +181,7 @@ const SUBSIDY = [
   { fy: "FY24", v: 11.1, delta: "+32%" },
   { fy: "FY25", v: 11.1, delta: "flat" },
   { fy: "FY26", v: 11.3 },
-  { fy: "FY27", v: null },
+  { fy: "FY27", v: 9.6 },
 ];
 
 /* ============================================================
@@ -196,10 +196,11 @@ function PriceHero() {
   const implP = IMPL.filter(g => typeof g.v === "number");
   const avgImpl = (implP.reduce((a, b) => a + b.v, 0) / implP.length).toFixed(0);
 
-  const proposedFy = BUDGET.proposed;
-  const proposedInterest = INTEREST_DATA.find(d => d.fy === proposedFy) || { d: 100000, f: 22000 };
+  const DEBT = INTEREST_DATA.filter(d => typeof d.d === "number" && typeof d.f === "number");
+  const debtPropFy = DEBT.some(d => d.fy === BUDGET.proposed) ? BUDGET.proposed : DEBT[DEBT.length - 1].fy;
+  const proposedInterest = DEBT.find(d => d.fy === debtPropFy);
   const proposedTotalInterest = (proposedInterest.d || 0) + (proposedInterest.f || 0);
-  const proposedTotalBudget = window.TOTAL_BUDGET_BY_YEAR[proposedFy] || 1;
+  const proposedTotalBudget = window.TOTAL_BUDGET_BY_YEAR[debtPropFy] || 1;
   const calculatedInterestPct = (proposedTotalInterest / proposedTotalBudget) * 100;
   return (
     <section className="page-hero" data-screen-label="01 Page Hero">

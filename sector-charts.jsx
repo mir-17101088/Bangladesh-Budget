@@ -14,7 +14,7 @@ function HeatmapSection() {
           <span className="eyebrow">The overall view </span>
           <h2>Share of spending as % of GDP</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            The chart shows spending for public services as % GDP rose in 11yrs out of 17. By contrast, ratio of social security, industrial and economic services fell.
+            The chart shows spending for public services as % GDP rose in 13 years out of 18. By contrast, ratio of social security, industrial and economic services fell.
           </p>
         </div>
 
@@ -84,7 +84,7 @@ function RankingsSection() {
 
         <div ref={ref} className="glass" style={{ padding: "32px 36px", borderRadius: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 24, alignItems: "flex-end" }}>
-            <span className="cap">By share of total {BUDGET.proposed} expenditure</span>
+            <span className="cap">By share of total {SECTOR_PROP} expenditure</span>
             <span className="cap">Bar colored by parent sector</span>
           </div>
           <div className="rk-list">
@@ -261,7 +261,7 @@ function SectorHero({ setActive }) {
         </p>
         <div className="page-hero-stats">
           <div className="phs-cell" onClick={() => document.querySelector('.s-sector-grid')?.scrollIntoView({ behavior: 'smooth' })}><div className="l">Sectors tracked</div><div className="n"><CountUp value={SECTORS.length} duration={1000} /></div><div className="s">Since FY09</div></div>
-          <div className="phs-cell" onClick={() => setActive && setActive(top.k)}><div className="l">Top sector {BUDGET.proposed}</div><div className="n">{top.name}</div><div className="s">৳<CountUp value={top.proposed / 1000} decimals={1} />k cr</div></div>
+          <div className="phs-cell" onClick={() => setActive && setActive(top.k)}><div className="l">Top sector {SECTOR_PROP}</div><div className="n">{top.name}</div><div className="s">৳<CountUp value={top.proposed / 1000} decimals={1} />k cr</div></div>
           <div className="phs-cell green" onClick={() => setActive && setActive(fastest.k)}><div className="l">Fastest grower</div><div className="n"><CountUp value={parseFloat(fastest.growth)} decimals={1} suffix="×" /></div><div className="s">{fastest.name} · since FY09</div></div>
           <div className="phs-cell red" onClick={() => setActive && setActive(lowest.k)}><div className="l">Lowest growth</div><div className="n"><CountUp value={parseFloat(lowest.growth)} decimals={1} suffix="×" /></div><div className="s">{lowest.name} · since FY09</div></div>
         </div>

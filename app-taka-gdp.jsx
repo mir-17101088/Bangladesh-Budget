@@ -40,10 +40,10 @@ function TakaSection() {
       <div className="wrap">
         <div className="section-head" style={{ textAlign: "center", margin: "0 auto 56px" }}>
           <span className="eyebrow" style={{ color: "#6fc7ee" }}>The signature view</span>
-          <h2 style={{ marginBottom: 16 }}>How was every ৳100 allocated?</h2>
+          <h2 style={{ marginBottom: 16 }}>How is every ৳100 allocated?</h2>
           <p className="lede" style={{ margin: "0 auto", maxWidth: 620 }}>
             Hover or tap a sliver of the note to follow each sector's share of every taka the
-            government planned to allocate in {proposedSpan}.
+            government plans to allocate in {proposedSpan}.
           </p>
         </div>
 
@@ -139,6 +139,7 @@ function TakaSection() {
               const max = Math.max(...present) * 1.15;
               return BUDGET.years.map((fy, i) => {
                 const v = sector.valueAt(fy);
+                if (v == null) return null;
                 const h = (v / max) * 100;
                 const status = BUDGET.statusOf(fy);   // actual | revised | proposed | historical
                 const tag = BUDGET.tagFor(fy);         // {label, cls} | null
@@ -254,7 +255,7 @@ function GDPSection() {
           <span className="eyebrow">The economy view</span>
           <h2>Total budget as part of GDP</h2>
           <p className="lede" style={{ marginTop: 18 }}>
-            Despite rising in nominal terms, Bangladesh's total budget has steadily shrunk as a share of GDP, falling from a peak of 16.8% in FY13 to 12.7% in FY26, suggesting the state is spending less relative to the size of the economy it governs. A shrinking budget ratio means less room for public investment in health, education, and infrastructure, even as the economy grows.
+            Despite rising in nominal terms, Bangladesh's total budget has steadily shrunk as a share of GDP, falling from a peak of 16.8% in FY13 to 12.7% in FY26, suggesting the state is spending less relative to the size of the economy it governs. A shrinking budget ratio means less room for public investment in health, education, and infrastructure, even as the economy grows. However FY27's allocation sees a one percentage point jump.
           </p>
         </div>
 
@@ -437,7 +438,7 @@ function GDPSection() {
             </div>
             <div style={{ paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)", marginTop: 24 }}>
               <span className="body" style={{ fontStyle: "italic" }}>
-                Tk 12 out of every Tk 100 produced in the country now goes to national budget.
+                Tk 13 out of every Tk 100 produced in the country now goes to national budget.
               </span>
             </div>
           </div>

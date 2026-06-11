@@ -237,10 +237,11 @@ h3 {
   top: 0;
   z-index: 100;
   height: 68px;
-  background: rgba(4, 13, 51, 0.78);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(4, 13, 51, 0.15);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
 }
@@ -275,8 +276,9 @@ h3 {
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--g3);
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .nav-links {
@@ -288,14 +290,15 @@ h3 {
   font-family: var(--ui);
   font-size: 13px;
   letter-spacing: 0.04em;
-  color: var(--g2);
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
   position: relative;
   display: inline-flex;
   align-items: center;
   min-height: 44px;
   padding: 0 2px;
-  transition: color var(--dur-fast) var(--ease-out);
+  transition: all var(--dur-fast) var(--ease-out);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .nav-link:hover {
@@ -395,8 +398,8 @@ h3 {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 55% 55% at 50% 50%, rgba(2, 6, 31, 0.78) 0%, rgba(2, 6, 31, 0.55) 35%, rgba(2, 6, 31, 0.18) 65%, rgba(2, 6, 31, 0) 85%),
-    radial-gradient(ellipse 120% 80% at 50% 50%, transparent 50%, rgba(4, 13, 51, 0.45) 100%);
+    radial-gradient(ellipse 55% 55% at 50% 50%, rgba(2, 6, 31, 0.65) 0%, rgba(2, 6, 31, 0.40) 35%, rgba(2, 6, 31, 0.15) 65%, rgba(2, 6, 31, 0) 85%),
+    radial-gradient(ellipse 120% 80% at 50% 50%, transparent 50%, rgba(4, 13, 51, 0.40) 100%);
 }
 
 .hero-content,
@@ -412,8 +415,8 @@ h3 {
 }
 
 /* Text readability — subtle shadow so copy sits cleanly on the live footage */
-.hero-eyebrow,
-.hero-fy,
+.hero-fy-badge,
+.hero-title,
 .hero-num,
 .hero-cap,
 .hero-pills,
@@ -468,57 +471,95 @@ h3 {
   align-items: center;
 }
 
-.hero-eyebrow {
+.hero-fy-badge {
   font-family: var(--ui);
-  font-size: 12px;
-  letter-spacing: 0.32em;
+  font-size: 15px;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: #9fd8f5;
-  font-weight: 700;
-  margin-bottom: clamp(16px, 3vh, 36px);
+  color: #e0f2fe;
+  font-weight: 600;
+  margin-bottom: clamp(16px, 3vh, 24px);
   display: inline-flex;
   align-items: center;
-  gap: 14px;
-  padding: 7px 16px;
+  gap: 16px;
+  padding: 10px 24px;
   border-radius: 999px;
-  background: rgba(2, 6, 31, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(1, 133, 198, 0.45);
-  box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.6);
+  background: rgba(2, 6, 31, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 24px rgba(2, 6, 31, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  text-shadow: 0 2px 4px rgba(2, 6, 31, 0.9);
 }
 
-.hero-eyebrow::before,
-.hero-eyebrow::after {
-  content: "";
-  width: 28px;
-  height: 1px;
-  background: #6fc7ee;
-  opacity: 0.9;
-}
-
-.hero-fy {
-  font-size: clamp(28px, 4.4vh, 48px);
-  color: #fff;
+.hero-fy-badge::before,
+.hero-fy-badge::after {
+  content: "৳";
+  color: #6fc7ee;
+  width: auto;
+  height: auto;
+  background: none;
+  opacity: 0.8;
   font-family: var(--serif);
-  font-weight: 400;
-  font-style: italic;
-  opacity: 0.9;
+  font-weight: 500;
+  font-size: 1.3em;
+  line-height: 1;
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(36px, 6vw, 72px);
+  line-height: 1.05;
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: clamp(24px, 4vh, 48px);
+  text-transform: uppercase;
+  filter: drop-shadow(0 4px 12px rgba(2, 6, 31, 0.95)) drop-shadow(0 0 60px rgba(2, 6, 31, 0.95)) drop-shadow(0 0 20px rgba(1, 133, 198, 0.6));
+}
+
+.hero-num-wrapper {
+  position: relative;
+  display: inline-block;
   margin-bottom: clamp(10px, 2vh, 24px);
 }
 
+.hero-num-glow-intense {
+  position: absolute;
+  inset: -20px -40px;
+  background: radial-gradient(ellipse at center, rgba(111, 199, 238, 0.45) 0%, rgba(1, 133, 198, 0.25) 40%, transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
+  pointer-events: none;
+  animation: heroIntenseBreathe 4s ease-in-out infinite;
+}
+
+@keyframes heroIntenseBreathe {
+  0%, 100% { opacity: 0.7; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
 .hero-num {
-  font-family: var(--serif);
-  font-size: clamp(72px, 12vh, 132px);
+  font-family: var(--ui);
+  font-size: clamp(84px, 14vh, 156px);
   line-height: 1;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: -0.035em;
-  background: linear-gradient(180deg, #ffffff 0%, #cfe7f5 60%, #7fb6dc 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #d9f0ff 60%, #6bc5ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 0 80px rgba(1, 133, 198, 0.4);
-  filter: drop-shadow(0 0 60px rgba(1, 133, 198, 0.25));
+  text-shadow: 0 0 120px rgba(111, 199, 238, 0.6);
+  filter: drop-shadow(0 0 80px rgba(1, 133, 198, 0.4)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9));
+  position: relative;
+  display: inline-block;
+  animation: heroNumPulse 4s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+@keyframes heroNumPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 80px rgba(1, 133, 198, 0.4)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9)); }
+  50% { transform: scale(1.02); filter: drop-shadow(0 0 120px rgba(111, 199, 238, 0.7)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9)); }
 }
 
 .hero-num .unit {
@@ -549,27 +590,43 @@ h3 {
 
 .pill {
   font-family: var(--ui);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 18px;
   border-radius: 999px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  letter-spacing: 0.04em;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  letter-spacing: 0.03em;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.pill:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .pill.green {
-  background: linear-gradient(135deg, rgba(1, 153, 51, 0.18), rgba(0, 200, 83, 0.06));
-  border-color: rgba(1, 153, 51, 0.55);
-  color: #5fe093;
+  background: linear-gradient(135deg, rgba(1, 153, 51, 0.2), rgba(0, 200, 83, 0.05));
+  border-color: rgba(1, 153, 51, 0.6);
+  color: #8af0b4;
 }
 
 .pill.blue {
-  background: rgba(1, 133, 198, 0.14);
-  border-color: rgba(1, 133, 198, 0.45);
-  color: #6fc7ee;
+  background: linear-gradient(135deg, rgba(1, 133, 198, 0.2), rgba(1, 133, 198, 0.05));
+  border-color: rgba(1, 133, 198, 0.5);
+  color: #8fd4f7;
+}
+
+.pill.purple {
+  background: linear-gradient(135deg, rgba(125, 0, 102, 0.25), rgba(125, 0, 102, 0.05));
+  border-color: rgba(125, 0, 102, 0.5);
+  color: #e599d6;
 }
 
 .pill .dot {
@@ -977,7 +1034,8 @@ section.s {
 /* Taka bar values (price labels above each bar) need clearance */
 .taka-bars {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
   gap: 24px;
   align-items: end;
   height: 240px;
@@ -2544,21 +2602,21 @@ footer {
     max-width: 100%;
   }
 
-  .hero-eyebrow {
-    font-size: 9px;
+  .hero-fy-badge {
+    font-size: 11px;
     letter-spacing: 0.22em;
     gap: 8px;
     justify-content: center;
   }
 
-  .hero-eyebrow::before,
-  .hero-eyebrow::after {
+  .hero-fy-badge::before,
+  .hero-fy-badge::after {
     width: 20px;
   }
 
-  .hero-fy {
-    font-size: 22px;
-    margin-bottom: 14px;
+  .hero-title {
+    font-size: clamp(28px, 8vw, 40px);
+    margin-bottom: 16px;
   }
 
   .hero-num {
@@ -2615,6 +2673,7 @@ footer {
     padding: 14px 16px;
     border-right: 1px solid rgba(255, 255, 255, 0.06);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    text-align: center;
   }
 
   .hero-strip-cell:nth-child(2n) {
@@ -2635,7 +2694,7 @@ footer {
 
   .hero-strip-cell .delta {
     font-size: 10px;
-    margin-left: 4px;
+    margin-left: 0;
     display: block;
     margin-top: 4px;
   }
@@ -2924,8 +2983,8 @@ footer {
     font-size: clamp(40px, 13vw, 60px);
   }
 
-  .hero-fy {
-    font-size: 18px;
+  .hero-title {
+    font-size: clamp(24px, 8vw, 32px);
   }
 
   .hero-pills {

@@ -186,9 +186,9 @@ function TaxTrendChart() {
 
               return (
                 <div key={d.fy} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", height: "100%", justifyContent: "flex-end", opacity: 0, animation: "fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards", animationDelay: `${i * 100}ms` }}>
-                  
+
                   <div style={{ width: "100%", display: "flex", alignItems: "flex-end", justifyContent: "center", gap: "8px", height: "100%", position: "relative" }}>
-                    
+
                     {/* Indirect Bar */}
                     <div style={{ width: "min(40%, 32px)", height: `${hInd}%`, background: isProposed ? "linear-gradient(to top, rgba(255,107,53,0.2), #FF6B35)" : "linear-gradient(to top, rgba(255,107,53,0.1), rgba(255,107,53,0.6))", borderRadius: "6px 6px 0 0", position: "relative", display: "flex", justifyContent: "center", transition: "all 0.3s", boxShadow: isProposed ? "0 0 16px rgba(255,107,53,0.3)" : "none" }} className="hover-bar">
                       <div className="bar-val indirect-bar-val" style={{ position: "absolute", top: "-28px", fontSize: "14px", fontFamily: "var(--ui)", color: isProposed ? "#FF6B35" : "rgba(255,107,53,0.8)", fontWeight: isProposed ? 700 : 500, opacity: isProposed ? 1 : 0.8 }}>
@@ -218,7 +218,7 @@ function TaxTrendChart() {
                   <div style={{ fontSize: "15px", fontFamily: "var(--ui)", color: isProposed ? "#fff" : "rgba(255,255,255,0.7)", fontWeight: isProposed ? 700 : 500, background: isProposed ? "rgba(255,255,255,0.1)" : "transparent", padding: "4px 8px", borderRadius: "12px", display: "inline-block" }}>{d.fy}</div>
                   <div style={{ fontSize: "13px", fontFamily: "var(--ui)", color: "rgba(255,255,255,0.5)", marginTop: "12px", lineHeight: 1.4 }}>
                     <span style={{ color: "rgba(255,255,255,0.4)", display: "block", marginBottom: "2px" }}>Total Exp.</span>
-                    <span style={{ color: isProposed ? "#fff" : "rgba(255,255,255,0.8)", fontWeight: 500 }}>৳{(d.total/100000).toFixed(2)} Lakh</span>
+                    <span style={{ color: isProposed ? "#fff" : "rgba(255,255,255,0.8)", fontWeight: 500 }}>৳{(d.total / 100000).toFixed(2)} Lakh</span>
                     <span style={{ fontSize: "11px", marginLeft: "2px" }}>cr</span>
                   </div>
                 </div>
@@ -239,11 +239,11 @@ function TaxTrendChart() {
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", alignItems: "baseline" }}>
                   <span style={{ fontSize: "16px", fontFamily: "var(--ui)", fontWeight: 700, color: isProposed ? "#fff" : "rgba(255,255,255,0.7)", background: isProposed ? "rgba(255,255,255,0.1)" : "transparent", padding: "2px 8px", borderRadius: "8px", marginLeft: "-8px" }}>{d.fy}</span>
                   <span style={{ fontSize: "13px", fontFamily: "var(--ui)", color: "rgba(255,255,255,0.5)" }}>
-                    Total: <span style={{ color: isProposed ? "#fff" : "rgba(255,255,255,0.8)", fontWeight: 500 }}>৳{(d.total/100000).toFixed(2)} Lakh</span> <span style={{ fontSize: "11px" }}>cr</span>
+                    Total: <span style={{ color: isProposed ? "#fff" : "rgba(255,255,255,0.8)", fontWeight: 500 }}>৳{(d.total / 100000).toFixed(2)} Lakh</span> <span style={{ fontSize: "11px" }}>cr</span>
                   </span>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  
+
                   {/* Indirect Bar */}
                   <div style={{ width: "100%", height: "24px", background: "rgba(255,255,255,0.05)", borderRadius: "4px", position: "relative" }}>
                     <div style={{ width: `${wInd}%`, height: "100%", background: isProposed ? "linear-gradient(to right, rgba(255,107,53,0.2), #FF6B35)" : "linear-gradient(to right, rgba(255,107,53,0.1), rgba(255,107,53,0.6))", borderRadius: "4px", position: "absolute", left: 0, top: 0, boxShadow: isProposed ? "0 0 16px rgba(255,107,53,0.3)" : "none", transition: "width 0.5s" }} />
@@ -360,13 +360,13 @@ function TaxSection() {
       <div className="wrap">
         <div className="section-head">
           <span className="eyebrow">Where it comes from</span>
-          <h2>Funding the ৳7,90,000 crore budget</h2>
+          <h2>Funding the ৳9,38,000 crore budget</h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 760 }}>
             Most of the {PRICE_FY_SPAN} budget is self-financed: the state earns roughly seven taka of every ten
             it spends.
             <strong style={{ color: "#fff", fontWeight: 600 }}> But how fair is our tax system?</strong>
-            <p>Bangladesh's tax system leans heavily on indirect taxes — VAT, supplementary duty, and customs duty — which everyone pays regardless of income. 
-            That hits lower-income households hardest. While taxation is meant to promote equity, direct taxes account for only a third of Bangladesh’s total revenue.</p>Tap <em style={{ fontStyle: "italic", color: "#3FD3B8" }}>Tax Revenue (NBR)</em> to see how regressive taxes fund the country.
+            <p>Bangladesh's tax system leans heavily on indirect taxes — VAT, supplementary duty, and customs duty — which everyone pays regardless of income.
+              That hits lower-income households hardest. While taxation is meant to promote equity, direct taxes account for only a third of Bangladesh’s total revenue.</p>Tap <em style={{ fontStyle: "italic", color: "#3FD3B8" }}>Tax Revenue (NBR)</em> to see how regressive taxes fund the country.
           </p>
         </div>
 
@@ -482,6 +482,7 @@ function TaxSection() {
 ============================================================ */
 function SubsidySection() {
   const SUB = SUBSIDY.filter(s => typeof s.v === "number" && isFinite(s.v));
+  const subPropFy = SUB.some(s => s.fy === BUDGET.proposed) ? BUDGET.proposed : SUB[SUB.length - 1].fy;
   const max = Math.max(...SUB.map(s => s.v)) * 1.18;
   return (
     <section className="s s-subsidy" data-screen-label="05 Subsidies">
@@ -490,7 +491,7 @@ function SubsidySection() {
           <span className="eyebrow" style={{ color: "#f0c060" }}>The subsidy trend</span>
           <h2>The subsidy bill nearly doubled <em style={{ fontStyle: "italic", color: "#f0c060" }}>in three years</em></h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            Power, fertiliser, and food subsidies are the three big drivers. From ৳5.8 of every ৳100 in FY22, the share climbed to ৳11.1 in FY25 — and is projected higher still.
+            Power, fertiliser, and food subsidies are the three big drivers. From ৳5.8 of every ৳100 in FY22, the share climbed to ৳11.1 in FY25.
           </p>
         </div>
 
@@ -504,7 +505,7 @@ function SubsidySection() {
             {SUB.map((s, i) => {
               const h = (s.v / max) * 100;
               const status = BUDGET.statusOf(s.fy);
-              const isProposed = s.fy === BUDGET.proposed;
+              const isProposed = s.fy === subPropFy;
               return (
                 <div key={i} className={"sub-bar " + (isProposed ? "active " : "") + status}>
                   <div className="colw">
@@ -520,8 +521,8 @@ function SubsidySection() {
           </div>
 
           <div className="sub-callout">
-            <span className="big"><CountUp value={2.0} decimals={1} suffix="×" duration={1400} /></span>
-            <span className="txt">"Nearly doubled in three years." Power & fertiliser subsidies alone now consume nearly the same share as defence.</span>
+            <span className="big"><CountUp value={1.7} decimals={1} suffix="×" duration={1400} /></span>
+            <span className="txt">"Nearly doubled in four years." Power & fertiliser subsidies alone now consume nearly the same share as defence.</span>
           </div>
         </div>
 
@@ -790,7 +791,7 @@ const TAX_REVENUE_RATIO_DATA = [
 function TaxRevenueRatioSection() {
   // Use the data and max value (Bhutan is highest at ~27, so max 30 is good)
   const data = TAX_REVENUE_RATIO_DATA;
-  const max = 30; 
+  const max = 30;
   const bdColor = "#00E5FF";
 
   return (
@@ -810,9 +811,9 @@ function TaxRevenueRatioSection() {
 
           <div className="tax-chart-wrap" style={{ padding: "40px 24px", background: "linear-gradient(145deg, rgba(20,25,30,0.8) 0%, rgba(10,15,20,0.95) 100%)", border: "1px solid rgba(0,229,255,0.1)", borderRadius: "24px", boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)" }}>
             <div className="cap" style={{ marginBottom: 40, textAlign: "center", color: "rgba(255,255,255,0.7)" }}>Govt. Revenue to GDP Ratio (%)</div>
-            
+
             <div className="tax-dom-chart" style={{ position: "relative", height: "240px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", margin: "0 10px" }}>
-              
+
               {/* Grid lines */}
               {[0, 0.25, 0.5, 0.75, 1].map(pct => (
                 <div key={pct} style={{ position: "absolute", left: "-10px", right: "-10px", bottom: `${pct * 100}%`, borderBottom: "1px dashed rgba(255,255,255,0.1)", zIndex: 0 }}></div>
@@ -823,20 +824,20 @@ function TaxRevenueRatioSection() {
                 if (!d) return null; // Safe guard
                 const isBd = d.country === "Bangladesh";
                 const barH = (d.pct / max) * 100;
-                
+
                 return (
                   <div key={d.country} style={{ display: "flex", flexDirection: "column", alignItems: "center", zIndex: 1, flex: 1, position: "relative", height: "100%", justifyContent: "flex-end", animation: "colGrowDom 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards", animationDelay: `${i * 80}ms`, opacity: 0 }}>
-                    
+
                     <div style={{ fontFamily: "var(--serif)", fontSize: isBd ? "16px" : "13px", fontWeight: isBd ? 700 : 500, color: isBd ? bdColor : "#fff", marginBottom: "8px", textAlign: "center", whiteSpace: "nowrap" }}>
                       <CountUp value={d.pct} decimals={2} duration={1200} />%
                     </div>
-                    
+
                     <div style={{ width: "min(100%, 32px)", height: `${barH}%`, background: isBd ? `linear-gradient(to top, rgba(0,229,255,0.1), ${bdColor})` : "linear-gradient(to top, rgba(255,255,255,0.05), rgba(255,255,255,0.3))", borderRadius: "4px 4px 0 0", boxShadow: isBd ? "0 0 10px rgba(0,229,255,0.3)" : "none" }}></div>
-                    
+
                     <div style={{ position: "absolute", top: "100%", right: "50%", marginTop: "12px", transform: "rotate(-45deg)", transformOrigin: "top right", whiteSpace: "nowrap", fontFamily: "var(--ui)", fontSize: "12px", color: isBd ? "#fff" : "rgba(255,255,255,0.6)", fontWeight: isBd ? 700 : 400 }}>
                       {d.country}
                     </div>
-                    
+
                   </div>
                 );
               })}

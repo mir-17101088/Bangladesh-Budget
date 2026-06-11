@@ -254,11 +254,11 @@
     animation: heroRise .9s var(--ease-out) both;
   }
 
-  .hero-eyebrow {
+  .hero-fy-badge {
     animation-delay: .05s;
   }
 
-  .hero-fy {
+  .hero-title {
     animation-delay: .16s;
   }
 
