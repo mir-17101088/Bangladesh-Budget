@@ -730,7 +730,7 @@ const IMPL = [
   { fy: "FY18", v: 80.4 }, { fy: "FY19", v: 84.1 }, { fy: "FY20", v: 80.3 },
   { fy: "FY21", v: 81.0 }, { fy: "FY22", v: 85.8 }, { fy: "FY23", v: 85.4 },
   // ── projected / mock ──
-  { fy: "FY24", v: 80.0 }, { fy: "FY25", v: 79.0 }, { fy: "FY26", v: 80.0 },
+  { fy: "FY24", v: 80.0 }, { fy: "FY25", v: 79.2 }, { fy: "FY26", v: null },
   { fy: "FY27", v: null }, // ⟶ GO-LIVE FY27: implementation %
 ];
 
