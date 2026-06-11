@@ -426,8 +426,6 @@ h3 {
 
 .hero-num {
   text-shadow: 0 4px 40px rgba(2, 6, 31, 0.9), 0 2px 8px rgba(2, 6, 31, 0.8);
-  /* Stronger drop-shadow so the gradient-clipped digits stay legible on live video */
-  filter: drop-shadow(0 0 60px rgba(1, 133, 198, 0.25)) drop-shadow(0 6px 24px rgba(2, 6, 31, 0.85)) drop-shadow(0 2px 6px rgba(2, 6, 31, 0.9));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -553,6 +551,7 @@ h3 {
 
 .hero-num {
   font-family: var(--ui);
+  font-size: 120px;
   font-size: clamp(84px, 14vh, 156px);
   line-height: 1;
   font-weight: 700;
@@ -2639,6 +2638,7 @@ footer {
   }
 
   .hero-num {
+    font-size: 60px;
     font-size: clamp(48px, 14vw, 72px);
     line-height: 1;
     white-space: nowrap;
@@ -2999,6 +2999,7 @@ footer {
   }
 
   .hero-num {
+    font-size: 50px;
     font-size: clamp(40px, 13vw, 60px);
   }
 
