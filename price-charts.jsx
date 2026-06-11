@@ -155,7 +155,7 @@ function TaxTrendChart() {
       <div className="section-head" style={{ marginBottom: "32px", display: "flex", flexDirection: "column", gap: "12px" }}>
         <h3 style={{ fontSize: "28px", color: "#fff", margin: 0, fontFamily: "var(--serif)", fontWeight: 600 }}>The burden of indirect taxation remains high</h3>
         <p className="lede" style={{ fontSize: "18px", maxWidth: "760px", margin: 0, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>
-          Despite a growing budget, the reliance on indirect taxes continues to heavily outweigh taxes on income and profit. This regressive structure disproportionately impacts lower-income citizens.
+          Despite a growing budget, the reliance on indirect taxes continues to <b>heavily outweigh</b> taxes on income and profit. This regressive structure <i>disproportionately</i> impacts lower-income citizens.
         </p>
       </div>
 
