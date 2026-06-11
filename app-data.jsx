@@ -431,17 +431,7 @@ function Hero({ tweaks }) {
 
       {tweaks.showStrip && (
         <div className="hero-strip">
-          <div className="hero-ticker" aria-hidden="true">
-            <div className="hero-ticker-track">
-              {[...TAKA_SECTORS, ...TAKA_SECTORS].map((s, i) => (
-                <span className="hero-ticker-item" key={i}>
-                  <span className="tk-dot" style={{ background: s.color }}></span>
-                  <span className="tk-name">{s.name}</span>
-                  <span className="tk-val">৳{s.proposed}</span>
-                </span>
-              ))}
-            </div>
-          </div>
+
           <div className="wrap hero-strip-inner">
             {[
               { key: "publicadmin", lbl: "Public administration" },
