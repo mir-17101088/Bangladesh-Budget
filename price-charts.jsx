@@ -805,7 +805,7 @@ function TaxRevenueRatioSection() {
             <span className="eyebrow" style={{ color: bdColor }}>Revenue Generation</span>
             <h2>Bangladesh collects far less than its peers</h2>
             <p className="lede" style={{ marginTop: 18, maxWidth: "100%" }}>
-              Government budgets are meant to be funded by tax revenue — but at 8.34% of GDP, Bangladesh collects far less than its peers. The average among comparable countries is nearly double, leaving the budget chronically dependent on borrowing from domestic and external creditors.
+              Government budgets are meant to be funded by tax revenue — but at <b>8.34%</b> of the GDP, Bangladesh collects <i>far less</i> than its peers. The average among comparable countries is nearly double, leaving the budget <u>chronically dependent</u> on borrowing from domestic and external creditors.
             </p>
           </div>
 
