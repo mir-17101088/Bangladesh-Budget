@@ -54,7 +54,7 @@ function SectorGridSection({ active, setActive }) {
             The cards below show how public spending across sectors has grown since FY09, the earliest year for which actual expenditure data is available.
           </p>
           <p style={{ marginTop: 8, fontSize: 13, color: "var(--g4)", fontStyle: "italic", maxWidth: 720 }}>
-            * For consistency with historical data, FY27 proposed allocations to the new Science and Information Technology sector were assigned to Education and Technology.
+            * For consistency with historical data, the proposed allocations to the new Science and Information Technology sector of FY27 were assigned to Education and Technology.
           </p>
         </div>
 
