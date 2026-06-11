@@ -489,9 +489,9 @@ function SubsidySection() {
       <div className="wrap">
         <div className="section-head">
           <span className="eyebrow" style={{ color: "#f0c060" }}>The subsidy trend</span>
-          <h2>The subsidy bill nearly doubled <em style={{ fontStyle: "italic", color: "#f0c060" }}>in three years</em></h2>
+          <h2>The subsidy bill declines <em style={{ fontStyle: "italic", color: "#f0c060" }}>after steady growth</em></h2>
           <p className="lede" style={{ marginTop: 18, maxWidth: 720 }}>
-            Power, fertiliser, and food subsidies are the three big drivers. From ৳5.8 of every ৳100 in FY22, the share climbed to ৳11.1 in FY25.
+            Power, fertiliser, and food subsidies remain major drivers. After climbing from ৳5.8 of every ৳100 in FY22 to a peak of ৳11.3 in FY26, the share has now dropped to ৳9.6 in FY27.
           </p>
         </div>
 
@@ -521,8 +521,8 @@ function SubsidySection() {
           </div>
 
           <div className="sub-callout">
-            <span className="big"><CountUp value={1.7} decimals={1} suffix="×" duration={1400} /></span>
-            <span className="txt">"Nearly doubled in four years." Power & fertiliser subsidies alone now consume nearly the same share as defence.</span>
+            <span className="big" style={{ color: "#5fe093" }}>-<CountUp value={15} decimals={0} suffix="%" duration={1400} /></span>
+            <span className="txt">"A notable drop." While the burden has fallen from its peak, power & fertiliser subsidies continue to demand a significant portion of public expenditure.</span>
           </div>
         </div>
 

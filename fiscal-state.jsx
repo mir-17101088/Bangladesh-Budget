@@ -33,7 +33,7 @@ function fyToSpan(fy) {
 const STATUS_META = {
   actual:   { word: "Actual",   cls: "fy-actual",   tag: null },
   revised:  { word: "Revised",  cls: "fy-revised",  tag: "Revised" },
-  proposed: { word: "Allocation", cls: "fy-proposed", tag: "Allocation" },
+  proposed: { word: "Allocation", cls: "fy-proposed", tag: "Proposed" },
 };
 
 // A value is "present" only if it is a finite number.

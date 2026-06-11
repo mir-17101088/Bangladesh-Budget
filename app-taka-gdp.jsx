@@ -40,10 +40,10 @@ function TakaSection() {
       <div className="wrap">
         <div className="section-head" style={{ textAlign: "center", margin: "0 auto 56px" }}>
           <span className="eyebrow" style={{ color: "#6fc7ee" }}>The signature view</span>
-          <h2 style={{ marginBottom: 16 }}>How is every ৳100 allocated?</h2>
-          <p className="lede" style={{ margin: "0 auto", maxWidth: 620 }}>
+          <h2 style={{ marginBottom: 16, whiteSpace: "nowrap", fontSize: "clamp(20px, 4.5vw, 48px)" }}>How will every ৳100 be allocated?</h2>
+          <p className="lede" style={{ margin: "0 auto", maxWidth: 760 }}>
             Hover or tap a sliver of the note to follow each sector's share of every taka the
-            government plans to allocate in {proposedSpan}.
+            government proposed to allocate in {proposedSpan}.
           </p>
         </div>
 
@@ -255,7 +255,7 @@ function GDPSection() {
           <span className="eyebrow">The economy view</span>
           <h2>Total budget as part of GDP</h2>
           <p className="lede" style={{ marginTop: 18 }}>
-            Despite rising in nominal terms, Bangladesh's total budget has steadily shrunk as a share of GDP, falling from a peak of 16.8% in FY13 to 12.7% in FY26, suggesting the state is spending less relative to the size of the economy it governs. A shrinking budget ratio means less room for public investment in health, education, and infrastructure, even as the economy grows. However FY27's allocation sees a one percentage point jump.
+            Despite rising in nominal terms, Bangladesh's total budget has steadily shrunk as a share of GDP, falling from a peak of 16.8% in FY13 to 12.7% in FY26, suggesting the state is spending less relative to the size of the economy it governs. A shrinking budget ratio means less room for public investment in health, education, and infrastructure, even as the economy grows. However FY27's proposed allocation sees a one percentage point jump.
           </p>
         </div>
 
@@ -310,7 +310,7 @@ function GDPSection() {
                     {pandemicIdx >= 0 && (
                       <g style={{ opacity: draw > 0.85 ? 1 : 0, transition: "opacity .5s ease" }}>
                         <line x1={xs(pandemicIdx)} x2={xs(pandemicIdx)} y1={pad.t} y2={H - pad.b} stroke="#FFEAA7" strokeDasharray="3 4" strokeOpacity="0.45" />
-                        <text x={xs(pandemicIdx) - 8} y={pandemicY} className="axis-label" fill="#FFEAA7" textAnchor="end">Pandemic FY20</text>
+                        <text x={xs(pandemicIdx) + 8} y={pandemicY} className="axis-label" fill="#FFEAA7" textAnchor="start">Pandemic FY20</text>
                       </g>
                     )}
                     <g style={{ opacity: draw > 0.95 ? 1 : 0, transition: "opacity .5s ease" }}>
@@ -369,7 +369,7 @@ function GDPSection() {
                 const meta = STATUS_META[BUDGET.statusOf(last.fy)];
                 if (!meta || !meta.tag) return null;
                 return (
-                  <text x={xs(GDP.length - 1)} y={ys(last.pct) + 20} textAnchor="end"
+                  <text x={xs(GDP.length - 1)} y={ys(last.pct) - 28} textAnchor="end"
                     className={"fy-tag-text " + meta.cls}
                     style={{ fontFamily: "var(--ui)" }}>
                     <tspan x={xs(GDP.length - 1)} dy="0" style={{ fontSize: 9, letterSpacing: "0.05em" }}>

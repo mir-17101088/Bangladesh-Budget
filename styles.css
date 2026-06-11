@@ -535,8 +535,17 @@ h3 {
 }
 
 @keyframes heroIntenseBreathe {
-  0%, 100% { opacity: 0.7; transform: scale(0.95); }
-  50% { opacity: 1; transform: scale(1.05); }
+
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 
 .hero-num {
@@ -558,8 +567,17 @@ h3 {
 }
 
 @keyframes heroNumPulse {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 80px rgba(1, 133, 198, 0.4)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9)); }
-  50% { transform: scale(1.02); filter: drop-shadow(0 0 120px rgba(111, 199, 238, 0.7)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9)); }
+
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 80px rgba(1, 133, 198, 0.4)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9));
+  }
+
+  50% {
+    transform: scale(1.02);
+    filter: drop-shadow(0 0 120px rgba(111, 199, 238, 0.7)) drop-shadow(0 8px 30px rgba(2, 6, 31, 0.9));
+  }
 }
 
 .hero-num .unit {
@@ -574,10 +592,10 @@ h3 {
 
 .hero-cap {
   font-family: var(--body);
-  font-size: clamp(14px, 1.6vh, 17px);
-  color: var(--g3);
-  margin-top: clamp(10px, 1.8vh, 20px);
+  font-size: clamp(13px, 1.4vh, 15px);
+  color: rgba(255, 255, 255, 0.95);
   font-style: italic;
+  margin-top: clamp(10px, 1.8vh, 20px);
 }
 
 .hero-pills {
@@ -896,12 +914,12 @@ section.s {
   font-size: clamp(9px, 1.6vw, 16px);
   font-weight: 800;
   color: #fff;
-  text-shadow: 
-    -1px -1px 0 #000,  
-     1px -1px 0 #000,
-    -1px  1px 0 #000,
-     1px  1px 0 #000,
-     0px  1px 4px rgba(0, 0, 0, 0.8);
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    0px 1px 4px rgba(0, 0, 0, 0.8);
   letter-spacing: 0.04em;
   mix-blend-mode: normal;
   filter: brightness(2.5) contrast(1.2);
@@ -1098,16 +1116,17 @@ section.s {
 }
 
 .taka-bar.active .col {
-  background: var(--accent);
-  box-shadow: 0 0 30px -5px var(--accent);
+  background: color-mix(in srgb, var(--accent) 70%, transparent);
+  border-top: 2px solid color-mix(in srgb, var(--accent) 90%, transparent);
+  box-shadow: 0 0 24px -6px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
 .taka-bar.active .val {
-  color: #fff;
+  color: color-mix(in srgb, var(--accent) 30%, #e0e6ed);
 }
 
 .taka-bar.active .yr {
-  color: var(--g2);
+  color: color-mix(in srgb, var(--accent) 60%, #a0a8b5);
 }
 
 /* ---------- GDP section ---------- */
@@ -3440,11 +3459,11 @@ footer {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02)), rgba(20, 25, 35, 0.4);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)), rgba(20, 25, 35, 0.4);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   color: #fff;
   display: flex;
   align-items: center;
@@ -3464,10 +3483,10 @@ footer {
 }
 
 .back-to-top:hover {
-  background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05)), rgba(30, 35, 45, 0.5);
-  border-color: rgba(111,199,238,0.5);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)), rgba(30, 35, 45, 0.5);
+  border-color: rgba(111, 199, 238, 0.5);
   transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(111,199,238,0.2);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(111, 199, 238, 0.2);
   color: #6fc7ee;
 }
 

@@ -54,7 +54,7 @@ function SectorGridSection({ active, setActive }) {
             The cards below show how public spending across sectors has grown since FY09, the earliest year for which actual expenditure data is available.
           </p>
           <p style={{ marginTop: 8, fontSize: 13, color: "var(--g4)", fontStyle: "italic", maxWidth: 720 }}>
-            * For consistency with historical data, FY27 allocations to the new Science and Information Technology sector were assigned to Education and Technology.
+            * For consistency with historical data, FY27 proposed allocations to the new Science and Information Technology sector were assigned to Education and Technology.
           </p>
         </div>
 
@@ -367,20 +367,20 @@ function ExpandedSection({ active }) {
                     const pts = parseFloat(s.gdpGrowth);
                     const absPts = Math.abs(pts).toFixed(2) + " pts";
                     const TEMPLATES = {
-                      publicsvc: "Public Services expands its economic footprint, up {g}",
+                      publicsvc: "Public services expands its economic footprint, up {g}",
                       transport: "Transport infrastructure outpaces GDP growth, rising {g}",
                       interest: "Interest payments shrink relative to the economy, down {g}",
                       defence: "Defence spending halves as a share of GDP, down {g}",
                       education: "Education sees slight hope, increasing {g}",
-                      social: "Social Security footprint shrinks significantly, down {g}",
+                      social: "Social security footprint shrinks significantly, down {g}",
                       industry: "Industry's share of the economy falls, dropping {g}",
                       health: "Health spending falls behind economic expansion, down {g}",
                       agri: "Agriculture's economic footprint declines by {g}",
                       energy: "Energy spending remains relatively flat, " + (pts >= 0 ? "up" : "down") + " {g}",
-                      localgov: "Local Government's share of GDP falls by {g}",
-                      order: "Public Order shrinks relative to the economy, down {g}",
+                      localgov: "Local government's share of GDP falls by {g}",
+                      order: "Public order shrinks relative to the economy, down {g}",
                       housing: "Housing expenditure drops as a share of GDP, down {g}",
-                      rec: "Recreation & Culture's economic footprint shrinks, down {g}",
+                      rec: "Recreation & culture's economic footprint shrinks, down {g}",
                     };
                     return (TEMPLATES[s.k] || "Share of GDP changes by {g}").replace('{g}', absPts);
                   }
@@ -390,19 +390,19 @@ function ExpandedSection({ active }) {
                   const absBudPts = Math.abs(budPts).toFixed(2) + " pts";
                   const BUD_TEMPLATES = {
                     interest: "Interest consumes " + (budPts > 0 ? "more" : "less") + " of the budget, " + (budPts > 0 ? "up" : "down") + " {g}",
-                    publicsvc: "Public Services takes a massive leap in budget priority, up {g}",
+                    publicsvc: "Public services takes a massive leap in budget priority, up {g}",
                     transport: "Transport secures a larger slice of the national budget, up {g}",
                     education: "Education gets more priority in the budget allocation, up {g}",
                     agri: "Agriculture's share of the national budget drops by {g}",
-                    social: "Social Security's budget priority falls by {g}",
+                    social: "Social security's budget priority falls by {g}",
                     health: "Health sector sees a massive growth in budget allocation, up {g}",
                     defence: "Defence is deprioritized in the national budget, down {g}",
                     energy: "Energy maintains its low budget allocation, " + (budPts >= 0 ? "up" : "down") + " {g}",
-                    localgov: "Local Government loses budget share, down {g}",
-                    order: "Public Order's slice of the budget decreases by {g}",
+                    localgov: "Local government loses budget share, down {g}",
+                    order: "Public order's slice of the budget decreases by {g}",
                     housing: "Housing's budget priority drops by {g}",
                     industry: "Industry loses half its budget share, down {g}",
-                    rec: "Recreation & Culture's budget slice shrinks by {g}",
+                    rec: "Recreation & culture's budget slice shrinks by {g}",
                   };
                   return (BUD_TEMPLATES[s.k] || "Budget priority changes by {g}").replace('{g}', absBudPts);
                 })()}

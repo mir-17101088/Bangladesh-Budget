@@ -250,8 +250,8 @@ function PriceHero() {
           </div>
           <div className="phs-cell" style={{ "--cell-accent": "#f0c060" }} onClick={() => document.querySelector('.s-subsidy')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="l">Subsidy bill</div>
-            <div className="n">৳<CountUp value={11.3} decimals={1} /></div>
-            <div className="s">per ৳100 spent · 2× since FY22</div>
+            <div className="n">৳<CountUp value={9.6} decimals={1} /></div>
+            <div className="s">per ৳100 spent · down from peak</div>
           </div>
         </div>
       </div>
