@@ -240,6 +240,18 @@ const NEWS = [
 ============================================================ */
 const NEWS_FEED_API_URL = "/api/news";
 
+/* The dynamic-news API (/api/news → /json/dynamic-news/<id>) returns items with these
+   fields: title, link_url, subtitle, subcategory, provider, created, image_landscape,
+   image_url. There is NO `category`, `excerpt`, `description`, or `author` field — so we
+   map from the REAL names below. The `|| n.category` / `|| n.excerpt` / `|| n.author`
+   fallbacks are kept only as forward-safety in case the CMS schema adds them later. */
+function formatFeedDate(d) {
+  if (!d) return "";
+  const t = Date.parse(d);
+  if (isNaN(t)) return d;               // already human-readable — pass through unchanged
+  return new Date(t).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
 function mapFeedItem(n, index) {
   const colors = ["#0185C6", "#B0832B", "#019933", "#7D0066", "#C60001", "#45B7D1"];
   const [c1, c2] = (() => {
@@ -254,14 +266,14 @@ function mapFeedItem(n, index) {
     return pairs[index % pairs.length];
   })();
   return {
-    tag: n.category || "NEWS",
+    tag: n.subcategory || n.category || "NEWS",
     tagColor: colors[index % colors.length],
     c1,
     c2,
     headline: n.title || "",
-    dek: n.excerpt || n.description || "",
-    date: n.created || "",
-    author: n.author || "The Daily Star",
+    dek: n.subtitle || n.excerpt || n.description || "",
+    date: formatFeedDate(n.created),
+    author: n.provider || n.author || "The Daily Star",
     read: "Read article →",
     url: n.link_url || "",
     image: n.image_landscape || n.image_url || null,

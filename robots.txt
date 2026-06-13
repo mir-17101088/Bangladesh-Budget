@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: /sitemap.xml
+Sitemap: https://budget2026-27.thedailystar.net/sitemap.xml
